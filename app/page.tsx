@@ -45,19 +45,19 @@ export default function Home() {
             A full-stack &amp; Shopify developer who takes the whole technical side off your plate - so you can focus on growing the business.
           </Reveal>
 
-          <Reveal className="mx-auto mt-9 flex max-w-[560px] flex-wrap justify-center gap-3">
-            <span className="rounded-full border border-ink/10 bg-bone px-5 py-2.5 font-mono text-[15px] font-semibold tracking-[0.06em] text-body">15+ projects</span>
-            <span className="rounded-full border border-ink/10 bg-bone px-5 py-2.5 font-mono text-[15px] font-semibold tracking-[0.06em] text-body">10k+ users</span>
-            <span className="rounded-full border border-ink/10 bg-bone px-5 py-2.5 font-mono text-[15px] font-semibold tracking-[0.06em] text-body">5+ yrs</span>
+          <Reveal className="mx-auto mt-8 grid max-w-[440px] grid-cols-2 justify-items-center gap-x-3 gap-y-3">
+            <span className="w-full rounded-full border border-ink/10 bg-bone px-3 py-2 text-center font-mono text-[14px] font-semibold tracking-[0.06em] text-body">15+ projects</span>
+            <span className="w-full rounded-full border border-ink/10 bg-bone px-3 py-2 text-center font-mono text-[14px] font-semibold tracking-[0.06em] text-body">10k+ users</span>
+            <span className="col-span-2 w-[46%] rounded-full border border-ink/10 bg-bone px-3 py-2 text-center font-mono text-[14px] font-semibold tracking-[0.06em] text-body">5+ yrs</span>
           </Reveal>
 
-          <Reveal className="mt-11 flex flex-col gap-5">
-            <Button asChild size="lg" className="h-[82px] w-full text-[22px] underline underline-offset-4">
+          <Reveal className="mx-auto mt-10 flex max-w-[520px] flex-col gap-4">
+            <Button asChild size="lg" className="h-[58px] w-full text-[17px] underline underline-offset-4">
               <Link href="#work">
                 View selected work <span className="font-mono">↘</span>
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="h-[82px] w-full text-[22px] underline underline-offset-4">
+            <Button asChild variant="outline" size="lg" className="h-[58px] w-full text-[17px] underline underline-offset-4">
               <Link href="#contact">Start a project</Link>
             </Button>
           </Reveal>
