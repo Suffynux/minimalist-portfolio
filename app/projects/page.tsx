@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { FileText } from "lucide-react";
 import { CompactCta } from "@/components/contact-block";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
@@ -9,6 +8,7 @@ import { TagList } from "@/components/tag-list";
 import { Button } from "@/components/ui/button";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { filters, projectDetails } from "@/lib/data";
+import { CaseStudyViewer } from "@/components/case-study-viewer";
 
 export default function ProjectsPage() {
   return (
@@ -60,11 +60,7 @@ export default function ProjectsPage() {
                     Live site <span className="font-mono">↗</span>
                   </a>
                 </Button>
-                <Button asChild variant="outline" size="sm">
-                  <a href={project.pdf} target="_blank" rel="noreferrer">
-                    <FileText className="size-[15px]" /> Case study (PDF)
-                  </a>
-                </Button>
+                <CaseStudyViewer project={project} />
               </div>
             </div>
           </Reveal>

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { navItems } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { AvatarViewer } from "@/components/avatar-viewer";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -15,10 +16,12 @@ export function Navbar() {
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-ink/[0.09] bg-bone/70 backdrop-blur-[14px]">
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-[18px] sm:px-8">
-        <Link href="/#top" className="flex items-center gap-[9px] text-[13px] font-semibold tracking-[0.18em]">
-          <span className="size-[7px] rounded-full bg-olive" />
-          SUFIYAN
-        </Link>
+        <div className="flex items-center gap-[9px]">
+          <AvatarViewer />
+          <Link href="/#top" className="text-[13px] font-semibold tracking-[0.18em]">
+            SUFIYAN
+          </Link>
+        </div>
 
         <div className="hidden items-center gap-8 text-[13.5px] font-medium text-body md:flex">
           {navItems.map((item) => {

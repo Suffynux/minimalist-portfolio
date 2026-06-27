@@ -10,42 +10,95 @@ import { PageShell } from "@/components/shell";
 import { Button } from "@/components/ui/button";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { featuredProject, homeStats, marqueeText, process, projects, services } from "@/lib/data";
+import { AvatarViewer } from "@/components/avatar-viewer";
 
 export default function Home() {
   return (
     <PageShell>
       <Navbar />
-      <header id="top" className="relative z-10 mx-auto max-w-[1200px] px-5 pb-24 pt-[150px] sm:px-8 md:pt-[146px]">
-        <Reveal className="mb-[46px] flex flex-wrap items-center gap-[18px] font-mono text-xs tracking-[0.05em] text-muted">
-          <span className="inline-flex items-center gap-2">
-            <span className="size-[7px] rounded-full bg-[#3F9E68] shadow-[0_0_0_4px_rgba(63,158,104,0.16)]" />
-            Available for new projects
-          </span>
-          <span className="opacity-40">/</span>
-          <span>Full-stack developer</span>
-          <span className="opacity-40">/</span>
-          <span>Shopify · MERN</span>
-        </Reveal>
+      <header id="top" className="relative z-10 mx-auto max-w-[1200px] px-5 pb-24 pt-[150px] sm:px-8 md:min-h-[calc(100vh-72px)] md:pb-16 md:pt-[154px]">
+        <div className="md:hidden">
+          <Reveal className="mb-[46px] flex flex-wrap items-center gap-[18px] font-mono text-xs tracking-[0.05em] text-muted">
+            <span className="inline-flex items-center gap-2">
+              <span className="size-[7px] rounded-full bg-[#3F9E68] shadow-[0_0_0_4px_rgba(63,158,104,0.16)]" />
+              Available for new projects
+            </span>
+            <span className="opacity-40">/</span>
+            <span>Full-stack developer</span>
+            <span className="opacity-40">/</span>
+            <span>Shopify · MERN</span>
+          </Reveal>
 
-        <Reveal as="h1" className="whitespace-nowrap text-center font-display text-[clamp(44px,10.5vw,132px)] font-normal leading-[0.92] tracking-[-0.02em]">
-          I build, you <span className="italic text-olive">grow</span>.
-        </Reveal>
+          <Reveal className="mb-6 flex justify-center">
+            <AvatarViewer variant="hero" />
+          </Reveal>
 
-        <Reveal className="mt-12 flex flex-wrap items-end justify-between gap-12">
-          <p className="max-w-[520px] text-[18.5px] font-normal leading-[1.6] text-body">
-            I take the entire technical side off your plate - custom Shopify stores, MERN web apps and smart automations - so you can focus on running and growing the business.
-          </p>
-          <div className="flex flex-wrap gap-3.5">
-            <Button asChild size="md">
+          <Reveal as="h1" className="whitespace-nowrap text-center font-display text-[clamp(44px,10.5vw,132px)] font-normal leading-[0.92] tracking-[-0.02em]">
+            I build, you <span className="italic text-olive">grow</span>.
+          </Reveal>
+
+          <Reveal className="mt-12 flex flex-wrap items-end justify-between gap-12">
+            <p className="max-w-[520px] text-[18.5px] font-normal leading-[1.6] text-body">
+              I take the entire technical side off your plate - custom Shopify stores, MERN web apps and smart automations - so you can focus on running and growing the business.
+            </p>
+            <div className="flex flex-wrap gap-3.5">
+              <Button asChild size="md">
+                <Link href="#work">
+                  View selected work <span className="font-mono">↘</span>
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="md">
+                <Link href="#contact">Start a project</Link>
+              </Button>
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="hidden text-center md:block">
+          <Reveal className="mb-[72px] flex justify-center font-mono text-sm tracking-[0.09em] text-muted">
+            <span className="inline-flex items-center gap-3">
+              <span className="size-[9px] rounded-full bg-[#3F9E68] shadow-[0_0_0_5px_rgba(63,158,104,0.16)]" />
+              Available for new projects
+            </span>
+          </Reveal>
+
+          <Reveal className="relative mx-auto mb-[74px] flex w-[560px] max-w-full justify-center">
+            <span className="absolute left-0 top-6 rounded-full border border-ink/10 bg-surface px-5 py-3 font-mono text-sm tracking-[0.06em] text-muted shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
+              ★ 5.0 rating
+            </span>
+            <span className="absolute right-0 top-0 rounded-full border border-ink/10 bg-surface px-5 py-3 font-mono text-sm tracking-[0.06em] text-muted shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
+              15+ projects
+            </span>
+            <span className="absolute bottom-0 left-6 rounded-full border border-ink/10 bg-surface px-5 py-3 font-mono text-sm tracking-[0.06em] text-muted shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
+              10k+ users
+            </span>
+            <span className="absolute bottom-2 right-2 rounded-full bg-olive px-5 py-3 font-mono text-sm tracking-[0.06em] text-surface shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
+              Replies &lt;24h
+            </span>
+            <AvatarViewer variant="heroLarge" />
+          </Reveal>
+
+          <Reveal as="h1" className="mx-auto max-w-[900px] font-display text-[clamp(78px,8.4vw,124px)] font-normal leading-[0.92] tracking-[-0.02em]">
+            Hi, I&apos;m Sufiyan.
+            <br />
+            I build, you <span className="italic text-olive">grow</span>.
+          </Reveal>
+
+          <Reveal as="p" className="mx-auto mt-8 max-w-[650px] text-[22px] leading-[1.45] text-muted">
+            A full-stack &amp; Shopify developer who takes the entire technical side off your plate - custom stores, MERN web apps and automations - so you can focus on growing the business.
+          </Reveal>
+
+          <Reveal className="mt-12 flex justify-center gap-4">
+            <Button asChild size="lg" className="w-[250px]">
               <Link href="#work">
                 View selected work <span className="font-mono">↘</span>
               </Link>
             </Button>
-            <Button asChild variant="outline" size="md">
+            <Button asChild variant="outline" size="lg" className="w-[205px]">
               <Link href="#contact">Start a project</Link>
             </Button>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </header>
 
       <Marquee text={marqueeText} />
