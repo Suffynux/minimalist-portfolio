@@ -12,7 +12,7 @@ export default function CreativesPage() {
       <Navbar />
       <header className="relative z-10 mx-auto max-w-[1280px] px-5 pb-11 pt-[138px] sm:px-8">
         <Reveal as="p" className="mb-[22px] font-mono text-xs tracking-[0.14em] text-olive">
-          CREATIVES — AI ART, DESIGN & VISUAL EXPLORATIONS
+          CREATIVES - AI ART, DESIGN & VISUAL EXPLORATIONS
         </Reveal>
         <Reveal as="h1" className="font-display text-[clamp(54px,10vw,140px)] font-normal leading-[0.9] tracking-[-0.02em]">
           Where code
@@ -21,7 +21,7 @@ export default function CreativesPage() {
         </Reveal>
         <Reveal className="mt-10 flex flex-wrap items-end justify-between gap-10">
           <p className="max-w-[560px] text-lg leading-[1.6] text-body">
-            Beyond development, I create. This is my visual playground — AI-generated artwork, brand concepts, product mockups and design explorations. A look at how I think in pixels, not just code.
+            Beyond development, I create. This is my visual playground - AI-generated artwork, brand concepts, product mockups and design explorations. A look at how I think in pixels, not just code.
           </p>
           <div className="flex flex-wrap gap-2">
             {creativeTags.map((tag) => (
@@ -92,7 +92,7 @@ export default function CreativesPage() {
         <CompactCta centered title={<>Need visuals <span className="italic text-olive">and</span><br />a site to match?</>} />
         <div className="flex flex-wrap items-center justify-between gap-5 border-t border-ink/10 pt-8 text-[13px] text-muted">
           <span className="flex items-center gap-[9px] font-semibold tracking-[0.14em]"><span className="size-[7px] rounded-full bg-olive" />SUFIYAN</span>
-          <span className="font-mono">© 2026 — I build, you grow.</span>
+          <span className="font-mono">© 2026 - I build, you grow.</span>
           <div className="flex flex-wrap gap-5 font-medium">
             <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer" className="hover:text-ink">WhatsApp</a>
             <a href={site.github} target="_blank" rel="noreferrer" className="hover:text-ink">GitHub</a>

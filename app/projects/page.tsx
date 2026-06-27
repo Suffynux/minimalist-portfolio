@@ -16,7 +16,7 @@ export default function ProjectsPage() {
       <Navbar />
       <header className="relative z-10 mx-auto max-w-[1200px] px-5 pb-14 pt-[138px] sm:px-8">
         <Reveal as="p" className="mb-[22px] font-mono text-xs tracking-[0.14em] text-olive">
-          PROJECTS — CASE STUDIES & DELIVERABLES
+          PROJECTS - CASE STUDIES & DELIVERABLES
         </Reveal>
         <Reveal as="h1" className="font-display text-[clamp(54px,9vw,128px)] font-normal leading-[0.92] tracking-[-0.02em]">
           Selected
@@ -25,7 +25,7 @@ export default function ProjectsPage() {
         </Reveal>
         <Reveal className="mt-10 flex flex-wrap items-end justify-between gap-10">
           <p className="max-w-[540px] text-lg leading-[1.6] text-body">
-            A closer look at builds I&apos;ve shipped — live links, walkthroughs and downloadable case studies. Each one solved a real business problem end to end.
+            A closer look at builds I&apos;ve shipped - live links, walkthroughs and downloadable case studies. Each one solved a real business problem end to end.
           </p>
           <div className="flex flex-wrap gap-2.5">
             {filters.map((filter) => (
@@ -81,7 +81,7 @@ export default function ProjectsPage() {
       </section>
 
       <section className="relative z-10 mx-auto max-w-[1200px] px-5 pb-[110px] pt-[60px] sm:px-8">
-        <CompactCta title="Like what you see?" description="Tell me about your project — I'll reply within a day." />
+        <CompactCta title="Like what you see?" description="Tell me about your project - I'll reply within a day." />
         <div className="mt-[38px]">
           <Footer />
         </div>

@@ -8,7 +8,7 @@ export function Footer({ border = false }: { border?: boolean }) {
         <span className="size-[7px] rounded-full bg-olive" />
         SUFIYAN
       </span>
-      <span className="font-mono">© 2026 — I build, you grow.</span>
+      <span className="font-mono">© 2026 - I build, you grow.</span>
       <div className="flex flex-wrap gap-5 font-medium">
         <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer" className="hover:text-ink">WhatsApp</a>
         <a href={site.github} target="_blank" rel="noreferrer" className="hover:text-ink">GitHub</a>

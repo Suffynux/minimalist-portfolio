@@ -9,14 +9,14 @@ export function ContactBlock() {
     <Reveal>
       <div className="relative overflow-hidden rounded-[26px] bg-ink px-9 py-12 text-bone sm:px-14 md:px-20 md:py-[90px]">
         <div className="pointer-events-none absolute -bottom-[90px] -right-[60px] font-display text-[300px] italic leading-none text-olive/15">&amp;</div>
-        <p className="relative mb-[26px] font-mono text-xs tracking-[0.14em] text-olive">04 — LET&apos;S TALK</p>
+        <p className="relative mb-[26px] font-mono text-xs tracking-[0.14em] text-olive">04 - LET&apos;S TALK</p>
         <h2 className="relative font-display text-[clamp(44px,7vw,96px)] font-normal leading-[0.98] tracking-[-0.015em]">
           Have a project?
           <br />
           Let&apos;s <span className="italic text-olive">build</span> it.
         </h2>
         <p className="relative mt-7 max-w-[480px] text-[17px] leading-[1.6] text-[#D6D6CB]">
-          Tell me what you&apos;re working on. I reply within a day — Shopify build, web app, or just figuring out what you need.
+          Tell me what you&apos;re working on. I reply within a day - Shopify build, web app, or just figuring out what you need.
         </p>
         <div className="relative mt-10 flex flex-wrap gap-3.5">
           <Button asChild variant="whatsapp" size="lg">

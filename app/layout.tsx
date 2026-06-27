@@ -22,7 +22,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sufiyan — I build, you grow.",
+  title: "Sufiyan - I build, you grow.",
   description: "Full-stack developer specialising in Shopify and MERN web apps."
 };
 

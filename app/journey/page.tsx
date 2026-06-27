@@ -12,14 +12,14 @@ export default function JourneyPage() {
     <PageShell>
       <Navbar />
       <header className="relative z-10 mx-auto max-w-[1200px] px-5 pb-10 pt-[138px] sm:px-8">
-        <Reveal as="p" className="mb-[22px] font-mono text-xs tracking-[0.14em] text-olive">THE JOURNEY — HOW I GOT HERE</Reveal>
+        <Reveal as="p" className="mb-[22px] font-mono text-xs tracking-[0.14em] text-olive">THE JOURNEY - HOW I GOT HERE</Reveal>
         <Reveal as="h1" className="font-display text-[clamp(54px,9vw,128px)] font-normal leading-[0.92] tracking-[-0.02em]">
           From curious
           <br />
           to <span className="italic text-olive">trusted</span>.
         </Reveal>
         <Reveal as="p" className="mt-9 max-w-[560px] text-lg leading-[1.6] text-body">
-          Every line of code I write today is built on years of shipping, breaking, fixing and learning. Here&apos;s the path — and the principles I carry into every client project.
+          Every line of code I write today is built on years of shipping, breaking, fixing and learning. Here&apos;s the path - and the principles I carry into every client project.
         </Reveal>
       </header>
 
@@ -65,7 +65,7 @@ export default function JourneyPage() {
       </section>
 
       <section className="relative z-10 mx-auto max-w-[1200px] px-5 pb-[110px] pt-[60px] sm:px-8">
-        <CompactCta centered title={<>Now — let&apos;s write<br />your <span className="italic text-olive">chapter</span>.</>} />
+        <CompactCta centered title={<>Now - let&apos;s write<br />your <span className="italic text-olive">chapter</span>.</>} />
         <Footer border />
       </section>
       <WhatsAppButton />
