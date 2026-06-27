@@ -45,10 +45,10 @@ export default function Home() {
             A full-stack &amp; Shopify developer who takes the whole technical side off your plate - so you can focus on growing the business.
           </Reveal>
 
-          <Reveal className="mx-auto mt-8 grid max-w-[440px] grid-cols-2 justify-items-center gap-x-3 gap-y-3">
-            <span className="w-full rounded-full border border-ink/10 bg-bone px-3 py-2 text-center font-mono text-[14px] font-semibold tracking-[0.06em] text-body">15+ projects</span>
-            <span className="w-full rounded-full border border-ink/10 bg-bone px-3 py-2 text-center font-mono text-[14px] font-semibold tracking-[0.06em] text-body">10k+ users</span>
-            <span className="col-span-2 w-[46%] rounded-full border border-ink/10 bg-bone px-3 py-2 text-center font-mono text-[14px] font-semibold tracking-[0.06em] text-body">5+ yrs</span>
+          <Reveal className="mx-auto mt-8 grid max-w-[520px] grid-cols-3 justify-items-center gap-2">
+            <span className="w-full rounded-full border border-ink/10 bg-bone px-2 py-2 text-center font-mono text-[12px] font-semibold tracking-[0.04em] text-body">15+ projects</span>
+            <span className="w-full rounded-full border border-ink/10 bg-bone px-2 py-2 text-center font-mono text-[12px] font-semibold tracking-[0.04em] text-body">10k+ users</span>
+            <span className="w-full rounded-full border border-ink/10 bg-bone px-2 py-2 text-center font-mono text-[12px] font-semibold tracking-[0.04em] text-body">5+ yrs</span>
           </Reveal>
 
           <Reveal className="mx-auto mt-10 flex max-w-[520px] flex-col gap-4">
