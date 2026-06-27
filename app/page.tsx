@@ -18,46 +18,46 @@ export default function Home() {
       <Navbar />
       <header id="top" className="relative z-10 mx-auto max-w-[1200px] px-5 pb-24 pt-[150px] sm:px-8 md:min-h-[calc(100vh-72px)] md:pb-16 md:pt-[154px]">
         <div className="text-center md:hidden">
-          <Reveal className="mb-[76px] flex justify-center font-mono text-[clamp(14px,4.4vw,20px)] font-medium tracking-[0.09em] text-muted">
-            <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface px-5 py-3 shadow-[0_18px_45px_-36px_rgba(35,37,29,0.55)]">
-              <span className="size-3 rounded-full bg-[#3F9E68] shadow-[0_0_0_5px_rgba(63,158,104,0.16)]" />
+          <Reveal className="mb-16 flex justify-center font-mono text-[clamp(14px,3.1vw,18px)] font-medium tracking-[0.09em] text-muted">
+            <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface px-5 py-2.5 shadow-[0_18px_45px_-36px_rgba(35,37,29,0.55)]">
+              <span className="size-[10px] rounded-full bg-[#3F9E68] shadow-[0_0_0_5px_rgba(63,158,104,0.16)]" />
               Available for new projects
             </span>
           </Reveal>
 
-          <Reveal className="relative mx-auto mb-[68px] flex max-w-[390px] justify-center">
-            <span className="absolute left-0 top-7 z-10 rounded-full border border-ink/10 bg-surface px-5 py-3 font-mono text-[16px] font-semibold tracking-[0.06em] text-body shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
+          <Reveal className="relative mx-auto mb-14 flex max-w-[360px] justify-center">
+            <span className="absolute left-2 top-7 z-10 rounded-full border border-ink/10 bg-surface px-4 py-2.5 font-mono text-[15px] font-semibold tracking-[0.06em] text-body shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
               ★ 5.0
             </span>
-            <span className="absolute bottom-8 right-0 z-10 rounded-full bg-olive px-5 py-3 font-mono text-[16px] font-semibold tracking-[0.06em] text-surface shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
+            <span className="absolute bottom-8 right-2 z-10 rounded-full bg-olive px-4 py-2.5 font-mono text-[15px] font-semibold tracking-[0.06em] text-surface shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
               &lt;24h reply
             </span>
             <AvatarViewer variant="heroMobile" />
           </Reveal>
 
-          <Reveal as="h1" className="mx-auto max-w-[620px] font-display text-[clamp(54px,14vw,88px)] font-normal leading-[0.9] tracking-[-0.02em]">
+          <Reveal as="h1" className="mx-auto max-w-[620px] font-display text-[clamp(48px,10vw,72px)] font-normal leading-[0.95] tracking-[-0.02em]">
             Hi, I&apos;m Sufiyan.
             <br />
             I build, you <span className="italic text-olive">grow</span>.
           </Reveal>
 
-          <Reveal as="p" className="mx-auto mt-8 max-w-[620px] text-[clamp(20px,6vw,28px)] leading-[1.45] text-body">
+          <Reveal as="p" className="mx-auto mt-8 max-w-[620px] text-[clamp(18px,3.6vw,24px)] leading-[1.5] text-body">
             A full-stack &amp; Shopify developer who takes the whole technical side off your plate - so you can focus on growing the business.
           </Reveal>
 
           <Reveal className="mx-auto mt-9 flex max-w-[560px] flex-wrap justify-center gap-3">
-            <span className="rounded-full border border-ink/10 bg-bone px-5 py-3 font-mono text-[16px] font-semibold tracking-[0.06em] text-body">15+ projects</span>
-            <span className="rounded-full border border-ink/10 bg-bone px-5 py-3 font-mono text-[16px] font-semibold tracking-[0.06em] text-body">10k+ users</span>
-            <span className="rounded-full border border-ink/10 bg-bone px-5 py-3 font-mono text-[16px] font-semibold tracking-[0.06em] text-body">5+ yrs</span>
+            <span className="rounded-full border border-ink/10 bg-bone px-5 py-2.5 font-mono text-[15px] font-semibold tracking-[0.06em] text-body">15+ projects</span>
+            <span className="rounded-full border border-ink/10 bg-bone px-5 py-2.5 font-mono text-[15px] font-semibold tracking-[0.06em] text-body">10k+ users</span>
+            <span className="rounded-full border border-ink/10 bg-bone px-5 py-2.5 font-mono text-[15px] font-semibold tracking-[0.06em] text-body">5+ yrs</span>
           </Reveal>
 
-          <Reveal className="mt-12 flex flex-col gap-5">
-            <Button asChild size="lg" className="h-[94px] w-full text-[24px] underline underline-offset-4">
+          <Reveal className="mt-11 flex flex-col gap-5">
+            <Button asChild size="lg" className="h-[82px] w-full text-[22px] underline underline-offset-4">
               <Link href="#work">
                 View selected work <span className="font-mono">↘</span>
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="h-[94px] w-full text-[24px] underline underline-offset-4">
+            <Button asChild variant="outline" size="lg" className="h-[82px] w-full text-[22px] underline underline-offset-4">
               <Link href="#contact">Start a project</Link>
             </Button>
           </Reveal>
