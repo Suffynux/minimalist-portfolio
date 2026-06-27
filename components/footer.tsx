@@ -15,6 +15,7 @@ export function Footer({ border = false }: { border?: boolean }) {
         <a href={site.linkedin} target="_blank" rel="noreferrer" className="hover:text-ink">LinkedIn</a>
         <a href={site.upwork} target="_blank" rel="noreferrer" className="hover:text-ink">Upwork</a>
         <Link href={`mailto:${site.email}`} className="hover:text-ink">Email</Link>
+        <Link href={`tel:${site.phone}`} className="hover:text-ink">Phone</Link>
       </div>
     </div>
   );

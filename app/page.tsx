@@ -17,40 +17,49 @@ export default function Home() {
     <PageShell>
       <Navbar />
       <header id="top" className="relative z-10 mx-auto max-w-[1200px] px-5 pb-24 pt-[150px] sm:px-8 md:min-h-[calc(100vh-72px)] md:pb-16 md:pt-[154px]">
-        <div className="md:hidden">
-          <Reveal className="mb-[46px] flex flex-wrap items-center gap-[18px] font-mono text-xs tracking-[0.05em] text-muted">
-            <span className="inline-flex items-center gap-2">
-              <span className="size-[7px] rounded-full bg-[#3F9E68] shadow-[0_0_0_4px_rgba(63,158,104,0.16)]" />
+        <div className="text-center md:hidden">
+          <Reveal className="mb-[76px] flex justify-center font-mono text-[clamp(14px,4.4vw,20px)] font-medium tracking-[0.09em] text-muted">
+            <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface px-5 py-3 shadow-[0_18px_45px_-36px_rgba(35,37,29,0.55)]">
+              <span className="size-3 rounded-full bg-[#3F9E68] shadow-[0_0_0_5px_rgba(63,158,104,0.16)]" />
               Available for new projects
             </span>
-            <span className="opacity-40">/</span>
-            <span>Full-stack developer</span>
-            <span className="opacity-40">/</span>
-            <span>Shopify · MERN</span>
           </Reveal>
 
-          <Reveal className="mb-6 flex justify-center">
-            <AvatarViewer variant="hero" />
+          <Reveal className="relative mx-auto mb-[68px] flex max-w-[390px] justify-center">
+            <span className="absolute left-0 top-7 z-10 rounded-full border border-ink/10 bg-surface px-5 py-3 font-mono text-[16px] font-semibold tracking-[0.06em] text-body shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
+              ★ 5.0
+            </span>
+            <span className="absolute bottom-8 right-0 z-10 rounded-full bg-olive px-5 py-3 font-mono text-[16px] font-semibold tracking-[0.06em] text-surface shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
+              &lt;24h reply
+            </span>
+            <AvatarViewer variant="heroMobile" />
           </Reveal>
 
-          <Reveal as="h1" className="whitespace-nowrap text-center font-display text-[clamp(44px,10.5vw,132px)] font-normal leading-[0.92] tracking-[-0.02em]">
+          <Reveal as="h1" className="mx-auto max-w-[620px] font-display text-[clamp(54px,14vw,88px)] font-normal leading-[0.9] tracking-[-0.02em]">
+            Hi, I&apos;m Sufiyan.
+            <br />
             I build, you <span className="italic text-olive">grow</span>.
           </Reveal>
 
-          <Reveal className="mt-12 flex flex-wrap items-end justify-between gap-12">
-            <p className="max-w-[520px] text-[18.5px] font-normal leading-[1.6] text-body">
-              I take the entire technical side off your plate - custom Shopify stores, MERN web apps and smart automations - so you can focus on running and growing the business.
-            </p>
-            <div className="flex flex-wrap gap-3.5">
-              <Button asChild size="md">
-                <Link href="#work">
-                  View selected work <span className="font-mono">↘</span>
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="md">
-                <Link href="#contact">Start a project</Link>
-              </Button>
-            </div>
+          <Reveal as="p" className="mx-auto mt-8 max-w-[620px] text-[clamp(20px,6vw,28px)] leading-[1.45] text-body">
+            A full-stack &amp; Shopify developer who takes the whole technical side off your plate - so you can focus on growing the business.
+          </Reveal>
+
+          <Reveal className="mx-auto mt-9 flex max-w-[560px] flex-wrap justify-center gap-3">
+            <span className="rounded-full border border-ink/10 bg-bone px-5 py-3 font-mono text-[16px] font-semibold tracking-[0.06em] text-body">15+ projects</span>
+            <span className="rounded-full border border-ink/10 bg-bone px-5 py-3 font-mono text-[16px] font-semibold tracking-[0.06em] text-body">10k+ users</span>
+            <span className="rounded-full border border-ink/10 bg-bone px-5 py-3 font-mono text-[16px] font-semibold tracking-[0.06em] text-body">5+ yrs</span>
+          </Reveal>
+
+          <Reveal className="mt-12 flex flex-col gap-5">
+            <Button asChild size="lg" className="h-[94px] w-full text-[24px] underline underline-offset-4">
+              <Link href="#work">
+                View selected work <span className="font-mono">↘</span>
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="h-[94px] w-full text-[24px] underline underline-offset-4">
+              <Link href="#contact">Start a project</Link>
+            </Button>
           </Reveal>
         </div>
 

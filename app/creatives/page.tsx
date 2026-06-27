@@ -97,7 +97,8 @@ export default function CreativesPage() {
             <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer" className="hover:text-ink">WhatsApp</a>
             <a href={site.github} target="_blank" rel="noreferrer" className="hover:text-ink">GitHub</a>
             <a href={site.linkedin} target="_blank" rel="noreferrer" className="hover:text-ink">LinkedIn</a>
-            <a href={site.instagram} target="_blank" rel="noreferrer" className="hover:text-ink">Instagram</a>
+            <a href={site.upwork} target="_blank" rel="noreferrer" className="hover:text-ink">Upwork</a>
+            <a href={`tel:${site.phone}`} className="hover:text-ink">Phone</a>
           </div>
         </div>
       </section>

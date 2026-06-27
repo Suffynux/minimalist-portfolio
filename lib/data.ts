@@ -77,11 +77,12 @@ const mk = (ids: number[], caps: string[]): CreativeImage[] =>
 
 export const site = {
   accent: "#6E7A45",
-  email: "hello@sufiyan.dev",
-  whatsapp: "923000000000",
-  github: "https://github.com/Suffynux",
-  linkedin: "https://linkedin.com/in/sufiyan",
-  upwork: "https://upwork.com/freelancers/sufiyan",
+  email: "suffynux@gmail.com",
+  phone: "+923150541169",
+  whatsapp: "923150541169",
+  github: "https://github.com/suffynux/",
+  linkedin: "https://www.linkedin.com/in/sufiyan-ali-suffynux/",
+  upwork: "https://www.upwork.com/freelancers/~0165abeee5bd5616b7?viewMode=1",
   instagram: "https://instagram.com/sufiyan"
 } as const;
 
@@ -123,7 +124,7 @@ export const services: Service[] = [
 export const featuredProject: Project = {
   name: "CEGA",
   status: "FEATURED",
-  href: "https://github.com/Suffynux/Cega-Readme",
+  href: "https://github.com/suffynux/Cega-Readme",
   meta: "Pakistan's National Gaming & Animation Hub",
   desc: "A full-stack platform serving as the digital gateway for a national institute - portals, dashboards and content management powering 10,000+ students.",
   stack: ["Next.js", "React", "Node.js", "Full-Stack", "CMS"],
@@ -161,7 +162,7 @@ export const projects: Project[] = [
   {
     name: "AI Chat Agent",
     status: "SAAS",
-    href: "https://github.com/Suffynux/ai-chat-agent",
+    href: "https://github.com/suffynux/ai-chat-agent",
     meta: "Full-Stack AI SaaS Application",
     desc: "Production-ready AI chat platform with Google OAuth, LLM integration, usage limits and e-commerce integration settings.",
     stack: ["Python", "Flask", "LLM API"],
@@ -194,7 +195,7 @@ export const projectDetails: DetailedProject[] = [
     meta: "National Gaming & Animation Hub · 10k+ users",
     desc: "The digital gateway for a national institute - student portals, admin dashboards and a content management system powering thousands of learners across Pakistan.",
     stack: ["Next.js", "React", "Node.js", "CMS"],
-    live: "https://github.com/Suffynux/Cega-Readme",
+    live: "https://github.com/suffynux/Cega-Readme",
     pdf: "#",
     img: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
     reverse: true
@@ -244,7 +245,7 @@ export const projectDetails: DetailedProject[] = [
     meta: "Full-stack AI application",
     desc: "A production-ready AI chat platform with Google OAuth, LLM integration, usage limits and e-commerce integration settings - built for resale to store owners.",
     stack: ["Python", "Flask", "LLM API", "OAuth"],
-    live: "https://github.com/Suffynux/ai-chat-agent",
+    live: "https://github.com/suffynux/ai-chat-agent",
     pdf: "#",
     img: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg",
     reverse: true

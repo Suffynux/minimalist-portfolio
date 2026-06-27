@@ -28,11 +28,12 @@ Update the placeholder contact values in the `site` object:
 
 ```ts
 export const site = {
-  email: "hello@sufiyan.dev",
-  whatsapp: "923000000000",
-  github: "https://github.com/Suffynux",
-  linkedin: "https://linkedin.com/in/sufiyan",
-  upwork: "https://upwork.com/freelancers/sufiyan",
+  email: "suffynux@gmail.com",
+  phone: "+923150541169",
+  whatsapp: "923150541169",
+  github: "https://github.com/suffynux/",
+  linkedin: "https://www.linkedin.com/in/sufiyan-ali-suffynux/",
+  upwork: "https://www.upwork.com/freelancers/~0165abeee5bd5616b7?viewMode=1",
   instagram: "https://instagram.com/sufiyan"
 };
 ```

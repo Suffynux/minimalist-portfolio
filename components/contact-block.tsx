@@ -29,6 +29,9 @@ export function ContactBlock() {
               {site.email} <span className="font-mono">→</span>
             </Link>
           </Button>
+          <Button asChild variant="outline" size="lg" className="w-[220px] border-bone/20 text-bone hover:border-olive hover:text-olive">
+            <Link href={`tel:${site.phone}`}>{site.phone}</Link>
+          </Button>
         </div>
       </div>
     </Reveal>
@@ -57,6 +60,9 @@ export function CompactCta({
           </Button>
           <Button asChild variant={centered ? "ink" : "olive"} size="md">
             <Link href={`mailto:${site.email}`}>Email →</Link>
+          </Button>
+          <Button asChild variant="outline" size="md" className={centered ? "" : "border-bone/20 text-bone hover:border-olive hover:text-olive"}>
+            <Link href={`tel:${site.phone}`}>{site.phone}</Link>
           </Button>
         </div>
       </div>
