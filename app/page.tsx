@@ -27,10 +27,8 @@ export default function Home() {
           <span>Shopify · MERN</span>
         </Reveal>
 
-        <Reveal as="h1" className="font-display text-[clamp(64px,12.5vw,168px)] font-normal leading-[0.92] tracking-[-0.02em]">
-          I build,
-          <br />
-          you <span className="italic text-olive">grow</span>.
+        <Reveal as="h1" className="whitespace-nowrap text-center font-display text-[clamp(44px,10.5vw,132px)] font-normal leading-[0.92] tracking-[-0.02em]">
+          I build, you <span className="italic text-olive">grow</span>.
         </Reveal>
 
         <Reveal className="mt-12 flex flex-wrap items-end justify-between gap-12">

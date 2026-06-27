@@ -19,12 +19,12 @@ export function ContactBlock() {
           Tell me what you&apos;re working on. I reply within a day - Shopify build, web app, or just figuring out what you need.
         </p>
         <div className="relative mt-10 flex flex-wrap gap-3.5">
-          <Button asChild variant="whatsapp" size="lg">
+          <Button asChild variant="whatsapp" size="lg" className="w-[220px]">
             <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer">
               <WhatsAppIcon className="size-[18px]" /> WhatsApp me
             </a>
           </Button>
-          <Button asChild variant="olive" size="lg">
+          <Button asChild variant="olive" size="lg" className="w-[220px]">
             <Link href={`mailto:${site.email}`}>
               {site.email} <span className="font-mono">→</span>
             </Link>
