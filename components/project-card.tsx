@@ -1,21 +1,43 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import type { Project } from "@/lib/data";
 import { Reveal } from "@/components/reveal";
 import { TagList } from "@/components/tag-list";
+import { SitePreview } from "@/components/site-preview";
+
+function useProjectLink(project: Project) {
+  const [preview, setPreview] = useState(false);
+
+  const linkProps = project.embed
+    ? {
+        href: project.href,
+        onClick: (event: React.MouseEvent) => {
+          event.preventDefault();
+          setPreview(true);
+        }
+      }
+    : { href: project.href, target: "_blank", rel: "noreferrer" };
+
+  const modal = preview && project.embed ? (
+    <SitePreview name={project.name} url={project.href} onClose={() => setPreview(false)} />
+  ) : null;
+
+  return { linkProps, modal };
+}
 
 export function FeaturedProjectCard({ project }: { project: Project }) {
+  const { linkProps, modal } = useProjectLink(project);
+
   return (
     <Reveal>
       <motion.a
-        href={project.href}
-        target="_blank"
-        rel="noreferrer"
+        {...linkProps}
         whileHover={{ y: -4 }}
         transition={{ duration: 0.35 }}
-        className="mb-5 block overflow-hidden rounded-[22px] bg-ink text-bone"
+        className="mb-5 block cursor-pointer overflow-hidden rounded-[22px] bg-ink text-bone"
       >
         <div className="grid min-h-[400px] grid-cols-1 lg:grid-cols-[1.05fr_1fr]">
           <div className="flex flex-col justify-between gap-[30px] p-8 sm:p-11">
@@ -41,20 +63,21 @@ export function FeaturedProjectCard({ project }: { project: Project }) {
           </div>
         </div>
       </motion.a>
+      {modal}
     </Reveal>
   );
 }
 
 export function ProjectCard({ project }: { project: Project }) {
+  const { linkProps, modal } = useProjectLink(project);
+
   return (
     <Reveal>
       <motion.a
-        href={project.href}
-        target="_blank"
-        rel="noreferrer"
+        {...linkProps}
         whileHover={{ y: -4 }}
         transition={{ duration: 0.3 }}
-        className="flex h-full flex-col overflow-hidden rounded-[18px] border border-ink/[0.09] bg-surface transition hover:border-olive/40 hover:shadow-[0_24px_50px_-28px_rgba(35,37,29,0.3)]"
+        className="flex h-full cursor-pointer flex-col overflow-hidden rounded-[18px] border border-ink/[0.09] bg-surface transition hover:border-olive/40 hover:shadow-[0_24px_50px_-28px_rgba(35,37,29,0.3)]"
       >
         <div className="relative h-[170px] overflow-hidden bg-[#E7E6DD]">
           <Image src={project.img} alt={project.name} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
@@ -71,6 +94,7 @@ export function ProjectCard({ project }: { project: Project }) {
           <TagList tags={project.stack} />
         </div>
       </motion.a>
+      {modal}
     </Reveal>
   );
 }

@@ -14,6 +14,8 @@ export type Project = {
   desc: string;
   stack: string[];
   img: string;
+  /** Site allows iframe embedding (no X-Frame-Options/frame-ancestors block) */
+  embed?: boolean;
 };
 
 export type DetailedProject = {
@@ -144,7 +146,8 @@ export const projects: Project[] = [
   {
     name: "Deeniverse",
     status: "LIVE",
-    href: "http://deeniverse.com/",
+    href: "https://deeniverse.com/",
+    embed: true,
     meta: "deeniverse.com · Learning Platform",
     desc: "Full-stack Quran learning platform with auth, course management, progress tracking and a polished landing experience.",
     stack: ["React", "Node.js", "MongoDB"],
@@ -154,6 +157,7 @@ export const projects: Project[] = [
     name: "NextGrid IT",
     status: "LIVE",
     href: "https://www.nextgridit.co.uk/",
+    embed: true,
     meta: "nextgridit.co.uk · United Kingdom",
     desc: "Corporate web presence for a UK IT firm - service showcases, client portals and a modern design system on Next.js.",
     stack: ["Next.js", "Tailwind", "TypeScript"],
@@ -220,7 +224,7 @@ export const projectDetails: DetailedProject[] = [
     meta: "deeniverse.com · EdTech",
     desc: "A full-stack Quran learning platform: authentication, course management, progress tracking and a polished landing experience that converts visitors to students.",
     stack: ["React", "Node.js", "MongoDB", "Express"],
-    live: "http://deeniverse.com/",
+    live: "https://deeniverse.com/",
     pdf: "#",
     img: "https://images.pexels.com/photos/5553047/pexels-photo-5553047.jpeg",
     reverse: true
