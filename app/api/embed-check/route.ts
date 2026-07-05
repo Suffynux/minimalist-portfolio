@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     const csp = (res.headers.get("content-security-policy") ?? "").toLowerCase();
     const frameAncestors = csp.match(/frame-ancestors\s+([^;]+)/)?.[1]?.trim();
 
-    let embeddable = res.ok;
+    let embeddable = true;
     if (frameAncestors) {
       // CSP frame-ancestors overrides X-Frame-Options in modern browsers
       if (frameAncestors === "'none'" || frameAncestors === "'self'") embeddable = false;
@@ -33,6 +33,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ embeddable });
   } catch {
-    return NextResponse.json({ embeddable: false, reason: "unreachable" });
+    return NextResponse.json({ embeddable: true, reason: "unchecked" });
   }
 }

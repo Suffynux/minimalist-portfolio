@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { ExternalLink, LoaderCircle, TriangleAlert, X } from "lucide-react";
 
 type PreviewStatus = "checking" | "loading" | "ready" | "error";
@@ -15,8 +16,10 @@ export function SitePreview({
   onClose: () => void;
 }) {
   const [status, setStatus] = useState<PreviewStatus>("checking");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
@@ -56,22 +59,24 @@ export function SitePreview({
 
   const host = url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
       aria-label={`${name} live preview`}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6"
+      className="fixed inset-0 z-[9999] flex min-h-dvh items-center justify-center p-2 sm:p-4 lg:p-6"
     >
       <button
         type="button"
         aria-label="Close preview"
-        className="absolute inset-0 cursor-default bg-ink/60 backdrop-blur-[6px]"
+        className="absolute inset-0 z-0 cursor-default bg-ink/60 backdrop-blur-[6px]"
         onClick={onClose}
       />
 
-      <div className="relative flex h-[90dvh] w-full max-w-[1200px] flex-col overflow-hidden rounded-[20px] border border-ink/10 bg-surface shadow-[0_40px_120px_-30px_rgba(35,37,29,0.7)]">
-        <div className="flex items-center justify-between gap-3 border-b border-ink/[0.09] bg-bone px-4 py-3 sm:px-5">
+      <div className="relative z-10 flex h-[min(92dvh,820px)] w-full max-w-[1200px] flex-col overflow-hidden rounded-[14px] border border-ink/10 bg-surface shadow-[0_40px_120px_-30px_rgba(35,37,29,0.7)] sm:h-[90dvh] sm:rounded-[20px]">
+        <div className="flex min-h-[56px] items-center justify-between gap-2 border-b border-ink/[0.09] bg-bone px-3 py-3 sm:gap-3 sm:px-5">
           <div className="flex min-w-0 items-center gap-3">
             <span className="hidden gap-[6px] sm:flex" aria-hidden="true">
               <span className="size-[10px] rounded-full bg-ink/15" />
@@ -87,9 +92,10 @@ export function SitePreview({
               href={url}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-8 items-center gap-[6px] rounded-full border border-ink/15 px-3 text-[12px] font-medium text-body transition hover:border-olive hover:text-olive"
+              className="inline-flex h-8 items-center gap-[6px] rounded-full border border-ink/15 px-2.5 text-[12px] font-medium text-body transition hover:border-olive hover:text-olive sm:px-3"
             >
-              Open site <ExternalLink className="size-[13px]" />
+              <span className="hidden sm:inline">Open site</span>
+              <ExternalLink className="size-[13px]" />
             </a>
             <button
               type="button"
@@ -104,12 +110,12 @@ export function SitePreview({
 
         <div className="relative flex-1 bg-bone">
           {status === "error" ? (
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-bone px-6 text-center">
+            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-bone px-6 text-center">
               <span className="grid size-14 place-items-center rounded-full bg-olive/12 text-olive">
                 <TriangleAlert className="size-6" />
               </span>
               <div>
-                <p className="font-display text-[26px] tracking-[-0.01em]">Unable to load site preview</p>
+                <p className="font-display text-[clamp(22px,5vw,26px)] tracking-[-0.01em]">Unable to load site preview</p>
                 <p className="mx-auto mt-2 max-w-[380px] text-sm leading-[1.6] text-muted">
                   {host} can&apos;t be displayed inside the portfolio right now. You can still visit it
                   directly in a new tab.
@@ -136,9 +142,9 @@ export function SitePreview({
           ) : null}
 
           {status === "checking" || status === "loading" ? (
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-bone">
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-bone">
               <LoaderCircle className="size-7 animate-spin text-olive" />
-              <p className="font-mono text-[12px] tracking-[0.08em] text-muted">
+              <p className="max-w-full truncate px-6 font-mono text-[12px] tracking-[0.08em] text-muted">
                 LOADING {host.toUpperCase()}
               </p>
             </div>
@@ -148,13 +154,14 @@ export function SitePreview({
             <iframe
               src={url}
               title={`${name} live site`}
-              className="size-full border-0"
+              className="absolute inset-0 z-10 size-full border-0"
               onLoad={() => setStatus("ready")}
               referrerPolicy="no-referrer"
             />
           ) : null}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
