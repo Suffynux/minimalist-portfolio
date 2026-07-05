@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ExternalLink, LoaderCircle, X } from "lucide-react";
+import { ExternalLink, LoaderCircle, TriangleAlert, X } from "lucide-react";
+
+type PreviewStatus = "checking" | "loading" | "ready" | "error";
 
 export function SitePreview({
   name,
@@ -12,7 +14,7 @@ export function SitePreview({
   url: string;
   onClose: () => void;
 }) {
-  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState<PreviewStatus>("checking");
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -25,6 +27,32 @@ export function SitePreview({
       document.body.style.overflow = "";
     };
   }, [onClose]);
+
+  // Ask our server whether the site allows iframe embedding — blocked frames
+  // are indistinguishable from loaded ones on the client side.
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/embed-check?url=${encodeURIComponent(url)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setStatus(data.embeddable ? "loading" : "error");
+      })
+      .catch(() => {
+        if (!cancelled) setStatus("loading");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [url]);
+
+  // Safety net: if the iframe never finishes loading, surface the error state.
+  useEffect(() => {
+    if (status !== "loading") return;
+    const timer = setTimeout(() => {
+      setStatus((current) => (current === "loading" ? "error" : current));
+    }, 15000);
+    return () => clearTimeout(timer);
+  }, [status]);
 
   const host = url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
@@ -75,19 +103,56 @@ export function SitePreview({
         </div>
 
         <div className="relative flex-1 bg-bone">
-          {loading ? (
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-bone">
-              <LoaderCircle className="size-7 animate-spin text-olive" />
-              <p className="font-mono text-[12px] tracking-[0.08em] text-muted">LOADING {host.toUpperCase()}</p>
+          {status === "error" ? (
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-bone px-6 text-center">
+              <span className="grid size-14 place-items-center rounded-full bg-olive/12 text-olive">
+                <TriangleAlert className="size-6" />
+              </span>
+              <div>
+                <p className="font-display text-[26px] tracking-[-0.01em]">Unable to load site preview</p>
+                <p className="mx-auto mt-2 max-w-[380px] text-sm leading-[1.6] text-muted">
+                  {host} can&apos;t be displayed inside the portfolio right now. You can still visit it
+                  directly in a new tab.
+                </p>
+              </div>
+              <div className="mt-1 flex items-center gap-3">
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex h-11 items-center gap-2 rounded-full bg-ink px-6 text-[13.5px] font-semibold text-bone transition hover:bg-olive"
+                >
+                  Open site <ExternalLink className="size-4" />
+                </a>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="inline-flex h-11 items-center rounded-full border border-ink/20 px-6 text-[13.5px] font-semibold text-ink transition hover:border-olive hover:text-olive"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           ) : null}
-          <iframe
-            src={url}
-            title={`${name} live site`}
-            className="size-full border-0"
-            onLoad={() => setLoading(false)}
-            referrerPolicy="no-referrer"
-          />
+
+          {status === "checking" || status === "loading" ? (
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-bone">
+              <LoaderCircle className="size-7 animate-spin text-olive" />
+              <p className="font-mono text-[12px] tracking-[0.08em] text-muted">
+                LOADING {host.toUpperCase()}
+              </p>
+            </div>
+          ) : null}
+
+          {status === "loading" || status === "ready" ? (
+            <iframe
+              src={url}
+              title={`${name} live site`}
+              className="size-full border-0"
+              onLoad={() => setStatus("ready")}
+              referrerPolicy="no-referrer"
+            />
+          ) : null}
         </div>
       </div>
     </div>

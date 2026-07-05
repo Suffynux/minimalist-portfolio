@@ -138,6 +138,7 @@ export const projects: Project[] = [
     name: "Gomila Intersole",
     status: "LIVE",
     href: "https://gomilaintersole.pk/",
+    embed: true,
     meta: "gomilaintersole.pk · Shopify Store",
     desc: "Custom Shopify store for a footwear brand - bespoke Liquid theme, conversion-focused product pages and order automations.",
     stack: ["Shopify", "Liquid", "Automations"],
