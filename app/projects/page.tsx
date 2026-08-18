@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { CompactCta } from "@/components/contact-block";
 import { Footer } from "@/components/footer";
@@ -9,6 +10,15 @@ import { Button } from "@/components/ui/button";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { filters, projectDetails } from "@/lib/data";
 import { CaseStudyViewer } from "@/components/case-study-viewer";
+
+export const metadata: Metadata = {
+  title: "Web Development Projects",
+  description:
+    "Explore Shopify stores, full-stack platforms, AI tools and automation systems built by Sufiyan Ali to solve real business problems.",
+  alternates: {
+    canonical: "https://www.suffynux.com/projects"
+  }
+};
 
 export default function ProjectsPage() {
   return (

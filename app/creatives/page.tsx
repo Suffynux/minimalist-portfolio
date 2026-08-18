@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { CompactCta } from "@/components/contact-block";
 import { Navbar } from "@/components/navbar";
@@ -5,6 +6,15 @@ import { Reveal } from "@/components/reveal";
 import { PageShell } from "@/components/shell";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { creativeHeroes, creativeSections, creativeTags, creativeTools, site } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: "Creative and AI Visual Work",
+  description:
+    "Explore Sufiyan Ali's generative artwork, product concepts and visual experiments where technical thinking meets creative craft.",
+  alternates: {
+    canonical: "https://www.suffynux.com/creatives"
+  }
+};
 
 export default function CreativesPage() {
   return (

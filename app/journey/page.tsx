@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { CompactCta } from "@/components/contact-block";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
@@ -6,6 +7,15 @@ import { PageShell } from "@/components/shell";
 import { TagList } from "@/components/tag-list";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { journeyStats, milestones, principles } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: "About and Development Journey",
+  description:
+    "Follow Sufiyan Ali's journey from learning to code to building Shopify stores, full-stack platforms and automation products people rely on.",
+  alternates: {
+    canonical: "https://www.suffynux.com/journey"
+  }
+};
 
 export default function JourneyPage() {
   return (

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactBlock } from "@/components/contact-block";
 import { Footer } from "@/components/footer";
@@ -12,9 +13,44 @@ import { WhatsAppButton } from "@/components/whatsapp-button";
 import { featuredProject, homeStats, marqueeText, process, projects, services } from "@/lib/data";
 import { AvatarViewer } from "@/components/avatar-viewer";
 
+export const metadata: Metadata = {
+  title: "Shopify & Full-Stack Developer",
+  description:
+    "Sufiyan Ali builds useful Shopify stores, full-stack products and automation systems that solve real problems and help businesses grow.",
+  alternates: {
+    canonical: "https://www.suffynux.com/"
+  }
+};
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Sufiyan Ali",
+  alternateName: "Suffynux",
+  url: "https://www.suffynux.com",
+  jobTitle: "Shopify and Full-Stack Developer",
+  description:
+    "Shopify and full-stack developer building e-commerce stores, MERN applications and automation systems that solve real business problems.",
+  sameAs: [
+    "https://github.com/suffynux/",
+    "https://www.linkedin.com/in/sufiyan-ali-suffynux/",
+    "https://www.upwork.com/freelancers/~0165abeee5bd5616b7"
+  ]
+};
+
+function PersonStructuredData() {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+    />
+  );
+}
+
 export default function Home() {
   return (
     <PageShell>
+      <PersonStructuredData />
       <Navbar />
       <header id="top" className="relative z-10 mx-auto max-w-[1200px] px-5 pb-24 pt-[150px] sm:px-8 md:min-h-[calc(100vh-72px)] md:pb-16 md:pt-[154px]">
         <div className="text-center md:hidden">
@@ -35,10 +71,10 @@ export default function Home() {
             <AvatarViewer variant="heroMobile" />
           </Reveal>
 
-          <Reveal as="h1" className="mx-auto max-w-[620px] font-display text-[clamp(48px,10vw,72px)] font-normal leading-[0.95] tracking-[-0.02em]">
-            Hi, I&apos;m Sufiyan.
+          <Reveal as="p" className="mx-auto max-w-[620px] font-display text-[clamp(48px,10vw,72px)] font-normal leading-[0.95] tracking-[-0.02em]">
+            Shopify &amp; full-stack developer.
             <br />
-            I build, you <span className="italic text-olive">grow</span>.
+            I build what people <span className="italic text-olive">use</span>.
           </Reveal>
 
           <Reveal as="p" className="mx-auto mt-8 max-w-[620px] text-[clamp(18px,3.6vw,24px)] leading-[1.5] text-body">
@@ -87,10 +123,10 @@ export default function Home() {
             <AvatarViewer variant="heroLarge" />
           </Reveal>
 
-          <Reveal as="h1" className="mx-auto max-w-[900px] font-display text-[clamp(78px,8.4vw,124px)] font-normal leading-[0.92] tracking-[-0.02em]">
-            Hi, I&apos;m Sufiyan.
+          <Reveal as="h1" className="mx-auto max-w-[1000px] font-display text-[clamp(72px,7.6vw,112px)] font-normal leading-[0.92] tracking-[-0.02em]">
+            Shopify &amp; full-stack developer.
             <br />
-            I build, you <span className="italic text-olive">grow</span>.
+            I build what people <span className="italic text-olive">use</span>.
           </Reveal>
 
           <Reveal as="p" className="mx-auto mt-8 max-w-[650px] text-[22px] leading-[1.45] text-muted">
