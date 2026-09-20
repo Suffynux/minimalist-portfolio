@@ -85,7 +85,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="flex flex-1 flex-col gap-[13px] px-[26px] pb-[30px] pt-[26px]">
           <div className="flex items-center justify-between gap-2">
             <h3 className="font-display text-[25px] font-normal tracking-[-0.01em]">{project.name}</h3>
-            <span className="whitespace-nowrap rounded-full border border-olive/30 px-[9px] py-[3px] font-mono text-[10.5px] tracking-[0.06em] text-olive">
+            <span className="whitespace-nowrap rounded-full border border-olive/40 px-[10px] py-[4px] font-mono text-[11px] tracking-[0.06em] text-olive">
               {project.status}
             </span>
           </div>

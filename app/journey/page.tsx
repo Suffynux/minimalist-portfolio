@@ -70,7 +70,7 @@ export default function JourneyPage() {
         <Reveal className="grid gap-[30px] rounded-3xl bg-ink p-10 text-bone sm:grid-cols-2 lg:grid-cols-4 lg:p-16">
           {journeyStats.map((stat) => (
             <div key={stat.label}>
-              <div className="font-display text-[clamp(40px,5vw,58px)] leading-none text-olive">{stat.num}</div>
+              <div className="font-display text-[clamp(40px,5vw,58px)] leading-none text-olive-light">{stat.num}</div>
               <div className="mt-3 text-[13.5px] leading-[1.45] text-shade-deep">{stat.label}</div>
             </div>
           ))}

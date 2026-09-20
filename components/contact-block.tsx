@@ -9,11 +9,11 @@ export function ContactBlock() {
     <Reveal>
       <div className="relative overflow-hidden rounded-[26px] bg-ink px-9 py-12 text-bone sm:px-14 md:px-20 md:py-[90px]">
         <div className="pointer-events-none absolute -bottom-[90px] -right-[60px] font-display text-[300px] italic leading-none text-olive/15">&amp;</div>
-        <p className="relative mb-[26px] font-mono text-xs tracking-[0.14em] text-olive">04 - LET&apos;S TALK</p>
+        <p className="relative mb-[26px] font-mono text-xs tracking-[0.14em] text-olive-light">04 - LET&apos;S TALK</p>
         <h2 className="relative font-display text-[clamp(44px,7vw,96px)] font-normal leading-[0.98] tracking-[-0.015em]">
           Have a project?
           <br />
-          Let&apos;s <span className="italic text-olive">build</span> it.
+          Let&apos;s <span className="italic text-olive-light">build</span> it.
         </h2>
         <p className="relative mt-7 max-w-[480px] text-[17px] leading-[1.6] text-shade-deep">
           Tell me what you&apos;re working on. I reply within a day - Shopify build, web app, or just figuring out what you need.
@@ -29,7 +29,7 @@ export function ContactBlock() {
               {site.email} <span className="font-mono">→</span>
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="w-[220px] border-bone/20 text-bone hover:border-olive hover:text-olive">
+          <Button asChild variant="outline" size="lg" className="w-[220px] border-bone/20 text-bone hover:border-olive hover:text-olive-light">
             <Link href={`tel:${site.phone}`}>{site.phone}</Link>
           </Button>
         </div>
@@ -52,7 +52,7 @@ export function CompactCta({
       <div className={centered ? "py-5 pb-12 text-center" : "flex flex-wrap items-center justify-between gap-8 rounded-[26px] bg-ink p-10 text-bone md:p-[72px]"}>
         <div>
           <h2 className="font-display text-[clamp(34px,5vw,60px)] font-normal leading-none">{title}</h2>
-          {description ? <p className="mt-3.5 max-w-[420px] text-base text-shade-deep">{description}</p> : null}
+          {description ? <p className={`mt-3.5 max-w-[420px] text-base ${centered ? "text-body" : "text-shade-deep"}`}>{description}</p> : null}
         </div>
         <div className={`flex flex-wrap gap-3 ${centered ? "mt-8 justify-center" : ""}`}>
           <Button asChild variant="whatsapp" size="md">
@@ -61,7 +61,7 @@ export function CompactCta({
           <Button asChild variant={centered ? "ink" : "olive"} size="md">
             <Link href={`mailto:${site.email}`}>Email →</Link>
           </Button>
-          <Button asChild variant="outline" size="md" className={centered ? "" : "border-bone/20 text-bone hover:border-olive hover:text-olive"}>
+          <Button asChild variant="outline" size="md" className={centered ? "" : "border-bone/20 text-bone hover:border-olive hover:text-olive-light"}>
             <Link href={`tel:${site.phone}`}>{site.phone}</Link>
           </Button>
         </div>

@@ -58,7 +58,7 @@ export function CaseStudyViewer({ project }: { project: DetailedProject }) {
                     <div className="mt-auto pt-10">
                       <TagList tags={project.stack} />
                       <p className="mt-8 rounded-[14px] border border-dashed border-ink/20 px-4 py-3 font-mono text-[11px] leading-[1.6] text-muted">
-                        Add the real PDF URL in `lib/data.ts` under this project&apos;s `pdf` field and it will render here inside the website.
+                        A full written case study for this project is on the way. Want the detail sooner? Message me and I&apos;ll walk you through it.
                       </p>
                     </div>
                   </div>

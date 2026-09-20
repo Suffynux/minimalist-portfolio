@@ -19,7 +19,7 @@ export function AvatarViewer({ variant = "nav" }: { variant?: "nav" | "hero" | "
               : "size-9"
       )}
     >
-      <Image src={avatar} alt="Sufiyan avatar" fill sizes={variant === "heroLarge" ? "280px" : variant === "heroMobile" ? "300px" : variant === "hero" ? "112px" : "36px"} className="object-cover" priority={variant !== "nav"} />
+      <Image src={avatar} alt="Sufiyan avatar" fill sizes={variant === "heroLarge" ? "560px" : variant === "heroMobile" ? "600px" : variant === "hero" ? "224px" : "72px"} className="object-cover" priority={variant !== "nav"} />
       <span className="absolute inset-0 rounded-full ring-1 ring-inset ring-bone/30" />
     </div>
   );

@@ -73,7 +73,7 @@ export type CreativeSection = {
 };
 
 const pexels = (id: number) =>
-  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=700`;
+  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=1200`;
 
 const mk = (ids: number[], caps: string[]): CreativeImage[] =>
   ids.map((id, index) => ({ img: pexels(id), cap: caps[index] || "AI Generated" }));
@@ -299,9 +299,9 @@ export const creativeTags = [
 ];
 
 export const creativeSections: CreativeSection[] = [
-  { id: "ai-art", no: "01 - AI ARTWORK", title: "Generative art", desc: "Concepts and scenes built with Midjourney, prompt-crafted and curated.", cols: 3, items: mk([1762851, 3617457, 1183992, 1707828, 1054218, 3308588], ["Dreamscape", "Portrait study", "Light & form", "Surreal city", "Neon figure", "Soft chaos"]) },
-  { id: "brand", no: "02 - BRAND & IDENTITY", title: "Brand concepts", desc: "Visual identities, moodboards and logo directions for imagined and real brands.", cols: 4, items: mk([3585047, 4439901, 6177645, 1762851, 1707828, 5081930, 3771089, 2079438], ["Mark", "Palette", "Type lockup", "Hero", "Pattern", "Mockup", "Badge", "System"]) },
-  { id: "product", no: "03 - PRODUCT MOCKUPS", title: "Product & UI", desc: "App screens, packaging and product shots - design that’s ready to build.", cols: 3, items: mk([196644, 326503, 1779487, 4439901, 160107, 1029757], ["App UI", "Dashboard", "Device", "Packaging", "Storefront", "Landing"]) },
+  { id: "ai-art", no: "01 - VISUAL DIRECTION", title: "Moodboard", desc: "Visual directions I keep coming back to - the reference wall behind the work.", cols: 3, items: mk([1762851, 3617457, 1183992, 1707828, 1054218, 3308588], ["Dreamscape", "Portrait study", "Light & form", "Surreal city", "Neon figure", "Soft chaos"]) },
+  { id: "brand", no: "02 - BRAND & IDENTITY", title: "Brand concepts", desc: "Visual identities, moodboards and logo directions for imagined and real brands.", cols: 4, items: mk([3585047, 4439901, 6177645, 3183197, 3255245, 5081930, 3771089, 2079438], ["Mark", "Palette", "Type lockup", "Hero", "Pattern", "Mockup", "Badge", "System"]) },
+  { id: "product", no: "03 - PRODUCT MOCKUPS", title: "Product & UI", desc: "App screens, packaging and product shots - design that’s ready to build.", cols: 3, items: mk([196644, 326503, 1779487, 3921972, 160107, 1029757], ["App UI", "Dashboard", "Device", "Packaging", "Storefront", "Landing"]) },
   { id: "abstract", no: "04 - ABSTRACT & TEXTURE", title: "Abstract explorations", desc: "Textures, gradients and forms - the raw material behind the work.", cols: 4, items: mk([3109807, 1939485, 2693529, 3568520, 1762973, 2110951, 1568607, 1212487], ["Flow", "Grain", "Bloom", "Fold", "Haze", "Drift", "Glow", "Mesh"]) }
 ];
 
