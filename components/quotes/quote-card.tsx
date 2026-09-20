@@ -36,8 +36,9 @@ export function attribution(quote: Quote & { tier: Tier }) {
  * the stack it is.
  */
 export function QuoteCard({ quote, onOpen }: { quote: Placed; onOpen?: (quote: Placed) => void }) {
+  // Surface, extrude and shadow are the card-anatomy values from the design.
   return (
-    <article className="relative overflow-hidden rounded-[22px] bg-gradient-to-br from-paper to-paper-deep shadow-[0_2px_0_rgba(255,255,255,0.9)_inset,0_10px_0_-2px_#C4C1AE,0_52px_96px_-24px_rgba(0,0,0,0.92),0_16px_38px_-16px_rgba(0,0,0,0.6)]">
+    <article className="relative overflow-hidden rounded-[22px] bg-[linear-gradient(158deg,#FAF8F1,#EBE8DB)] shadow-[0_2px_0_rgba(255,255,255,0.9)_inset,0_8px_0_-2px_#C4C1AE,0_52px_96px_-24px_rgba(0,0,0,0.92),0_16px_38px_-16px_rgba(0,0,0,0.6)]">
       <span aria-hidden className={`absolute inset-y-0 left-0 w-[5px] ${SPINE[quote.tier]}`} />
       <span aria-hidden className="deck-sheen pointer-events-none absolute inset-x-0 top-0 h-[120px]" />
 

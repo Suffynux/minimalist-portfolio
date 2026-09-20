@@ -2,16 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { Plus, X } from "lucide-react";
-import {
-  DECK_STEP_VH,
-  DECK_WINDOW,
-  depthAt,
-  placeQuotes,
-  tierOf,
-  type Placed,
-  type Tier
-} from "@/lib/quotes/layout";
+import { LayoutGrid, Mouse, Plus, X } from "lucide-react";
+import { DECK_WINDOW, depthAt, placeQuotes, tierOf, type Placed, type Tier } from "@/lib/quotes/layout";
 import type { Quote } from "@/lib/quotes/types";
 import { QuoteCard, attribution } from "@/components/quotes/quote-card";
 import { SubmitDialog } from "@/components/quotes/submit-dialog";
@@ -24,6 +16,10 @@ const FILTERS: { key: Tier | "all"; label: string }[] = [
 ];
 
 const clamp = (n: number, min: number, max: number) => (n < min ? min : n > max ? max : n);
+const pad = (n: number) => String(n).padStart(2, "0");
+
+const ROUND =
+  "pointer-events-auto inline-flex items-center justify-center rounded-full border border-bone/15 bg-wall/70 text-bone/80 backdrop-blur transition hover:border-bone/40 hover:text-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-light";
 
 /**
  * The wall: a deck of quote cards laid out along Z, walked by page scroll.
@@ -48,7 +44,14 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
   const [pendingId, setPendingId] = useState<string | null>(null);
 
   const trackRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const counts = useMemo(() => {
+    const c: Record<Tier | "all", number> = { all: quotes.length, own: 0, curated: 0, visitor: 0 };
+    quotes.forEach((q) => (c[tierOf(q)] += 1));
+    return c;
+  }, [quotes]);
 
   const visible = useMemo(() => {
     const kept = filter === "all" ? quotes : quotes.filter((q) => tierOf(q) === filter);
@@ -62,15 +65,22 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
   // height - and so the scroll-to-progress mapping - changes with it.
   useEffect(() => {
     const track = trackRef.current;
-    if (still || !track || count === 0) return;
+    const stage = stageRef.current;
+    if (still || !track || !stage || count === 0) return;
 
     let frame = 0;
     let trackTop = 0;
     let stepPx = 1;
     let lastFocus = -1;
 
+    // The step is measured from the DOM, not derived from innerHeight: the
+    // track is sized in svh by CSS, and on a phone innerHeight moves with the
+    // URL bar while svh does not. Deriving both from the same element is the
+    // only way they agree, and if they disagree the last card settles off the
+    // end of the track.
     const measure = () => {
-      stepPx = Math.max(window.innerHeight * DECK_STEP_VH, 1);
+      const scrollable = track.offsetHeight - stage.offsetHeight;
+      stepPx = Math.max(scrollable / count, 1);
       trackTop = track.getBoundingClientRect().top + window.scrollY;
     };
 
@@ -179,13 +189,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
     setPendingId(quote.id);
   }, []);
 
-  if (count === 0) {
-    return (
-      <div className="relative z-10 mx-auto max-w-[1200px] px-5 py-20 text-center sm:px-8">
-        <p className="font-display text-[26px] italic text-olive">nothing on the wall under that filter</p>
-      </div>
-    );
-  }
+  const progressPct = count > 1 ? (focused / (count - 1)) * 100 : 100;
 
   return (
     <>
@@ -206,13 +210,22 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
           />
         ))}
 
-        <div className="deck-stage sticky top-0 h-[100svh] w-full overflow-hidden bg-[radial-gradient(ellipse_88%_66%_at_46%_40%,#1D2013_0%,#131409_58%,#0A0B05_100%)]">
-          <div aria-hidden className="deck-floor pointer-events-none absolute -left-[200px] -right-[200px] -bottom-[120px] h-[460px]" />
+        <div
+          ref={stageRef}
+          className="deck-stage sticky top-0 h-[100svh] w-full overflow-hidden bg-[radial-gradient(ellipse_88%_66%_at_46%_40%,#1D2013_0%,#131409_58%,#0A0B05_100%)]"
+        >
+          <div aria-hidden className="deck-floor pointer-events-none absolute -bottom-[120px] -left-[200px] -right-[200px] h-[460px]" />
           <div
             aria-hidden
             className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[14px]"
             style={{ background: "radial-gradient(ellipse at center, rgba(157,171,107,0.20) 0%, rgba(157,171,107,0) 68%)" }}
           />
+
+          {count === 0 ? (
+            <p className="absolute inset-0 flex items-center justify-center px-6 text-center font-display text-[26px] italic text-olive-light">
+              nothing on the wall under that filter
+            </p>
+          ) : null}
 
           {visible.map((quote, i) => (
             <div
@@ -227,65 +240,111 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
             </div>
           ))}
 
-          {/* Where you are in the deck. The rail needs room the card does not
-              leave on a phone, so below `sm` the count moves to the bottom bar. */}
-          <div className="deck-rail pointer-events-none absolute right-7 top-1/2 hidden -translate-y-1/2 flex-col items-end gap-4 sm:flex">
+          {/* ---- Chrome: top. Title, and the filters under it. ---- */}
+          <div className="deck-chrome-top absolute inset-x-0 top-0 flex flex-col gap-5 px-4 pt-[84px] sm:gap-7 sm:px-10 sm:pt-[96px]">
+            <div className="flex items-baseline justify-between gap-4">
+              <div>
+                <p className="font-mono text-[10.5px] tracking-[0.18em] text-olive-light sm:text-[11px]">
+                  THE WALL<span className="hidden sm:inline"> · {quotes.length} LINES</span>
+                </p>
+                <h1 className="mt-2.5 hidden font-display text-[clamp(34px,3.2vw,46px)] font-normal leading-none tracking-[-0.02em] text-bone sm:block">
+                  Words worth <span className="italic text-olive-light">keeping</span>.
+                </h1>
+              </div>
+              {/* On a phone the count lives up here; the rail has no room. */}
+              <p className="font-mono text-[13px] tracking-[0.16em] text-bone sm:hidden">
+                {pad(focused + 1)}
+                <span className="text-bone/35"> / {pad(count)}</span>
+              </p>
+            </div>
+
+            <nav
+              aria-label="Filter quotes"
+              className="-mx-4 flex max-w-full overflow-x-auto px-4 [scrollbar-width:none] sm:mx-0 sm:overflow-visible sm:px-0"
+            >
+              <div className="flex shrink-0 gap-1 rounded-full border border-bone/12 bg-wall/70 p-1.5 backdrop-blur">
+                {FILTERS.map((f) => (
+                  <button
+                    key={f.key}
+                    type="button"
+                    onClick={() => applyFilter(f.key)}
+                    aria-pressed={filter === f.key}
+                    className={`min-h-[44px] rounded-full px-4 font-mono text-[10.5px] tracking-[0.14em] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-light sm:px-6 ${
+                      filter === f.key ? "bg-bone text-ink" : "text-bone/60 hover:text-bone"
+                    }`}
+                  >
+                    {f.label.toUpperCase()}
+                    <span className={`ml-2 hidden sm:inline ${filter === f.key ? "text-ink/50" : "text-bone/35"}`}>
+                      {pad(counts[f.key])}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </nav>
+          </div>
+
+          {/* ---- Chrome: right rail (desktop). Where you are in the deck. ---- */}
+          <div className="deck-rail pointer-events-none absolute right-10 top-1/2 hidden -translate-y-1/2 flex-col items-end gap-5 sm:flex">
             <p className="font-mono text-[13px] tracking-[0.16em] text-bone">
-              {String(focused + 1).padStart(2, "0")}
-              <span className="text-bone/35"> / {String(count).padStart(2, "0")}</span>
+              {pad(focused + 1)}
+              <span className="text-bone/35"> / {pad(count)}</span>
             </p>
-            <div className="h-[220px] w-px bg-bone/20">
-              <div
-                className="w-px bg-olive-light transition-[height] duration-300"
-                style={{ height: `${count > 1 ? (focused / (count - 1)) * 100 : 100}%` }}
+            <div className="relative h-[240px] w-px bg-bone/15">
+              <div className="w-px bg-olive-light transition-[height] duration-300" style={{ height: `${progressPct}%` }} />
+              <span
+                className="absolute left-1/2 size-[9px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-olive-light shadow-[0_0_0_4px_rgba(157,171,107,0.18)] transition-[top] duration-300"
+                style={{ top: `${progressPct}%` }}
               />
             </div>
           </div>
 
-          {/* Filters. Cleared of the fixed navbar. */}
-          <nav
-            aria-label="Filter quotes"
-            className="deck-chrome-top absolute inset-x-0 top-0 flex max-w-full justify-start overflow-x-auto px-4 pt-[88px] [scrollbar-width:none] sm:overflow-visible sm:px-7 sm:pt-[100px]"
-          >
-            <div className="flex shrink-0 gap-1.5 rounded-full border border-bone/12 bg-wall/70 p-1 backdrop-blur">
-              {FILTERS.map((f) => (
-                <button
-                  key={f.key}
-                  type="button"
-                  onClick={() => applyFilter(f.key)}
-                  aria-pressed={filter === f.key}
-                  className={`min-h-[44px] rounded-full px-3.5 font-mono text-[10.5px] tracking-[0.1em] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-light sm:px-5 ${
-                    filter === f.key ? "bg-bone text-ink" : "text-bone/60 hover:text-bone"
-                  }`}
-                >
-                  {f.label.toUpperCase()}
-                </button>
-              ))}
-            </div>
-          </nav>
-
-          <div className="deck-chrome-bottom pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 px-4 pb-[calc(96px+env(safe-area-inset-bottom))] sm:px-7 md:pb-9">
-            <p className="font-mono text-[10px] tracking-[0.14em] text-bone/45 sm:text-[11px]">
-              <span className="text-bone sm:hidden">
-                {String(focused + 1).padStart(2, "0")}
-                <span className="text-bone/35"> / {String(count).padStart(2, "0")}</span>
-                <span className="text-bone/30"> · </span>
+          {/* ---- Chrome: bottom. ---- */}
+          <div className="deck-chrome-bottom pointer-events-none absolute inset-x-0 bottom-0 flex flex-col gap-5 px-4 pb-[calc(92px+env(safe-area-inset-bottom))] sm:px-10 md:pb-10">
+            {/* Phone: a horizontal rail with the scroll knob riding it. */}
+            <div className="flex items-center gap-3 sm:hidden">
+              <div className="relative h-px flex-1 bg-bone/15">
+                <div className="h-px bg-olive-light transition-[width] duration-300" style={{ width: `${progressPct}%` }} />
+              </div>
+              <span className="inline-flex size-7 items-center justify-center rounded-full border border-bone/25 text-bone/70">
+                <Mouse className="size-[13px]" />
               </span>
-              SCROLL TO WALK
-              <span className="hidden sm:inline"> THE WALL · TAP A CARD TO HOLD IT</span>
-            </p>
+            </div>
 
-            {accepting ? (
-              <button
-                type="button"
-                onClick={() => setSubmitOpen(true)}
-                className="pointer-events-auto inline-flex h-12 items-center gap-2 rounded-full bg-bone px-5 font-semibold text-ink shadow-[0_18px_40px_-18px_rgba(0,0,0,0.9)] transition hover:-translate-y-0.5 hover:bg-olive-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-light"
-              >
-                <Plus className="size-[16px]" />
-                <span className="hidden sm:inline">Add yours</span>
-                <span className="sr-only sm:hidden">Add your quote</span>
-              </button>
-            ) : null}
+            <div className="flex items-end justify-between gap-4">
+              <div className="min-w-0">
+                <p className="flex items-center gap-2.5 font-mono text-[10px] tracking-[0.16em] text-bone/55 sm:text-[11px]">
+                  <span className="hidden size-7 items-center justify-center rounded-full border border-bone/25 text-bone/70 sm:inline-flex">
+                    <Mouse className="size-[13px]" />
+                  </span>
+                  SCROLL TO WALK<span className="hidden sm:inline"> THE WALL</span>
+                  <span className="text-bone/30">·</span>
+                  <span className="sm:hidden">TAP TO HOLD</span>
+                  <span className="hidden sm:inline">CLICK A LINE TO HOLD IT</span>
+                </p>
+                <a
+                  href="#index"
+                  className="pointer-events-auto mt-3 hidden font-mono text-[10.5px] tracking-[0.16em] text-bone/45 underline decoration-bone/25 underline-offset-[6px] transition hover:text-olive-light hover:decoration-olive-light sm:inline-block"
+                >
+                  OR READ ALL {quotes.length} AS A LIST
+                </a>
+              </div>
+
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                {accepting ? (
+                  <button
+                    type="button"
+                    onClick={() => setSubmitOpen(true)}
+                    className="pointer-events-auto order-1 inline-flex h-[54px] items-center justify-center gap-2 rounded-full bg-bone px-6 font-semibold text-ink shadow-[0_18px_40px_-18px_rgba(0,0,0,0.9)] transition hover:-translate-y-0.5 hover:bg-olive-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-light sm:order-2 sm:h-[60px] sm:px-8"
+                  >
+                    <Plus className="size-[18px]" />
+                    Add yours
+                  </button>
+                ) : null}
+                <a href="#index" aria-label="Read every quote as a list" className={`${ROUND} order-2 size-[54px] sm:order-1 sm:size-[60px]`}>
+                  <LayoutGrid className="size-[18px]" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
