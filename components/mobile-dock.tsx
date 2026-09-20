@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, LayoutGrid, Sparkles, Waypoints, MessageCircle } from "lucide-react";
+import { Home, LayoutGrid, Quote, Sparkles, Waypoints, MessageCircle } from "lucide-react";
 import { site } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -10,6 +10,7 @@ const tabs = [
   { label: "Home", href: "/", icon: Home },
   { label: "Work", href: "/projects", icon: LayoutGrid },
   { label: "Art", href: "/creatives", icon: Sparkles },
+  { label: "Wall", href: "/quotes", icon: Quote },
   { label: "Path", href: "/journey", icon: Waypoints }
 ] as const;
 
@@ -21,7 +22,7 @@ export function MobileDock() {
       aria-label="Mobile navigation"
       className="fixed inset-x-0 bottom-0 z-50 px-4 pb-[calc(12px+env(safe-area-inset-bottom))] md:hidden"
     >
-      <div className="mx-auto grid max-w-[420px] grid-cols-5 items-center gap-1 rounded-[26px] border border-ink/10 bg-surface/85 p-2 shadow-[0_18px_45px_-18px_rgba(35,37,29,0.45)] backdrop-blur-[18px]">
+      <div className="mx-auto grid max-w-[420px] grid-cols-6 items-center gap-1 rounded-[26px] border border-ink/10 bg-surface/85 p-2 shadow-[0_18px_45px_-18px_rgba(35,37,29,0.45)] backdrop-blur-[18px]">
         {tabs.map((tab) => {
           const active = tab.href === "/" ? pathname === "/" : pathname.startsWith(tab.href);
           const Icon = tab.icon;

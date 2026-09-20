@@ -37,7 +37,15 @@ export function QuoteMesh({ quote, paused, onOpen, dimmed }: Props) {
   });
 
   const scale = hovered ? 1.06 : 1;
-  const opacity = dimmed ? quote.opacity * 0.25 : quote.opacity;
+  const opacity = dimmed ? quote.opacity * 0.2 : quote.opacity;
+
+  // Who said it takes precedence; an unattributed quote falls back to who
+  // posted it, so nothing on the wall is left unexplained.
+  const label = quote.author_name
+    ? quote.author_name.toUpperCase()
+    : quote.posted_by
+      ? `VIA ${quote.posted_by.toUpperCase()}`
+      : null;
 
   return (
     <group ref={group} position={[quote.worldX, quote.worldY, quote.worldZ]}>
@@ -71,18 +79,18 @@ export function QuoteMesh({ quote, paused, onOpen, dimmed }: Props) {
           {quote.body}
         </Text>
 
-        {quote.author_name ? (
+        {label ? (
           <Text
             font={FONT}
-            fontSize={quote.fontSize * 0.36}
+            fontSize={quote.fontSize * 0.34}
             position={[0, -quote.attributionOffset, 0]}
             anchorX="center"
             anchorY="middle"
-            color="#6E7A45"
-            fillOpacity={opacity * 0.9}
-            letterSpacing={0.1}
+            color="#8D9A5E"
+            fillOpacity={opacity * 0.85}
+            letterSpacing={0.12}
           >
-            {quote.author_name.toUpperCase()}
+            {label}
           </Text>
         ) : null}
       </Billboard>

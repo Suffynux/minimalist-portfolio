@@ -126,33 +126,48 @@ export function SubmitDialog({ open, onClose }: { open: boolean; onClose: () => 
                 </div>
               </div>
 
-              {/* Anonymous is the default, so signing your name is the
-                  deliberate act rather than the other way round. */}
-              <div className="flex flex-wrap items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => setAnonymous((a) => !a)}
-                  aria-pressed={anonymous}
-                  className={`inline-flex min-h-[42px] items-center gap-2 rounded-full border px-4 font-mono text-[11px] tracking-[0.08em] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-light ${
-                    anonymous
-                      ? "border-olive-light bg-olive-light/15 text-olive-light"
-                      : "border-bone/20 text-bone/60 hover:border-bone/40"
-                  }`}
-                >
-                  <span aria-hidden>{anonymous ? "✓" : ""}</span>
-                  POST ANONYMOUSLY
-                </button>
-
-                {!anonymous ? (
+              {/* Two separate questions: who said it, and who is posting.
+                  Conflating them would make a visitor posting Rumi look like
+                  they are claiming to be Rumi. */}
+              <div className="flex flex-col gap-3">
+                <label className="flex flex-col gap-2">
+                  <span className="font-mono text-[10.5px] tracking-[0.12em] text-bone/45">
+                    WHO SAID IT <span className="normal-case tracking-normal">— leave blank if these are your own words</span>
+                  </span>
                   <input
                     name="author_name"
                     maxLength={MAX_AUTHOR}
-                    autoComplete="name"
-                    placeholder="Your name"
-                    aria-label="Your name"
-                    className="h-[42px] min-w-[180px] flex-1 rounded-full border border-bone/15 bg-bone/[0.04] px-4 text-[14px] text-bone outline-none transition placeholder:text-bone/35 focus:border-olive-light"
+                    placeholder="Rumi, Seneca, your grandmother..."
+                    className="h-[46px] rounded-[14px] border border-bone/15 bg-bone/[0.04] px-4 text-[14.5px] text-bone outline-none transition placeholder:text-bone/30 focus:border-olive-light focus:ring-2 focus:ring-olive-light/20"
                   />
-                ) : null}
+                </label>
+
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setAnonymous((a) => !a)}
+                    aria-pressed={anonymous}
+                    className={`inline-flex min-h-[44px] items-center gap-2 rounded-full border px-4 font-mono text-[10.5px] tracking-[0.08em] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-light ${
+                      anonymous
+                        ? "border-olive-light bg-olive-light/15 text-olive-light"
+                        : "border-bone/20 text-bone/55 hover:border-bone/40"
+                    }`}
+                  >
+                    <span aria-hidden className="text-[12px]">{anonymous ? "●" : "○"}</span>
+                    POST ANONYMOUSLY
+                  </button>
+
+                  {!anonymous ? (
+                    <input
+                      name="posted_by"
+                      maxLength={MAX_AUTHOR}
+                      autoComplete="name"
+                      placeholder="Posted by — your name"
+                      aria-label="Your name"
+                      className="h-[44px] min-w-[190px] flex-1 rounded-full border border-bone/15 bg-bone/[0.04] px-4 text-[14px] text-bone outline-none transition placeholder:text-bone/30 focus:border-olive-light"
+                    />
+                  ) : null}
+                </div>
               </div>
 
               {/* Honeypot: off-screen rather than display:none, which bots detect. */}

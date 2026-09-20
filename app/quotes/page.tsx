@@ -27,7 +27,7 @@ export default async function QuotesPage() {
     <PageShell>
       <Navbar />
 
-      <header className="relative z-10 mx-auto max-w-[1200px] px-5 pb-16 pt-[138px] sm:px-8">
+      <header className="relative z-10 mx-auto max-w-[1200px] px-5 pb-14 pt-[130px] sm:px-8">
         <Reveal as="p" className="mb-[22px] font-mono text-xs tracking-[0.14em] text-olive">
           THE WALL - QUOTES & INSPIRATION
         </Reveal>
@@ -45,9 +45,7 @@ export default async function QuotesPage() {
       </header>
 
       {quotes.length > 0 ? (
-        <div className="relative z-10 mx-auto max-w-[1360px] px-5 sm:px-8">
-          <Wall quotes={quotes} accepting={settings.accepting} />
-        </div>
+        <Wall quotes={quotes} accepting={settings.accepting} />
       ) : (
         <div className="relative z-10 mx-auto max-w-[1200px] px-5 py-20 text-center sm:px-8">
           <p className="font-display text-[26px] italic text-olive">the wall is empty - for now</p>
@@ -69,11 +67,10 @@ export default async function QuotesPage() {
               <blockquote className="border-l-2 border-olive/30 pl-6">
                 <p className="font-display text-[clamp(20px,2.6vw,28px)] leading-[1.35] text-ink">{quote.body}</p>
                 <cite className="mt-2.5 block font-mono text-[11px] not-italic tracking-[0.1em] text-meta">
-                  {quote.author_name
-                    ? `— ${quote.author_name.toUpperCase()}`
-                    : quote.source === "owner"
-                      ? "— SUFIYAN"
-                      : "— ANONYMOUS"}
+                  {quote.author_name ? `— ${quote.author_name.toUpperCase()}` : "— UNATTRIBUTED"}
+                  {quote.posted_by ? (
+                    <span className="ml-2 text-[10px] text-muted/70">POSTED BY {quote.posted_by.toUpperCase()}</span>
+                  ) : null}
                 </cite>
               </blockquote>
             </li>

@@ -6,7 +6,10 @@ export type QuoteSource = "owner" | "visitor";
 export type Quote = {
   id: string;
   body: string;
+  /** Who said or wrote it. Null means the poster's own words. */
   author_name: string | null;
+  /** Who put it on the wall. Null means anonymous. */
+  posted_by: string | null;
   source: QuoteSource;
   featured: boolean;
   seed: number;
@@ -45,10 +48,16 @@ export const submissionSchema = z.object({
     .max(MAX_AUTHOR, `Names need to be under ${MAX_AUTHOR} characters.`)
     .optional()
     .or(z.literal("")),
+  posted_by: z
+    .string()
+    .trim()
+    .max(MAX_AUTHOR, `Names need to be under ${MAX_AUTHOR} characters.`)
+    .optional()
+    .or(z.literal("")),
   // Honeypot: a real person never sees or fills this.
   website: z.string().max(0, "Rejected.").optional()
 });
 
 export type SubmissionInput = z.infer<typeof submissionSchema>;
 
-export const PUBLIC_COLUMNS = "id,body,author_name,source,featured,seed,created_at";
+export const PUBLIC_COLUMNS = "id,body,author_name,posted_by,source,featured,seed,created_at";

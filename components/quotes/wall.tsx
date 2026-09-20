@@ -63,12 +63,12 @@ export function Wall({ quotes, accepting }: { quotes: Quote[]; accepting: boolea
 
   return (
     <>
-      <div className="relative h-[86vh] w-full overflow-hidden rounded-[26px] border border-ink/10 bg-[#14150E]">
+      <div className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-[#13140D] touch-pan-y">
         <QuoteScene quotes={quotes} filter={filter} paused={still} onOpen={setFocused} />
 
         {/* Controls sit in DOM above the canvas: real buttons, real focus,
             real keyboard support. */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 flex flex-wrap items-start justify-between gap-3 p-5 sm:p-7">
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex flex-wrap items-start justify-between gap-3 px-4 pb-5 pt-[92px] sm:px-7 sm:pt-[104px]">
           <div className="pointer-events-auto flex flex-wrap gap-2">
             {FILTERS.map((f) => (
               <button
@@ -98,7 +98,7 @@ export function Wall({ quotes, accepting }: { quotes: Quote[]; accepting: boolea
           </button>
         </div>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-4 p-5 sm:p-7">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-4 px-4 pb-[calc(20px+env(safe-area-inset-bottom))] sm:px-7 sm:pb-7">
           <p className="font-mono text-[10.5px] leading-[1.7] tracking-[0.08em] text-bone/45">
             DRAG TO TURN · CLICK A LINE TO READ IT
           </p>
@@ -135,12 +135,13 @@ function FocusedQuote({ quote, onClose }: { quote: Placed; onClose: () => void }
         <p className="font-display text-[clamp(30px,5.4vw,64px)] font-normal leading-[1.14] tracking-[-0.02em] text-bone">
           {quote.body}
         </p>
-        <figcaption className="mt-8 font-mono text-[12px] tracking-[0.16em] text-olive-light">
-          {quote.author_name
-            ? `— ${quote.author_name.toUpperCase()}`
-            : quote.tier === "own"
-              ? "— SUFIYAN"
-              : "— ANONYMOUS"}
+        <figcaption className="mt-8 flex flex-col gap-1.5 font-mono text-[12px] tracking-[0.16em] text-olive-light">
+          <span>{quote.author_name ? `— ${quote.author_name.toUpperCase()}` : "— UNATTRIBUTED"}</span>
+          {quote.posted_by ? (
+            <span className="text-[10.5px] tracking-[0.12em] text-bone/40">POSTED BY {quote.posted_by.toUpperCase()}</span>
+          ) : (
+            <span className="text-[10.5px] tracking-[0.12em] text-bone/40">POSTED ANONYMOUSLY</span>
+          )}
         </figcaption>
       </figure>
 

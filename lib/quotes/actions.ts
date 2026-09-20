@@ -14,7 +14,7 @@ export type SubmitState = {
   message?: string;
   /** Set when the quote was held back for review rather than published. */
   held?: boolean;
-  fieldErrors?: Partial<Record<"body" | "author_name", string>>;
+  fieldErrors?: Partial<Record<"body" | "author_name" | "posted_by", string>>;
 };
 
 /**
@@ -37,6 +37,7 @@ export async function submitQuote(_prev: SubmitState, formData: FormData): Promi
   const parsed = submissionSchema.safeParse({
     body: formData.get("body"),
     author_name: formData.get("author_name") ?? "",
+    posted_by: formData.get("posted_by") ?? "",
     website: formData.get("website") ?? ""
   });
 
@@ -50,12 +51,13 @@ export async function submitQuote(_prev: SubmitState, formData: FormData): Promi
       message: "Have another look at that.",
       fieldErrors: {
         body: flat.body?.[0],
-        author_name: flat.author_name?.[0]
+        author_name: flat.author_name?.[0],
+        posted_by: flat.posted_by?.[0]
       }
     };
   }
 
-  const { body, author_name } = parsed.data;
+  const { body, author_name, posted_by } = parsed.data;
   const supabase = await createClient();
 
   const { data: settings } = await supabase
@@ -85,7 +87,7 @@ export async function submitQuote(_prev: SubmitState, formData: FormData): Promi
     };
   }
 
-  const verdict = screen(body, author_name);
+  const verdict = screen(body, [author_name, posted_by].filter(Boolean).join(" "));
   // Flagged quotes, and everything when instant publishing is off, are stored
   // hidden. Nothing is ever silently discarded.
   const hold = verdict.flagged || settings?.instant_publish === false;
@@ -96,6 +98,7 @@ export async function submitQuote(_prev: SubmitState, formData: FormData): Promi
   const { error } = await supabase.rpc("submit_quote", {
     p_body: body,
     p_author_name: author_name && author_name.length > 0 ? author_name : null,
+    p_posted_by: posted_by && posted_by.length > 0 ? posted_by : null,
     p_flagged: verdict.flagged,
     p_flag_reason: verdict.reason,
     p_hold: hold
