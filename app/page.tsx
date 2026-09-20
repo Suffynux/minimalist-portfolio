@@ -59,7 +59,7 @@ export default function Home() {
         <div className="text-center md:hidden">
           <Reveal className="mb-16 flex justify-center font-mono text-[clamp(14px,3.1vw,18px)] font-medium tracking-[0.09em] text-muted">
             <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface px-5 py-2.5 shadow-[0_18px_45px_-36px_rgba(35,37,29,0.55)]">
-              <span className="size-[10px] rounded-full bg-[#3F9E68] shadow-[0_0_0_5px_rgba(63,158,104,0.16)]" />
+              <span className="size-[10px] rounded-full bg-live shadow-[0_0_0_5px_rgba(79,125,66,0.18)]" />
               Available for new projects
             </span>
           </Reveal>
@@ -103,14 +103,14 @@ export default function Home() {
         </div>
 
         <div className="hidden text-center md:block">
-          <Reveal className="mb-[72px] flex justify-center font-mono text-sm tracking-[0.09em] text-muted">
+          <Reveal className="mb-[clamp(28px,5vh,72px)] flex justify-center font-mono text-sm tracking-[0.09em] text-muted">
             <span className="inline-flex items-center gap-3">
-              <span className="size-[9px] rounded-full bg-[#3F9E68] shadow-[0_0_0_5px_rgba(63,158,104,0.16)]" />
+              <span className="size-[9px] rounded-full bg-live shadow-[0_0_0_5px_rgba(79,125,66,0.18)]" />
               Available for new projects
             </span>
           </Reveal>
 
-          <Reveal className="relative mx-auto mb-[74px] flex w-[560px] max-w-full justify-center">
+          <Reveal className="relative mx-auto mb-[clamp(32px,5.5vh,74px)] flex w-[560px] max-w-full justify-center">
             <span className="absolute left-0 top-6 rounded-full border border-ink/10 bg-surface px-5 py-3 font-mono text-sm tracking-[0.06em] text-muted shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
               ★ 5.0 rating
             </span>
@@ -126,17 +126,17 @@ export default function Home() {
             <AvatarViewer variant="heroLarge" />
           </Reveal>
 
-          <Reveal as="h1" className="mx-auto max-w-[1000px] font-display text-[clamp(72px,7.6vw,112px)] font-normal leading-[0.92] tracking-[-0.02em]">
+          <Reveal as="h1" className="mx-auto max-w-[1000px] font-display text-[clamp(52px,8.4vw,120px)] font-normal leading-[0.92] tracking-[-0.02em]">
             Shopify &amp; full-stack developer.
             <br />
             I build what people <span className="italic text-olive">use</span>.
           </Reveal>
 
-          <Reveal as="p" className="mx-auto mt-8 max-w-[650px] text-[22px] leading-[1.45] text-muted">
+          <Reveal as="p" className="mx-auto mt-[clamp(18px,2.6vh,32px)] max-w-[650px] text-[clamp(18px,1.4vw,22px)] leading-[1.45] text-muted">
             A full-stack &amp; Shopify developer who takes the entire technical side off your plate - custom stores, MERN web apps and automations - so you can focus on growing the business.
           </Reveal>
 
-          <Reveal className="mt-12 flex justify-center gap-4">
+          <Reveal className="mt-[clamp(24px,3.4vh,48px)] flex justify-center gap-4">
             <Button asChild size="lg" className="w-[250px]">
               <Link href="#work">
                 View selected work <span className="font-mono">↘</span>

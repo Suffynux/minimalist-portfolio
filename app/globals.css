@@ -55,3 +55,21 @@ a {
     column-count: 1 !important;
   }
 }
+
+/* Respect the OS "reduce motion" setting: stop the marquee, drop transitions
+   and smooth scrolling, and let every element settle in its final state. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-marquee {
+    animation: none !important;
+    transform: none !important;
+  }
+}

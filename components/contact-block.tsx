@@ -15,7 +15,7 @@ export function ContactBlock() {
           <br />
           Let&apos;s <span className="italic text-olive">build</span> it.
         </h2>
-        <p className="relative mt-7 max-w-[480px] text-[17px] leading-[1.6] text-[#D6D6CB]">
+        <p className="relative mt-7 max-w-[480px] text-[17px] leading-[1.6] text-shade-deep">
           Tell me what you&apos;re working on. I reply within a day - Shopify build, web app, or just figuring out what you need.
         </p>
         <div className="relative mt-10 flex flex-wrap gap-3.5">
@@ -52,7 +52,7 @@ export function CompactCta({
       <div className={centered ? "py-5 pb-12 text-center" : "flex flex-wrap items-center justify-between gap-8 rounded-[26px] bg-ink p-10 text-bone md:p-[72px]"}>
         <div>
           <h2 className="font-display text-[clamp(34px,5vw,60px)] font-normal leading-none">{title}</h2>
-          {description ? <p className="mt-3.5 max-w-[420px] text-base text-[#D6D6CB]">{description}</p> : null}
+          {description ? <p className="mt-3.5 max-w-[420px] text-base text-shade-deep">{description}</p> : null}
         </div>
         <div className={`flex flex-wrap gap-3 ${centered ? "mt-8 justify-center" : ""}`}>
           <Button asChild variant="whatsapp" size="md">

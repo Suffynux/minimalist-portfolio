@@ -3,6 +3,7 @@ import Image from "next/image";
 import { CompactCta } from "@/components/contact-block";
 import { Navbar } from "@/components/navbar";
 import { Reveal } from "@/components/reveal";
+import { CreativeGallery } from "@/components/creative-gallery";
 import { PageShell } from "@/components/shell";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { creativeHeroes, creativeSections, creativeTags, creativeTools, site } from "@/lib/data";
@@ -27,7 +28,7 @@ export default function CreativesPage() {
         <Reveal as="p" className="mb-[22px] font-mono text-xs tracking-[0.14em] text-olive">
           CREATIVES - AI ART, DESIGN & VISUAL EXPLORATIONS
         </Reveal>
-        <Reveal as="h1" className="font-display text-[clamp(54px,10vw,140px)] font-normal leading-[0.9] tracking-[-0.02em]">
+        <Reveal as="h1" className="font-display text-[clamp(54px,9vw,128px)] font-normal leading-[0.9] tracking-[-0.02em]">
           Where code
           <br />
           meets <span className="italic text-olive">craft</span>.
@@ -49,7 +50,7 @@ export default function CreativesPage() {
       <section className="relative z-10 mx-auto max-w-[1280px] px-5 py-[30px] sm:px-8">
         <div className="grid grid-cols-1 gap-[18px] lg:grid-cols-[1.4fr_1fr]">
           {creativeHeroes.map((hero) => (
-            <Reveal key={hero.title} className="relative min-h-[440px] overflow-hidden rounded-[22px] bg-[#E7E6DD]">
+            <Reveal key={hero.title} className="relative min-h-[440px] overflow-hidden rounded-[22px] bg-shade">
               <Image src={hero.img} alt={hero.title} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
               <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(20,21,14,0.78),transparent_55%)]" />
               <div className="absolute bottom-7 left-[30px] text-bone">
@@ -70,16 +71,7 @@ export default function CreativesPage() {
             </div>
             <p className="max-w-[360px] text-[15px] leading-[1.6] text-muted">{section.desc}</p>
           </Reveal>
-          <div className="masonry" style={{ columnCount: section.cols }}>
-            {section.items.map((item) => (
-              <Reveal key={`${section.id}-${item.cap}`} className="group relative cursor-pointer overflow-hidden rounded-2xl bg-[#E7E6DD]">
-                <Image src={item.img} alt={item.cap} width={700} height={920} sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="block h-auto min-h-[120px] w-full object-cover" />
-                <div className="absolute inset-0 flex items-end bg-[linear-gradient(to_top,rgba(20,21,14,0.7),transparent_50%)] p-4 opacity-0 transition group-hover:opacity-100">
-                  <span className="font-mono text-[11px] text-bone">{item.cap}</span>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <CreativeGallery items={section.items} cols={section.cols} sectionId={section.id} sectionTitle={section.title} />
         </section>
       ))}
 
@@ -88,14 +80,14 @@ export default function CreativesPage() {
           <div className="max-w-[620px] md:col-span-2 lg:col-span-4">
             <p className="mb-[18px] font-mono text-xs tracking-[0.12em] text-olive">THE TOOLKIT</p>
             <h2 className="font-display text-[clamp(30px,4vw,46px)] font-normal leading-[1.05]">A creative who can also ship it.</h2>
-            <p className="mt-4 text-base leading-[1.65] text-[#D6D6CB]">
+            <p className="mt-4 text-base leading-[1.65] text-shade-deep">
               The advantage of hiring me: the same person who designs the visual can build the site it lives on. From AI concept to coded reality, nothing gets lost in translation.
             </p>
           </div>
           {creativeTools.map((tool) => (
             <div key={tool.name} className="border-t border-bone/15 pt-[18px]">
               <div className="mb-1.5 font-display text-[22px] italic text-olive">{tool.name}</div>
-              <p className="text-[13px] leading-[1.5] text-[#A8A89C]">{tool.use}</p>
+              <p className="text-[13px] leading-[1.5] text-bone/70">{tool.use}</p>
             </div>
           ))}
         </Reveal>

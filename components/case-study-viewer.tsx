@@ -37,11 +37,11 @@ export function CaseStudyViewer({ project }: { project: DetailedProject }) {
 
             <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[310px_1fr]">
               <aside className="border-b border-ink/10 bg-surface p-5 lg:border-b-0 lg:border-r lg:p-6">
-                <div className="relative mb-5 aspect-[4/3] overflow-hidden rounded-[16px] bg-[#E7E6DD]">
+                <div className="relative mb-5 aspect-[4/3] overflow-hidden rounded-[16px] bg-shade">
                   <Image src={project.img} alt={project.name} fill sizes="310px" className="object-cover" />
                 </div>
-                <p className="mb-2 font-mono text-[11px] text-[#9A9A8C]">{project.meta}</p>
-                <p className="text-[14px] leading-[1.62] text-[#4F5246]">{project.desc}</p>
+                <p className="mb-2 font-mono text-[11px] text-meta">{project.meta}</p>
+                <p className="text-[14px] leading-[1.62] text-body">{project.desc}</p>
                 <TagList tags={project.stack} className="mt-5" />
               </aside>
 
@@ -52,7 +52,7 @@ export function CaseStudyViewer({ project }: { project: DetailedProject }) {
                   <div className="mx-auto flex min-h-[520px] max-w-[680px] flex-col rounded-[16px] border border-ink/10 bg-surface p-8 shadow-[0_30px_70px_-55px_rgba(35,37,29,0.55)] sm:p-10">
                     <p className="mb-8 font-mono text-xs tracking-[0.14em] text-olive">{project.no} / {project.kind}</p>
                     <h3 className="font-display text-[clamp(38px,6vw,62px)] font-normal leading-none tracking-[-0.01em]">{project.name}</h3>
-                    <p className="mt-3 font-mono text-[12px] text-[#9A9A8C]">{project.meta}</p>
+                    <p className="mt-3 font-mono text-[12px] text-meta">{project.meta}</p>
                     <div className="my-8 h-px bg-ink/10" />
                     <p className="text-[17px] leading-[1.75] text-body">{project.desc}</p>
                     <div className="mt-auto pt-10">

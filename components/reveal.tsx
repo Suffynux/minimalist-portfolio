@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type MotionProps } from "framer-motion";
+import { motion, useReducedMotion, type MotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type RevealProps = MotionProps & {
@@ -11,6 +11,17 @@ type RevealProps = MotionProps & {
 
 export function Reveal({ as = "div", className, children, ...props }: RevealProps) {
   const Component = motion[as] as typeof motion.div;
+  const reduceMotion = useReducedMotion();
+
+  // With reduced motion requested, render content in its final state so nothing
+  // is hidden behind an animation that never plays.
+  if (reduceMotion) {
+    return (
+      <Component className={cn(className)} {...props}>
+        {children}
+      </Component>
+    );
+  }
 
   return (
     <Component

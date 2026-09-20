@@ -11,10 +11,10 @@ const buttonVariants = cva(
         ink: "bg-ink text-bone hover:bg-olive",
         olive: "bg-olive text-surface hover:-translate-y-0.5",
         outline: "border border-ink/20 bg-transparent text-ink hover:border-olive hover:text-olive",
-        whatsapp: "bg-[#25D366] text-[#0B2E17] hover:-translate-y-0.5"
+        whatsapp: "bg-whatsapp text-whatsapp-ink hover:-translate-y-0.5"
       },
       size: {
-        sm: "h-10 px-5 text-[13.5px]",
+        sm: "h-11 px-5 text-[13.5px]",
         md: "h-[54px] px-[26px] text-[14.5px]",
         lg: "h-14 px-[30px] text-[15px]"
       }

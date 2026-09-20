@@ -42,7 +42,7 @@ export default function JourneyPage() {
             <Reveal key={principle.title} className="rounded-[18px] border border-ink/[0.09] bg-surface px-7 py-[30px]">
               <div className="mb-3 font-display text-2xl italic text-olive">{principle.tag}</div>
               <h3 className="mb-2 font-display text-[23px] font-normal">{principle.title}</h3>
-              <p className="text-sm leading-[1.6] text-[#4F5246]">{principle.desc}</p>
+              <p className="text-sm leading-[1.6] text-body">{principle.desc}</p>
             </Reveal>
           ))}
         </div>
@@ -58,7 +58,7 @@ export default function JourneyPage() {
                 <span className="absolute -left-[34px] top-1 size-4 rounded-full border-[3px] border-olive bg-bone" />
                 <div className="mb-2 font-mono text-xs tracking-[0.06em] text-olive">{milestone.year} · {milestone.label}</div>
                 <h3 className="mb-2.5 font-display text-[clamp(26px,3.4vw,38px)] font-normal leading-[1.05] tracking-[-0.01em]">{milestone.title}</h3>
-                <p className="max-w-[600px] text-[15.5px] leading-[1.66] text-[#4F5246]">{milestone.desc}</p>
+                <p className="max-w-[600px] text-[15.5px] leading-[1.66] text-body">{milestone.desc}</p>
                 {milestone.stack ? <TagList tags={milestone.stack} className="mt-3.5" /> : null}
               </Reveal>
             ))}
@@ -71,7 +71,7 @@ export default function JourneyPage() {
           {journeyStats.map((stat) => (
             <div key={stat.label}>
               <div className="font-display text-[clamp(40px,5vw,58px)] leading-none text-olive">{stat.num}</div>
-              <div className="mt-3 text-[13.5px] leading-[1.45] text-[#D6D6CB]">{stat.label}</div>
+              <div className="mt-3 text-[13.5px] leading-[1.45] text-shade-deep">{stat.label}</div>
             </div>
           ))}
         </Reveal>

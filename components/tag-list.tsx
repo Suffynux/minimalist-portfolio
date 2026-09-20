@@ -16,7 +16,7 @@ export function TagList({
           key={tag}
           className={cn(
             "rounded-full border px-[11px] py-[5px] font-mono text-[11px]",
-            dark ? "border-bone/20 text-[#D6D6CB]" : "border-ink/[0.14] text-body"
+            dark ? "border-bone/20 text-shade-deep" : "border-ink/[0.14] text-body"
           )}
         >
           {tag}

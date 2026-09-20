@@ -19,6 +19,7 @@ export type Project = {
 };
 
 export type DetailedProject = {
+  category: string;
   no: string;
   kind: string;
   name: string;
@@ -195,6 +196,7 @@ export const projectDetails: DetailedProject[] = [
   {
     no: "01",
     kind: "FULL-STACK PLATFORM",
+    category: "MERN",
     name: "CEGA",
     status: "FEATURED",
     meta: "National Gaming & Animation Hub · 10k+ users",
@@ -208,6 +210,7 @@ export const projectDetails: DetailedProject[] = [
   {
     no: "02",
     kind: "SHOPIFY STORE",
+    category: "Shopify",
     name: "Gomila Intersole",
     status: "LIVE",
     meta: "gomilaintersole.pk · Footwear brand",
@@ -220,6 +223,7 @@ export const projectDetails: DetailedProject[] = [
   {
     no: "03",
     kind: "LEARNING PLATFORM",
+    category: "MERN",
     name: "Deeniverse",
     status: "LIVE",
     meta: "deeniverse.com · EdTech",
@@ -233,6 +237,7 @@ export const projectDetails: DetailedProject[] = [
   {
     no: "04",
     kind: "CORPORATE SITE",
+    category: "Corporate",
     name: "NextGrid IT",
     status: "UK",
     meta: "nextgridit.co.uk · United Kingdom",
@@ -245,6 +250,7 @@ export const projectDetails: DetailedProject[] = [
   {
     no: "05",
     kind: "AI SAAS APP",
+    category: "SaaS / AI",
     name: "AI Chat Agent",
     status: "SAAS",
     meta: "Full-stack AI application",

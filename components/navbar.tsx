@@ -40,7 +40,7 @@ export function Navbar() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "rounded-full px-4 py-[7px] text-[13.5px] font-medium transition",
+                    "inline-flex min-h-[44px] items-center rounded-full px-4 text-[13.5px] font-medium transition",
                     active ? "bg-ink text-bone" : "text-body hover:text-ink"
                   )}
                 >
