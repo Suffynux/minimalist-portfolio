@@ -75,6 +75,34 @@ export async function verifyCode(_prev: AuthState, formData: FormData): Promise<
   redirect("/admin");
 }
 
+/**
+ * Password sign-in.
+ *
+ * Exists because this project's email delivery is unreliable, so admin access
+ * shouldn't depend on an email arriving. The failure message is deliberately
+ * vague about whether the address or the password was wrong.
+ */
+export async function signInWithPassword(_prev: AuthState, formData: FormData): Promise<AuthState> {
+  const email = emailSchema.safeParse(formData.get("email"));
+  const password = z.string().min(1).safeParse(formData.get("password"));
+
+  if (!email.success || !password.success) {
+    return { status: "error", message: "Enter your email and password." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({
+    email: email.data,
+    password: password.data
+  });
+
+  if (error) {
+    return { status: "error", email: email.data, message: "That didn't work. Check the details and try again." };
+  }
+
+  redirect("/admin");
+}
+
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
