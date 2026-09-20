@@ -6,6 +6,7 @@ import { PageShell } from "@/components/shell";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Wall } from "@/components/quotes/wall";
 import { getQuotes, getWallSettings } from "@/lib/quotes/queries";
+import { IndexGrid } from "@/components/quotes/index-grid";
 
 export const metadata: Metadata = {
   title: "The Wall - Quotes & Inspiration",
@@ -38,7 +39,7 @@ export default async function QuotesPage() {
         <Reveal className="mt-10 max-w-[560px]">
           <p className="text-lg leading-[1.6] text-body">
             Lines I&apos;ve written, lines I keep coming back to, and words left here by people passing
-            through. One at a time, at walking pace. Swipe to move on, or tap a line to hold it.
+            through. One card at a time, at walking pace. Scroll to move through them, or tap a card to hold it.
           </p>
         </Reveal>
       </header>
@@ -52,29 +53,19 @@ export default async function QuotesPage() {
       )}
 
       {/*
-        The same quotes as plain text. This is what screen readers, search
-        engines and anyone without 3D transforms actually get - the wall above
-        is the decorative view of this list, not a replacement for it.
+        The index. The same quotes as plain, server-rendered text - what
+        search engines and anyone without JavaScript get - and the fast way
+        to jump: each entry links to its card's anchor in the deck above.
       */}
-      <section className="relative z-10 mx-auto max-w-[900px] px-5 pb-10 pt-24 sm:px-8">
-        <Reveal as="h2" className="mb-10 font-display text-[clamp(32px,4.6vw,52px)] font-normal leading-none tracking-[-0.01em]">
+      <section className="relative z-10 mx-auto max-w-[1200px] px-5 pb-10 pt-24 sm:px-8">
+        <Reveal as="h2" className="mb-3 font-display text-[clamp(32px,4.6vw,52px)] font-normal leading-none tracking-[-0.01em]">
           Every line, in order.
         </Reveal>
-        <ol className="flex flex-col gap-9">
-          {quotes.map((quote) => (
-            <li key={quote.id}>
-              <blockquote className="border-l-2 border-olive/30 pl-6">
-                <p className="font-display text-[clamp(20px,2.6vw,28px)] leading-[1.35] text-ink">{quote.body}</p>
-                <cite className="mt-2.5 block font-mono text-[11px] not-italic tracking-[0.1em] text-meta">
-                  {quote.author_name ? `— ${quote.author_name.toUpperCase()}` : "— UNATTRIBUTED"}
-                  {quote.posted_by ? (
-                    <span className="ml-2 text-[10px] text-muted/70">POSTED BY {quote.posted_by.toUpperCase()}</span>
-                  ) : null}
-                </cite>
-              </blockquote>
-            </li>
-          ))}
-        </ol>
+        <Reveal as="p" className="mb-12 font-mono text-[11px] tracking-[0.14em] text-meta">
+          {quotes.length} LINES · PICK ONE TO JUMP TO IT ON THE WALL
+        </Reveal>
+
+        <IndexGrid quotes={quotes} />
       </section>
 
       <section className="relative z-10 mx-auto max-w-[1200px] px-5 pb-[110px] sm:px-8">

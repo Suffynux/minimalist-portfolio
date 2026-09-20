@@ -30,6 +30,15 @@ const config: Config = {
         // the button has to read as WhatsApp, so these must not be re-tinted.
         whatsapp: "#25D366",
         "whatsapp-ink": "#0B2E17",
+        // The quote wall: a dark stage with lit paper cards on it.
+        wall: "#0C0D07",
+        "wall-lift": "#1D2013",
+        paper: "#FAF8F1",
+        "paper-deep": "#EBE8DB",
+        "paper-edge": "#C4C1AE",
+        // Visitor-tier accent. Only ever used on the dark stage or as a spine,
+        // never as small text on bone.
+        sand: "#C8A46B",
         line: "rgba(35,37,29,0.09)"
       },
       fontFamily: {
