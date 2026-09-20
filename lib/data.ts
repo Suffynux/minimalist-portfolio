@@ -203,8 +203,8 @@ export const projectDetails: DetailedProject[] = [
     meta: "National Gaming & Animation Hub · 10k+ users",
     desc: "The digital gateway for a national institute - student portals, admin dashboards and a content management system powering thousands of learners across Pakistan.",
     stack: ["Next.js", "React", "Node.js", "CMS"],
-    live: "https://github.com/suffynux/Cega-Readme",
-    pdf: "#",
+    live: "https://cega.com.pk",
+    pdf: "/case-studies/cega/CEGA-Case-Study.pdf",
     img: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
     reverse: true
   },
