@@ -12,6 +12,7 @@ const pageLinks = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
   { label: "Creatives", href: "/creatives" },
+  { label: "Wall", href: "/quotes" },
   { label: "Journey", href: "/journey" }
 ] as const;
 

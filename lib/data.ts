@@ -93,6 +93,7 @@ export const navItems = [
   { label: "Services", href: "/#services" },
   { label: "Projects", href: "/projects" },
   { label: "Creatives", href: "/creatives" },
+  { label: "The Wall", href: "/quotes" },
   { label: "Journey", href: "/journey" },
   { label: "About", href: "/#about" }
 ] as const;
