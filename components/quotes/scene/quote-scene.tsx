@@ -71,8 +71,12 @@ function Walk({
 }) {
   const { camera, gl, size } = useThree();
   const s = useRef({
+    /** Units of progress per second, after a fling. */
     velocity: 0,
+    armed: false,
     dragging: false,
+    startX: 0,
+    startY: 0,
     lastX: 0,
     lastMove: 0,
     target: null as number | null,
@@ -92,38 +96,59 @@ function Walk({
     s.current.dwell = 0;
   }, [step, count, progress]);
 
-  // Pointer handling lives on the canvas element so a drag that starts in
-  // empty space still turns the walk.
+  // Native listeners on the canvas so a drag that starts in empty space still
+  // moves the walk. Intent is decided after a few pixels: a mostly-vertical
+  // gesture is handed back to the page to scroll, and only a horizontal one
+  // captures the pointer. Capturing on pointerdown would kill page scroll
+  // exactly the way touch-action:none does.
   useEffect(() => {
     const el = gl.domElement;
     const st = s.current;
-    // On a phone, the whole width is about 1.5 steps; on a monitor, less.
     const perPixel = 1 / Math.max(size.width * 0.65, 240);
+    const SLOP = 8;
 
     const down = (e: PointerEvent) => {
-      st.dragging = true;
+      st.armed = true;
+      st.dragging = false;
+      st.startX = e.clientX;
+      st.startY = e.clientY;
       st.lastX = e.clientX;
       st.lastMove = performance.now();
-      st.velocity = 0;
+    };
+    const move = (e: PointerEvent) => {
+      if (st.dragging) {
+        const now = performance.now();
+        const dx = e.clientX - st.lastX;
+        const ms = Math.max(now - st.lastMove, 1);
+        st.lastX = e.clientX;
+        st.lastMove = now;
+        // Dragging left walks forward, the way you swipe through pages.
+        progress.current = THREE.MathUtils.clamp(progress.current - dx * perPixel, -0.3, count - 0.7);
+        st.velocity = (-dx * perPixel * 1000) / ms;
+        return;
+      }
+      if (!st.armed) return;
+      const dx = e.clientX - st.startX;
+      const dy = e.clientY - st.startY;
+      if (Math.abs(dx) < SLOP && Math.abs(dy) < SLOP) return;
+      if (Math.abs(dy) > Math.abs(dx)) {
+        st.armed = false; // vertical: the page scrolls
+        return;
+      }
+      st.dragging = true;
       st.target = null;
+      st.velocity = 0;
+      st.lastX = e.clientX;
+      st.lastMove = performance.now();
       el.setPointerCapture(e.pointerId);
       el.style.cursor = "grabbing";
     };
-    const move = (e: PointerEvent) => {
-      if (!st.dragging) return;
-      const dx = e.clientX - st.lastX;
-      st.lastX = e.clientX;
-      st.lastMove = performance.now();
-      // Dragging left walks forward, the way you would swipe through pages.
-      progress.current = THREE.MathUtils.clamp(progress.current - dx * perPixel, -0.3, count - 0.7);
-      st.velocity = -dx * perPixel;
-    };
     const up = () => {
+      st.armed = false;
       if (!st.dragging) return;
       st.dragging = false;
       el.style.cursor = "grab";
-      // A stale velocity from a drag that paused before release should not
-      // fling the walk.
+      // A drag that stopped moving before release should not fling.
       if (performance.now() - st.lastMove > 80) st.velocity = 0;
     };
 
@@ -142,13 +167,15 @@ function Walk({
 
   useFrame((_, delta) => {
     const st = s.current;
-    const dt = Math.min(delta, 0.05);
+    // Clamped so a backgrounded tab does not teleport the walk on return.
+    const dt = Math.min(delta, 1 / 30);
 
     if (!st.dragging) {
-      if (Math.abs(st.velocity) > 0.0004) {
-        // Coast after a fling, then hand over to settling.
-        progress.current += st.velocity;
-        st.velocity *= 0.92;
+      if (Math.abs(st.velocity) > 0.05) {
+        // Coast after a fling. Decay is expressed per second, so it feels the
+        // same at 60Hz and 120Hz.
+        progress.current += st.velocity * dt;
+        st.velocity *= Math.pow(0.06, dt);
       } else if (st.target !== null) {
         progress.current = THREE.MathUtils.damp(progress.current, st.target, 4, dt);
         if (Math.abs(progress.current - st.target) < 0.002) {
@@ -202,6 +229,9 @@ export function QuoteScene({ quotes, paused, onOpen, onFocusChange, jump, step }
       camera={{ position: [0, 0, cameraZ(0)], fov: 40, near: 0.1, far: 40 }}
       gl={{ antialias: !degraded, powerPreference: "high-performance" }}
       style={{ touchAction: "pan-y" }}
+      // iOS Safari's collapsing URL bar fires resize on scroll; re-measuring
+      // the canvas each time makes the camera jitter.
+      resize={{ scroll: false }}
       frameloop="always"
     >
       <color attach="background" args={[BG]} />

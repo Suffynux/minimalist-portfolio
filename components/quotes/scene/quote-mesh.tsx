@@ -3,11 +3,17 @@
 import { useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
-import type { Group, Material, Mesh } from "three";
+import type { Group, Mesh } from "three";
 import { FOCAL, STEP, type Placed } from "@/lib/quotes/layout";
 
 const FONT = "/fonts/InstrumentSerif-Regular.ttf";
 const FONT_ITALIC = "/fonts/InstrumentSerif-Italic.ttf";
+
+/** Preloaded glyph set, so a quote never pops in one atlas rebuild at a time. */
+const CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,;:'’‘\"“”!?—–-()…&/";
+
+/** troika's Text is a Mesh with extra uniform-backed properties. */
+type TroikaText = Mesh & { fillOpacity: number };
 
 const TIER_COLOR: Record<Placed["tier"], string> = {
   own: "#F2F0E9",
@@ -50,8 +56,8 @@ function fitFontSize(body: string, visibleWidth: number, visibleHeight: number, 
 
 export function QuoteMesh({ quote, progress, paused, onOpen }: Props) {
   const group = useRef<Group>(null);
-  const bodyRef = useRef<Mesh>(null);
-  const labelRef = useRef<Mesh>(null);
+  const bodyRef = useRef<TroikaText>(null);
+  const labelRef = useRef<TroikaText>(null);
   const { viewport, camera, size } = useThree();
   const compact = size.width < 640;
 
@@ -89,13 +95,11 @@ export function QuoteMesh({ quote, progress, paused, onOpen }: Props) {
     g.visible = opacity > 0.01;
     if (!g.visible) return;
 
-    for (const ref of [bodyRef, labelRef]) {
-      const mesh = ref.current;
-      if (!mesh) continue;
-      const material = mesh.material as Material;
-      material.transparent = true;
-      material.opacity = ref === labelRef ? opacity * 0.85 : opacity;
-    }
+    // fillOpacity is a troika uniform, applied before each render with no
+    // re-layout. Going through material.opacity instead would degrade the SDF
+    // antialiasing at partial opacity.
+    if (bodyRef.current) bodyRef.current.fillOpacity = opacity;
+    if (labelRef.current) labelRef.current.fillOpacity = opacity * 0.85;
 
     // Gentle breathing so a quote in focus never sits perfectly still.
     if (!paused) {
@@ -118,6 +122,8 @@ export function QuoteMesh({ quote, progress, paused, onOpen }: Props) {
         anchorX="center"
         anchorY="middle"
         color={TIER_COLOR[quote.tier]}
+        characters={CHARACTERS}
+        sdfGlyphSize={64}
         onClick={(e) => {
           e.stopPropagation();
           onOpen(quote);
@@ -137,6 +143,8 @@ export function QuoteMesh({ quote, progress, paused, onOpen }: Props) {
         anchorY="middle"
         color="#9DAB6B"
         letterSpacing={0.16}
+        characters={CHARACTERS}
+        sdfGlyphSize={64}
       >
         {label}
       </Text>

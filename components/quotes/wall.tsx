@@ -109,6 +109,26 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
           step={step}
         />
 
+        {/* Vignette and grain in CSS. The postprocessing package costs ~188KB
+            and its depth-of-field halos on text; this costs nothing. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 78% 68% at 50% 50%, transparent 40%, rgba(19,20,13,0.55) 82%, rgba(19,20,13,0.92) 100%)"
+          }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.045] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+            backgroundSize: "160px 160px"
+          }}
+        />
+
         {/* Top bar: filters and pause. Clears the fixed navbar. */}
         <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-3 px-4 pt-[88px] sm:px-7 sm:pt-[100px]">
           <div className="pointer-events-auto flex gap-1.5 rounded-full border border-bone/12 bg-[#13140D]/60 p-1 backdrop-blur">
