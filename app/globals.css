@@ -77,64 +77,99 @@ a {
 /* ---------------------------------------------------------------------------
    The quote wall.
 
-   Real 3D: a perspective viewport with quotes distributed on the Z axis.
-   Depth comes from the compositor (transform/opacity/filter only), so the
-   whole field animates on the GPU without touching layout.
+   A deck of paper cards stacked along Z. Page scroll drives the depth: the
+   stage is sticky, the track behind it is `--deck-step` tall per quote, and
+   the card transforms are written straight to the DOM from a rAF loop. Only
+   transform / opacity / filter change, so the whole deck stays on the
+   compositor and never touches layout.
    --------------------------------------------------------------------------- */
 
-.wall-viewport {
-  perspective: 1100px;
-  perspective-origin: 50% 45%;
+.deck-track {
+  /* How far you scroll to advance one quote. Read in JS too - keep in sync. */
+  --deck-step: 55svh;
+}
+
+.deck-stage {
+  perspective: 1700px;
+  perspective-origin: 42% 46%;
   transform-style: preserve-3d;
 }
 
-.wall-field {
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.wall-quote {
+.deck-card {
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  /* Each quote drifts on its own timing so the field never pulses in unison. */
-  animation: wall-drift var(--drift-duration, 18s) ease-in-out infinite alternate;
-  animation-delay: var(--drift-delay, 0s);
+  /* Transforms are written per frame; hint the compositor once. */
+  will-change: transform, opacity, filter;
+  /* No CSS transition: scroll position IS the animation. A transition here
+     would fight the scroll and lag behind the thumb. */
 }
 
-@keyframes wall-drift {
-  from {
-    translate: 0 0;
-  }
-  to {
-    translate: var(--drift-x, 6px) var(--drift-y, -10px);
-  }
+/* The receding floor. Pure background-image, so it costs one composited
+   layer and no elements. */
+.deck-floor {
+  transform: perspective(620px) rotateX(71deg);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(157, 171, 107, 0.22) 0 1px, transparent 1px 96px),
+    repeating-linear-gradient(0deg, rgba(157, 171, 107, 0.16) 0 1px, transparent 1px 96px);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 78%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 78%);
 }
 
-/* The starfield behind the quotes: faint motes that suggest depth without
-   competing with the typography. */
-.wall-mote {
-  animation: wall-mote-drift var(--mote-duration, 26s) linear infinite;
-  animation-delay: var(--mote-delay, 0s);
+/* The specular wash across the top of a card face. It has to reach zero at
+   its own bottom edge, or the edge itself shows up as a band across the
+   paper. */
+.deck-sheen {
+  background: linear-gradient(177deg, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.22) 46%, rgba(255, 255, 255, 0) 100%);
 }
 
-@keyframes wall-mote-drift {
-  from {
-    transform: translate3d(0, 0, 0);
-    opacity: 0;
-  }
-  10%,
-  90% {
-    opacity: var(--mote-opacity, 0.5);
-  }
-  to {
-    transform: translate3d(var(--mote-x, 40px), var(--mote-y, -120px), 0);
-    opacity: 0;
-  }
-}
-
+/*
+  Reduced motion gets no deck at all: the track collapses, the stage stops
+  being sticky, and the cards fall into an ordinary vertical list. Nothing is
+  hidden - the same quotes are all still there, they just stack instead of
+  receding.
+*/
 @media (prefers-reduced-motion: reduce) {
-  .wall-quote,
-  .wall-mote {
-    animation: none !important;
+  .deck-track {
+    height: auto !important;
+  }
+
+  .deck-stage {
+    position: static !important;
+    height: auto !important;
+    perspective: none;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-block: 56px;
+  }
+
+  .deck-card {
+    position: static !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    will-change: auto;
+  }
+
+  /* The chrome is pinned to the edges of a sticky stage. With the stage in
+     normal flow it has to join the column, or it lands on top of the cards. */
+  .deck-chrome-top,
+  .deck-chrome-bottom {
+    position: static !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .deck-chrome-top {
+    order: -1;
+  }
+
+  .deck-chrome-bottom {
+    order: 1;
+  }
+
+  /* A progress rail means nothing when every card is already on the page. */
+  .deck-rail {
+    display: none !important;
   }
 }
