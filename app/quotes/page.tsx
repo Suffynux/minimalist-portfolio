@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CompactCta } from "@/components/contact-block";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { Reveal } from "@/components/reveal";
@@ -39,7 +38,7 @@ export default async function QuotesPage() {
         <Reveal className="mt-10 max-w-[560px]">
           <p className="text-lg leading-[1.6] text-body">
             Lines I&apos;ve written, lines I keep coming back to, and words left here by people passing
-            through. Drag to turn the wall - click any line to read it properly.
+            through. One at a time, at walking pace. Swipe to move on, or tap a line to hold it.
           </p>
         </Reveal>
       </header>
@@ -79,7 +78,6 @@ export default async function QuotesPage() {
       </section>
 
       <section className="relative z-10 mx-auto max-w-[1200px] px-5 pb-[110px] sm:px-8">
-        <CompactCta centered title={<>Like how this <span className="italic text-olive">feels</span>?<br />Let&apos;s build yours.</>} />
         <Footer border />
       </section>
 

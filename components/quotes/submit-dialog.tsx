@@ -4,7 +4,7 @@ import { useActionState, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { X } from "lucide-react";
 import { submitQuote, type SubmitState } from "@/lib/quotes/actions";
-import { MAX_AUTHOR, MAX_BODY } from "@/lib/quotes/types";
+import { MAX_AUTHOR, MAX_BODY, type Quote } from "@/lib/quotes/types";
 
 const initial: SubmitState = { status: "idle" };
 
@@ -21,7 +21,15 @@ function Submit() {
   );
 }
 
-export function SubmitDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function SubmitDialog({
+  open,
+  onClose,
+  onPosted
+}: {
+  open: boolean;
+  onClose: () => void;
+  onPosted: (quote: Quote) => void;
+}) {
   const [state, action] = useActionState(submitQuote, initial);
   const [count, setCount] = useState(0);
   const [anonymous, setAnonymous] = useState(true);
@@ -51,8 +59,11 @@ export function SubmitDialog({ open, onClose }: { open: boolean; onClose: () => 
     if (state.status === "success") {
       formRef.current?.reset();
       setCount(0);
+      if (state.quote) onPosted(state.quote);
     }
-  }, [state.status]);
+    // onPosted is stable enough; re-running on state alone avoids double-adds.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   if (!open) return null;
 
@@ -83,15 +94,17 @@ export function SubmitDialog({ open, onClose }: { open: boolean; onClose: () => 
         {done ? (
           <div className="py-6 text-center">
             <p className="mb-3 font-display text-[34px] italic leading-none text-olive-light">
-              {state.held ? "Thank you." : "It's up there."}
+              {state.held ? "Thank you." : "It's on the wall."}
             </p>
-            <p className="mx-auto mb-8 max-w-[380px] text-[15px] leading-[1.6] text-bone/70">{state.message}</p>
+            <p className="mx-auto mb-8 max-w-[380px] text-[15px] leading-[1.6] text-bone/70">
+              {state.held ? state.message : "The wall has turned to your line. Close this to see it."}
+            </p>
             <button
               type="button"
               onClick={onClose}
-              className="inline-flex min-h-[46px] items-center rounded-full border border-bone/25 px-6 text-[14px] font-semibold text-bone transition hover:border-bone"
+              className="inline-flex min-h-[46px] items-center rounded-full bg-bone px-6 text-[14px] font-semibold text-ink transition hover:bg-olive-light"
             >
-              Back to the wall
+              {state.held ? "Back to the wall" : "Show me"}
             </button>
           </div>
         ) : (

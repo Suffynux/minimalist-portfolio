@@ -7,13 +7,15 @@ import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { screen } from "@/lib/quotes/screen";
-import { submissionSchema } from "@/lib/quotes/types";
+import { PUBLIC_COLUMNS, submissionSchema, type Quote } from "@/lib/quotes/types";
 
 export type SubmitState = {
   status: "idle" | "success" | "error";
   message?: string;
   /** Set when the quote was held back for review rather than published. */
   held?: boolean;
+  /** The published quote, so the wall can show it without a reload. */
+  quote?: Quote;
   fieldErrors?: Partial<Record<"body" | "author_name" | "posted_by", string>>;
 };
 
@@ -95,7 +97,7 @@ export async function submitQuote(_prev: SubmitState, formData: FormData): Promi
   // Insert and hide in one statement. A plain insert() followed by an update
   // would leave a flagged quote publicly visible in between - precisely the
   // window that matters for content we want held back.
-  const { error } = await supabase.rpc("submit_quote", {
+  const { data: id, error } = await supabase.rpc("submit_quote", {
     p_body: body,
     p_author_name: author_name && author_name.length > 0 ? author_name : null,
     p_posted_by: posted_by && posted_by.length > 0 ? posted_by : null,
@@ -110,9 +112,17 @@ export async function submitQuote(_prev: SubmitState, formData: FormData): Promi
 
   revalidatePath("/quotes");
 
+  // A held row is invisible to anon, so only a published one can be read back.
+  let quote: Quote | undefined;
+  if (!hold && typeof id === "string") {
+    const { data } = await supabase.from("quotes").select(PUBLIC_COLUMNS).eq("id", id).maybeSingle();
+    quote = (data as Quote | null) ?? undefined;
+  }
+
   return {
     status: "success",
     held: hold,
+    quote,
     message: hold
       ? "Thanks - I'll read this one before it goes up."
       : "Thanks - your words are on the wall."
