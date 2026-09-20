@@ -5,8 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { Reveal } from "@/components/reveal";
 import { PageShell } from "@/components/shell";
 import { WhatsAppButton } from "@/components/whatsapp-button";
-import { QuoteWall } from "@/components/quotes/quote-wall";
-import { SubmitForm } from "@/components/quotes/submit-form";
+import { Wall } from "@/components/quotes/wall";
 import { getQuotes, getWallSettings } from "@/lib/quotes/queries";
 
 export const metadata: Metadata = {
@@ -40,13 +39,15 @@ export default async function QuotesPage() {
         <Reveal className="mt-10 max-w-[560px]">
           <p className="text-lg leading-[1.6] text-body">
             Lines I&apos;ve written, lines I keep coming back to, and words left here by people passing
-            through. Scroll to move through them - click any one to read it properly.
+            through. Drag to turn the wall - click any line to read it properly.
           </p>
         </Reveal>
       </header>
 
       {quotes.length > 0 ? (
-        <QuoteWall quotes={quotes} />
+        <div className="relative z-10 mx-auto max-w-[1360px] px-5 sm:px-8">
+          <Wall quotes={quotes} accepting={settings.accepting} />
+        </div>
       ) : (
         <div className="relative z-10 mx-auto max-w-[1200px] px-5 py-20 text-center sm:px-8">
           <p className="font-display text-[26px] italic text-olive">the wall is empty - for now</p>
@@ -78,19 +79,6 @@ export default async function QuotesPage() {
             </li>
           ))}
         </ol>
-      </section>
-
-      <section id="add" className="relative z-10 mx-auto max-w-[680px] px-5 py-24 sm:px-8">
-        <Reveal>
-          <p className="mb-[18px] font-mono text-xs tracking-[0.14em] text-olive">ADD YOURS</p>
-          <h2 className="mb-4 font-display text-[clamp(30px,4.2vw,46px)] font-normal leading-[1.05] tracking-[-0.01em]">
-            Leave something behind.
-          </h2>
-          <p className="mb-9 text-[15.5px] leading-[1.65] text-body">
-            A line you wrote, or one that stuck with you. It goes straight onto the wall.
-          </p>
-          <SubmitForm accepting={settings.accepting} />
-        </Reveal>
       </section>
 
       <section className="relative z-10 mx-auto max-w-[1200px] px-5 pb-[110px] sm:px-8">

@@ -1,31 +1,26 @@
 import type { Quote } from "@/lib/quotes/types";
 
+export type Tier = "own" | "curated" | "visitor";
+
 export type Placed = Quote & {
-  /** Percentage across the field. */
-  x: number;
-  /** Percentage down the field. */
-  y: number;
-  /** Depth in px; negative is further away. */
-  z: number;
-  rotateY: number;
-  rotateX: number;
-  /** Font size in px, derived from depth so near quotes genuinely read larger. */
-  size: number;
-  blur: number;
+  tier: Tier;
+  /** World-space position in the WebGL scene. */
+  worldX: number;
+  worldY: number;
+  worldZ: number;
+  fontSize: number;
+  maxWidth: number;
+  attributionOffset: number;
   opacity: number;
-  driftX: number;
-  driftY: number;
-  driftDuration: number;
-  driftDelay: number;
-  tier: "own" | "curated" | "visitor";
+  /** Ring index, used by the orbit controls to step between quotes. */
+  ring: number;
 };
 
 /**
  * Deterministic pseudo-random stream from a quote's stored seed.
  *
- * Positions must be stable: a quote that jumps to a new spot on every reload
- * makes the wall feel arbitrary, and breaks the sense that it's a real place
- * you're moving through.
+ * Positions must be stable across reloads: a wall that reshuffles itself never
+ * feels like a place you're moving through.
  */
 function stream(seed: number) {
   let s = Math.floor(seed * 1_000_000) % 2_147_483_647;
@@ -36,76 +31,66 @@ function stream(seed: number) {
   };
 }
 
-function tierOf(quote: Quote): Placed["tier"] {
+export function tierOf(quote: Quote): Tier {
   if (quote.source === "visitor") return "visitor";
   return quote.author_name ? "curated" : "own";
 }
 
 /**
- * Distributes quotes through the depth field.
+ * Arranges quotes on nested cylindrical rings around the camera.
  *
- * Layout is by tier rather than uniformly random: the author's own writing sits
- * nearest and largest, curated quotes fill the middle, and visitor submissions
- * drift furthest back. That way the hierarchy is legible before you read a word.
+ * A cylinder rather than a scattered cloud, because it gives the scene a
+ * centre: you rotate to browse, and every quote eventually faces you. Tier
+ * decides the radius, so the author's own lines orbit closest.
  */
 export function placeQuotes(quotes: Quote[]): Placed[] {
-  // Deal quotes into columns so they spread across the field instead of
-  // clumping wherever the seeds happen to fall.
-  const columns = 5;
-  const byTier: Record<Placed["tier"], Quote[]> = { own: [], curated: [], visitor: [] };
+  const byTier: Record<Tier, Quote[]> = { own: [], curated: [], visitor: [] };
   quotes.forEach((q) => byTier[tierOf(q)].push(q));
 
-  const placed: Placed[] = [];
-  let index = 0;
+  const RINGS: Record<Tier, { radius: number; size: number; ring: number }> = {
+    own: { radius: 6.5, size: 0.52, ring: 0 },
+    curated: { radius: 11, size: 0.42, ring: 1 },
+    visitor: { radius: 15.5, size: 0.34, ring: 2 }
+  };
 
-  (["own", "curated", "visitor"] as const).forEach((tier) => {
+  const placed: Placed[] = [];
+
+  (Object.keys(RINGS) as Tier[]).forEach((tier) => {
     const group = byTier[tier];
+    if (group.length === 0) return;
+
+    const { radius, size, ring } = RINGS[tier];
 
     group.forEach((quote, i) => {
       const rand = stream(quote.seed);
 
-      // Depth bands per tier, with jitter so rows don't line up.
-      const band =
-        tier === "own" ? { near: 60, far: -220 } : tier === "curated" ? { near: -260, far: -700 } : { near: -700, far: -1180 };
+      // Even angular spacing keeps quotes from stacking, with a little jitter
+      // so the ring doesn't look mechanical.
+      const angle = (i / group.length) * Math.PI * 2 + (rand() - 0.5) * 0.28;
+      const r = radius + (rand() - 0.5) * 2.2;
 
-      const t = group.length === 1 ? 0.5 : i / (group.length - 1);
-      const z = band.near + (band.far - band.near) * (t * 0.7 + rand() * 0.3);
+      // Stagger height so a ring reads as a band of quotes, not a flat hoop.
+      const height = (rand() - 0.5) * 7.5;
 
-      // Spread across columns, then jitter within the cell.
-      const column = (index * 7 + i * 3) % columns;
-      const cellWidth = 100 / columns;
-      const x = column * cellWidth + cellWidth * (0.15 + rand() * 0.7);
-
-      // Vertical position walks down the field as depth increases, so scrolling
-      // through reveals quotes progressively rather than all at once.
-      const y = 8 + ((index * 13.7 + rand() * 22) % 84);
-
-      // Nearer quotes are larger. Clamped so the furthest stay readable.
-      const depthRatio = (z + 1180) / 1240;
-      const size = 15 + depthRatio * 22;
+      // Longer quotes get a wider box and slightly smaller type, so a
+      // 100-character line doesn't dwarf a 24-character one.
+      const lengthFactor = Math.min(quote.body.length / 60, 1.6);
+      const fontSize = size * (1 - (lengthFactor - 1) * 0.12);
 
       placed.push({
         ...quote,
-        x,
-        y,
-        z,
-        rotateY: (rand() - 0.5) * 16,
-        rotateX: (rand() - 0.5) * 8,
-        size,
-        blur: z < -700 ? 1.4 : z < -400 ? 0.6 : 0,
-        opacity: tier === "visitor" ? 0.55 + depthRatio * 0.25 : 0.7 + depthRatio * 0.3,
-        driftX: (rand() - 0.5) * 18,
-        driftY: -6 - rand() * 16,
-        driftDuration: 14 + rand() * 16,
-        driftDelay: -rand() * 12,
-        tier
+        tier,
+        worldX: Math.sin(angle) * r,
+        worldY: height,
+        worldZ: Math.cos(angle) * r,
+        fontSize,
+        maxWidth: 4.6 + lengthFactor * 1.4,
+        attributionOffset: 0.55 + lengthFactor * 0.42,
+        opacity: tier === "visitor" ? 0.72 : tier === "curated" ? 0.88 : 1,
+        ring
       });
-
-      index += 1;
     });
   });
 
-  // Painter's order: furthest first, so nearer quotes overlap correctly in
-  // browsers that flatten some of the 3D context.
-  return placed.sort((a, b) => a.z - b.z);
+  return placed;
 }

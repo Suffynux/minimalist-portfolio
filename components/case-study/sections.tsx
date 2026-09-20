@@ -178,12 +178,12 @@ export function AutomationList({ items }: { items: CaseStudyAutomation[] }) {
  */
 export function Shot({ shot, priority = false }: { shot: CaseStudyShot; priority?: boolean }) {
   return (
-    <Reveal className={shot.portrait ? "max-w-[340px]" : undefined}>
+    <Reveal className={shot.portrait && !shot.half ? "max-w-[340px]" : undefined}>
       <figure>
         <div
           className={cn(
             "relative overflow-hidden rounded-[16px] border border-ink/10 bg-surface shadow-[0_28px_60px_-40px_rgba(35,37,29,0.45)]",
-            shot.portrait ? "aspect-[348/535]" : "aspect-[1617/1278]"
+            shot.portrait ? "mx-auto aspect-[348/535] max-w-[340px]" : "aspect-[1617/1278]"
           )}
         >
           <Image
@@ -216,7 +216,7 @@ export function ShotStack({ items }: { items: CaseStudyShot[] }) {
 
   for (const shot of items) {
     const last = rows[rows.length - 1];
-    if (shot.portrait && last?.length === 1 && last[0].portrait) {
+    if (shot.half && last?.length === 1 && last[0].half) {
       last.push(shot);
     } else {
       rows.push([shot]);
