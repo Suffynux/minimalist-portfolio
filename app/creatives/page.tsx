@@ -12,7 +12,10 @@ export const metadata: Metadata = {
   description:
     "Explore Sufiyan Ali's generative artwork, product concepts and visual experiments where technical thinking meets creative craft.",
   alternates: {
-    canonical: "https://www.suffynux.com/creatives"
+    canonical: "/creatives"
+  },
+  openGraph: {
+    url: "https://www.suffynux.com/creatives"
   }
 };
 

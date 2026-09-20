@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     title: "Sufiyan Ali — I Build Products People Use",
     description:
       "From conversion-focused Shopify stores to platforms serving thousands, I turn real business problems into useful digital products.",
-    url: "https://www.suffynux.com",
+    url: "https://www.suffynux.com/",
     siteName: "Suffynux",
     locale: "en_US",
     type: "website",

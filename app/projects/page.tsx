@@ -16,7 +16,10 @@ export const metadata: Metadata = {
   description:
     "Explore Shopify stores, full-stack platforms, AI tools and automation systems built by Sufiyan Ali to solve real business problems.",
   alternates: {
-    canonical: "https://www.suffynux.com/projects"
+    canonical: "/projects"
+  },
+  openGraph: {
+    url: "https://www.suffynux.com/projects"
   }
 };
 

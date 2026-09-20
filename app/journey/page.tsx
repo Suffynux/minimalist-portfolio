@@ -13,7 +13,10 @@ export const metadata: Metadata = {
   description:
     "Follow Sufiyan Ali's journey from learning to code to building Shopify stores, full-stack platforms and automation products people rely on.",
   alternates: {
-    canonical: "https://www.suffynux.com/journey"
+    canonical: "/journey"
+  },
+  openGraph: {
+    url: "https://www.suffynux.com/journey"
   }
 };
 
