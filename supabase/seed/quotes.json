@@ -21,7 +21,7 @@
   },
   {
     "body": "He who has a why to live can bear almost any how.",
-    "author": "Nietzsche",
+    "author": "Friedrich Nietzsche",
     "own": false
   },
   {
@@ -41,7 +41,7 @@
   },
   {
     "body": "The obstacle is the way.",
-    "author": "Marcus Aurelius",
+    "author": "Ryan Holiday, after Marcus Aurelius",
     "own": false
   },
   {
@@ -51,52 +51,52 @@
   },
   {
     "body": "The world breaks everyone, and afterward, some are strong at the broken places.",
-    "author": "Hemingway",
+    "author": "Ernest Hemingway",
     "own": false
   },
   {
     "body": "Man is condemned to be free.",
-    "author": "Sartre",
+    "author": "Jean-Paul Sartre",
     "own": false
   },
   {
     "body": "No one is coming to save you. Build yourself.",
-    "author": null,
-    "own": true
+    "author": "Nathaniel Branden",
+    "own": false
   },
   {
     "body": "Become so capable that your absence becomes a problem.",
-    "author": null,
-    "own": true
+    "author": "Unknown",
+    "own": false
   },
   {
     "body": "You don't need motivation when you've decided.",
-    "author": null,
-    "own": true
+    "author": "Unknown",
+    "own": false
   },
   {
     "body": "Build a life you don't need to escape from.",
-    "author": null,
-    "own": true
+    "author": "Ryan Holiday",
+    "own": false
   },
   {
     "body": "The pain of discipline is nothing compared to the pain of regret.",
-    "author": null,
-    "own": true
+    "author": "Jim Rohn",
+    "own": false
   },
   {
     "body": "If you are going through hell, keep going.",
-    "author": "Churchill",
+    "author": "Winston Churchill",
     "own": false
   },
   {
     "body": "To live is to suffer, to survive is to find some meaning in the suffering.",
-    "author": "Viktor Frankl",
+    "author": "Gordon W. Allport, paraphrasing Viktor Frankl",
     "own": false
   },
   {
     "body": "One day, you'll look back and realize you were building the life you thought you were only surviving.",
-    "author": null,
-    "own": true
+    "author": "Unknown",
+    "own": false
   }
 ]

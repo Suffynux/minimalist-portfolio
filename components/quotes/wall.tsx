@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { LayoutGrid, Mouse, Plus, X } from "lucide-react";
+import { ArrowDown, LayoutGrid, Mouse, Plus, X } from "lucide-react";
 import { DECK_WINDOW, depthAt, readingProgress, placeQuotes, tierOf, type Placed, type Tier } from "@/lib/quotes/layout";
 import type { Quote } from "@/lib/quotes/types";
 import { QuoteCard, attribution } from "@/components/quotes/quote-card";
@@ -37,11 +37,11 @@ const ROUND =
 export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; accepting: boolean }) {
   const reduceMotion = useReducedMotion();
   const [quotes, setQuotes] = useState(initial);
-  const [shortViewport, setShortViewport] = useState(false);
+  const [listViewport, setListViewport] = useState(false);
 
   useEffect(() => {
-    const media = window.matchMedia("(max-height: 700px)");
-    const update = () => setShortViewport(media.matches);
+    const media = window.matchMedia("(max-width: 767px), (max-height: 700px)");
+    const update = () => setListViewport(media.matches);
     update();
     media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
@@ -68,7 +68,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
   }, [quotes, filter]);
 
   const count = visible.length;
-  const still = Boolean(reduceMotion) || shortViewport;
+  const still = Boolean(reduceMotion) || listViewport;
 
   // The walk. Recreated whenever the deck's length changes, because the track
   // height - and so the scroll-to-progress mapping - changes with it.
@@ -185,7 +185,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
     if (!pendingId) return;
     document.getElementById(`q-${pendingId}`)?.scrollIntoView({ block: "start" });
     setPendingId(null);
-  }, [pendingId, visible]);
+  }, [pendingId, visible, still]);
 
   const closeOpen = useCallback(() => setOpen(null), []);
 
@@ -258,6 +258,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
               className="deck-card absolute inset-0 m-auto h-fit w-[min(690px,86vw)]"
               style={{ opacity: i === 0 ? 1 : 0 }}
             >
+              {still ? <p className="mb-3 font-mono text-[11px] tracking-[0.16em] text-olive-light">{pad(i + 1)} <span className="text-bone/45">/ {pad(count)}</span></p> : null}
               <QuoteCard quote={quote} onOpen={setOpen} />
             </div>
           ))}
@@ -269,14 +270,16 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
                 <p className="font-mono text-[10.5px] tracking-[0.18em] text-olive-light sm:text-[11px]">
                   THE WALL<span className="hidden sm:inline"> · {quotes.length} LINES</span>
                 </p>
-                <h1 className="mt-2.5 hidden font-display text-[clamp(34px,3.2vw,46px)] font-normal leading-none tracking-[-0.02em] text-bone sm:block">
+                <h1 className="mt-2.5 font-display text-[clamp(34px,3.2vw,46px)] font-normal leading-none tracking-[-0.02em] text-bone sm:block">
                   Words worth <span className="italic text-olive-light">keeping</span>.
                 </h1>
               </div>
               {/* On a phone the count lives up here; the rail has no room. */}
               <p className="font-mono text-[13px] tracking-[0.16em] text-bone sm:hidden">
-                {pad(count ? focused + 1 : 0)}
-                <span className="text-bone/35"> / {pad(count)}</span>
+                {still ? `${pad(count)} LINES` : <>
+                  {pad(count ? focused + 1 : 0)}
+                  <span className="text-bone/35"> / {pad(count)}</span>
+                </>}
               </p>
             </div>
 
@@ -303,6 +306,20 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
                 ))}
               </div>
             </nav>
+            {still && count > 0 ? (
+              <button
+                type="button"
+                onClick={() => cardRefs.current[0]?.scrollIntoView({ block: "start", behavior: reduceMotion ? "instant" : "smooth" })}
+                className="inline-flex min-h-12 items-center gap-3 self-start rounded-full border border-bone/20 px-4 py-3 text-left text-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-olive-light"
+              >
+                <ArrowDown aria-hidden className="size-4 text-olive-light" />
+                <span className="text-sm">
+                  <span className="md:hidden">Swipe up to explore</span>
+                  <span className="hidden md:inline">Scroll down to read</span>
+                  <span className="text-bone/60"> · Tap a quote to hold it</span>
+                </span>
+              </button>
+            ) : null}
           </div>
 
           {/* ---- Chrome: right rail (desktop). Where you are in the deck. ---- */}
@@ -380,13 +397,13 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
 function OpenQuote({ quote, onClose }: { quote: Placed; onClose: () => void }) {
   return (
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center bg-wall/95 px-6 backdrop-blur-md"
+      className="fixed inset-0 z-[80] overflow-y-auto bg-wall/95 px-6 py-24 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
       aria-label="Quote"
       onClick={onClose}
     >
-      <figure className="max-w-[820px] text-center" onClick={(e) => e.stopPropagation()}>
+      <figure className="mx-auto flex min-h-[calc(100svh-12rem)] max-w-[820px] flex-col justify-center text-center" onClick={(e) => e.stopPropagation()}>
         <p className="font-display text-[clamp(30px,5.4vw,64px)] font-normal leading-[1.14] tracking-[-0.02em] text-bone">
           {quote.body}
         </p>
@@ -401,7 +418,7 @@ function OpenQuote({ quote, onClose }: { quote: Placed; onClose: () => void }) {
         type="button"
         onClick={onClose}
         aria-label="Close quote"
-        className="absolute right-6 top-6 inline-flex size-11 items-center justify-center rounded-full border border-bone/25 text-bone transition hover:border-bone hover:bg-bone/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bone"
+        className="fixed right-6 top-6 inline-flex size-11 items-center justify-center rounded-full border border-bone/25 text-bone transition hover:border-bone hover:bg-bone/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bone"
       >
         <X className="size-[18px]" />
       </button>

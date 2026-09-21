@@ -123,12 +123,12 @@ a {
 }
 
 /*
-  Reduced motion and short viewports get no deck: the track collapses, the stage stops
+  Phones, reduced motion and short viewports use a native scrolling feed: the track collapses, the stage stops
   being sticky, and the cards fall into an ordinary vertical list. Nothing is
   hidden - the same quotes are all still there, they just stack instead of
   receding.
 */
-@media (prefers-reduced-motion: reduce), (max-height: 700px) {
+@media (prefers-reduced-motion: reduce), (max-width: 767px), (max-height: 700px) {
   .deck-track {
     height: auto !important;
   }
@@ -139,7 +139,7 @@ a {
     perspective: none;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 32px;
     padding-block: 104px 40px;
   }
 
@@ -191,5 +191,30 @@ a {
 
   .deck-chrome-bottom > div:last-child > div:last-child {
     margin-left: auto;
+  }
+}
+
+/* A visible sequence of paper cards gives touch scrolling an obvious direction. */
+@media (max-width: 767px) {
+  .deck-card {
+    width: calc(100% - 32px);
+    margin-block: 0;
+  }
+
+  .deck-card article {
+    box-shadow: 0 2px 0 rgba(255,255,255,.9) inset, 0 5px 0 -2px #C4C1AE, 0 16px 32px -20px rgba(0,0,0,.65);
+  }
+
+  .deck-card .quote-body {
+    font-size: clamp(26px, 6.5vw, 34px);
+    line-height: 1.25;
+  }
+
+  .deck-chrome-top {
+    gap: 20px;
+  }
+
+  .deck-floor {
+    display: none;
   }
 }
