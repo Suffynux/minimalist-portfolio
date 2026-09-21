@@ -38,13 +38,13 @@ export function attribution(quote: Quote & { tier: Tier }) {
 export function QuoteCard({ quote, onOpen }: { quote: Placed; onOpen?: (quote: Placed) => void }) {
   // Surface, extrude and shadow are the card-anatomy values from the design.
   return (
-    <article className="relative overflow-hidden rounded-[22px] bg-[linear-gradient(158deg,#FAF8F1,#EBE8DB)] shadow-[0_2px_0_rgba(255,255,255,0.9)_inset,0_8px_0_-2px_#C4C1AE,0_52px_96px_-24px_rgba(0,0,0,0.92),0_16px_38px_-16px_rgba(0,0,0,0.6)]">
+    <article data-long={quote.body.length > 160 || undefined} className="relative overflow-hidden rounded-[22px] bg-[linear-gradient(158deg,#FAF8F1,#EBE8DB)] shadow-[0_2px_0_rgba(255,255,255,0.9)_inset,0_8px_0_-2px_#C4C1AE,0_52px_96px_-24px_rgba(0,0,0,0.92),0_16px_38px_-16px_rgba(0,0,0,0.6)]">
       <span aria-hidden className={`absolute inset-y-0 left-0 w-[5px] ${SPINE[quote.tier]}`} />
       <span aria-hidden className="deck-sheen pointer-events-none absolute inset-x-0 top-0 h-[120px]" />
 
       <blockquote className="flex flex-col gap-7 px-[clamp(28px,4vw,56px)] py-[clamp(30px,3.6vw,52px)]">
         <p
-          className={`font-display text-[clamp(26px,3.4vw,46px)] leading-[1.14] tracking-[-0.015em] text-ink ${
+          className={`quote-body break-words font-display text-[clamp(26px,3.4vw,46px)] leading-[1.14] tracking-[-0.015em] text-ink ${
             quote.tier === "own" ? "italic" : ""
           }`}
         >

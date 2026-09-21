@@ -28,95 +28,29 @@ export type Depth = {
   visible: boolean;
 };
 
-/**
- * A stop on the depth curve: what a card looks like at a whole-number offset
- * from the focus. Values between stops are interpolated linearly.
- *
- * These are the design's numbers, not a formula that approximates them:
- *   n    0px      blur 0     op 1
- *   n+1  -185px   blur 1.0   op .60
- *   n+2  -360px   blur 2.4   op .30
- *   n-1  +240px             (walked past, rushing the camera)
- *   n-1.75 +420px           gone
- */
-type Stop = { at: number; z: number; blur: number; opacity: number };
-
-const AHEAD_WIDE: Stop[] = [
-  { at: 0, z: 0, blur: 0, opacity: 1 },
-  { at: 1, z: -185, blur: 1.0, opacity: 0.6 },
-  { at: 2, z: -360, blur: 2.4, opacity: 0.3 },
-  { at: 3, z: -520, blur: 3.6, opacity: 0.08 },
-  { at: 3.5, z: -600, blur: 4, opacity: 0 }
-];
-
-const AHEAD_NARROW: Stop[] = [
-  { at: 0, z: 0, blur: 0, opacity: 1 },
-  { at: 1, z: -140, blur: 1.0, opacity: 0.6 },
-  { at: 2, z: -270, blur: 2.4, opacity: 0.3 },
-  { at: 3, z: -390, blur: 3.6, opacity: 0.08 },
-  { at: 3.5, z: -450, blur: 4, opacity: 0 }
-];
-
-/** Past the focus, a card flies at the camera and is gone within two steps. */
-const PAST_WIDE: Stop[] = [
-  { at: 0, z: 0, blur: 0, opacity: 1 },
-  { at: 1, z: 240, blur: 2.5, opacity: 0.35 },
-  { at: 1.75, z: 420, blur: 5, opacity: 0 }
-];
-
-const PAST_NARROW: Stop[] = [
-  { at: 0, z: 0, blur: 0, opacity: 1 },
-  { at: 1, z: 190, blur: 2.5, opacity: 0.35 },
-  { at: 1.75, z: 330, blur: 5, opacity: 0 }
-];
-
-type Drift = { x: number; y: number; yaw: number; yawStep: number; pastX: number; pastY: number };
-
-/** Lateral offset per card, so the stack steps up and to the right. */
-const DRIFT_WIDE: Drift = { x: 78, y: -48, yaw: -8, yawStep: -2.2, pastX: 30, pastY: -18 };
-const DRIFT_NARROW: Drift = { x: 34, y: -24, yaw: -6, yawStep: -1.6, pastX: 14, pastY: -10 };
-
-function sample(stops: Stop[], at: number): Stop {
-  if (at <= stops[0].at) return stops[0];
-  const last = stops[stops.length - 1];
-  if (at >= last.at) return last;
-  for (let i = 1; i < stops.length; i += 1) {
-    const b = stops[i];
-    if (at > b.at) continue;
-    const a = stops[i - 1];
-    const t = (at - a.at) / (b.at - a.at);
-    return {
-      at,
-      z: a.z + (b.z - a.z) * t,
-      blur: a.blur + (b.blur - a.blur) * t,
-      opacity: a.opacity + (b.opacity - a.opacity) * t
-    };
-  }
-  return last;
+/** Keep each quote still around its anchor, with an eased handoff between cards. */
+export function readingProgress(progress: number): number {
+  const base = Math.floor(progress);
+  const t = Math.max(0, Math.min(1, (progress - base - 0.2) / 0.6));
+  return base + t * t * (3 - 2 * t);
 }
 
-/**
- * Where a card sits, given its signed distance from the focus.
- *
- * `offset` is `index - progress`: 0 is the card being read, positive is still
- * ahead in the stack, negative has been passed. Ahead, a card recedes, dims
- * and blurs so two or three are legible behind the focus at once - that
- * visible stack is what reads as depth. Behind, it rushes the camera and
- * clears out fast, because a card you have read should not hang around.
- */
+/** Opaque paper prevents the text of stacked quotes bleeding through the reader. */
 export function depthAt(offset: number, compact: boolean): Depth {
-  const ahead = offset >= 0;
-  const stop = sample(ahead ? (compact ? AHEAD_NARROW : AHEAD_WIDE) : compact ? PAST_NARROW : PAST_WIDE, Math.abs(offset));
-  const d = compact ? DRIFT_NARROW : DRIFT_WIDE;
-
-  const x = offset * (ahead ? d.x : d.pastX);
-  const y = offset * (ahead ? d.y : d.pastY);
-  const yaw = d.yaw + offset * d.yawStep;
-
+  const ahead = Math.max(0, offset);
+  const past = Math.max(0, -offset);
+  const x = ahead * (compact ? 34 : 78);
+  const y = ahead * (compact ? -24 : -48);
+  const z = -ahead * (compact ? 140 : 185);
+  // The outgoing card slides clear before fading; the incoming card stays sharp.
+  const exit = Math.min(1, past / 0.8);
+  const opacity = past > 0.65 ? Math.max(0, (0.8 - past) / 0.15) : 1;
+  const blur = Math.max(0, ahead - 0.65) * 1.2;
+  const brightness = Math.max(0.45, 1 - Math.max(0, ahead - 0.5) * 0.22);
   return {
-    transform: `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${stop.z.toFixed(1)}px) rotateY(${yaw.toFixed(2)}deg) rotateX(2.5deg)`,
-    opacity: stop.opacity,
-    filter: stop.blur > 0.05 ? `blur(${stop.blur.toFixed(2)}px)` : "none",
-    visible: stop.opacity > 0.015
+    transform: `translate3d(calc(${x.toFixed(1)}px - ${exit.toFixed(4)} * min(110vw, 1100px)), ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateY(${(-8 - ahead * 2.2).toFixed(2)}deg) rotateX(2.5deg)`,
+    opacity,
+    filter: blur > 0 ? `brightness(${brightness.toFixed(3)}) blur(${blur.toFixed(2)}px)` : "none",
+    visible: offset <= DECK_WINDOW && opacity > 0.015
   };
 }

@@ -123,12 +123,12 @@ a {
 }
 
 /*
-  Reduced motion gets no deck at all: the track collapses, the stage stops
+  Reduced motion and short viewports get no deck: the track collapses, the stage stops
   being sticky, and the cards fall into an ordinary vertical list. Nothing is
   hidden - the same quotes are all still there, they just stack instead of
   receding.
 */
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (max-height: 700px) {
   .deck-track {
     height: auto !important;
   }
@@ -140,11 +140,13 @@ a {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    padding-block: 56px;
+    padding-block: 104px 40px;
   }
 
   .deck-card {
     position: static !important;
+    display: block !important;
+    scroll-margin-top: 100px;
     transform: none !important;
     opacity: 1 !important;
     filter: none !important;
@@ -171,5 +173,23 @@ a {
   /* A progress rail means nothing when every card is already on the page. */
   .deck-rail {
     display: none !important;
+  }
+}
+
+/* Long submissions still fit between the filters and the bottom controls. */
+.deck-card [data-long] .quote-body {
+  font-size: clamp(20px, 2.5vw, 34px);
+  line-height: 1.2;
+}
+
+@media (max-width: 639px) {
+  .deck-chrome-bottom > div:last-child {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .deck-chrome-bottom > div:last-child > div:last-child {
+    margin-left: auto;
   }
 }

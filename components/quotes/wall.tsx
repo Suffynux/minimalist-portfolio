@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { LayoutGrid, Mouse, Plus, X } from "lucide-react";
-import { DECK_WINDOW, depthAt, placeQuotes, tierOf, type Placed, type Tier } from "@/lib/quotes/layout";
+import { DECK_WINDOW, depthAt, readingProgress, placeQuotes, tierOf, type Placed, type Tier } from "@/lib/quotes/layout";
 import type { Quote } from "@/lib/quotes/types";
 import { QuoteCard, attribution } from "@/components/quotes/quote-card";
 import { SubmitDialog } from "@/components/quotes/submit-dialog";
@@ -37,6 +37,15 @@ const ROUND =
 export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; accepting: boolean }) {
   const reduceMotion = useReducedMotion();
   const [quotes, setQuotes] = useState(initial);
+  const [shortViewport, setShortViewport] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-height: 700px)");
+    const update = () => setShortViewport(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
   const [filter, setFilter] = useState<Tier | "all">("all");
   const [focused, setFocused] = useState(0);
   const [open, setOpen] = useState<Placed | null>(null);
@@ -59,14 +68,23 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
   }, [quotes, filter]);
 
   const count = visible.length;
-  const still = Boolean(reduceMotion);
+  const still = Boolean(reduceMotion) || shortViewport;
 
   // The walk. Recreated whenever the deck's length changes, because the track
   // height - and so the scroll-to-progress mapping - changes with it.
   useEffect(() => {
     const track = trackRef.current;
     const stage = stageRef.current;
-    if (still || !track || !stage || count === 0) return;
+    if (still) {
+      cardRefs.current.forEach((el) => {
+        if (!el) return;
+        el.inert = false;
+        el.style.display = "";
+        el.style.pointerEvents = "auto";
+      });
+      return;
+    }
+    if (!track || !stage || count === 0) return;
 
     let frame = 0;
     let trackTop = 0;
@@ -86,7 +104,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
 
     const draw = () => {
       frame = 0;
-      const progress = clamp((window.scrollY - trackTop) / stepPx, 0, count - 1);
+      const progress = readingProgress(clamp((window.scrollY - trackTop) / stepPx, 0, count - 1));
       const narrow = window.innerWidth < 640;
 
       for (let i = 0; i < count; i += 1) {
@@ -98,12 +116,14 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
         // layer tree keeps the frame cost flat however long the wall gets.
         if (Math.abs(offset) > DECK_WINDOW) {
           if (el.style.display !== "none") el.style.display = "none";
+          el.inert = true;
           continue;
         }
 
         const depth = depthAt(offset, narrow);
         if (!depth.visible) {
           el.style.display = "none";
+          el.inert = true;
           continue;
         }
 
@@ -113,9 +133,10 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
         el.style.filter = depth.filter;
         // `filter` flattens each card into its own plane, so sibling order is
         // not sorted by Z for us. Paint order is set explicitly instead.
-        el.style.zIndex = String(1000 - Math.round(Math.abs(offset) * 10));
+        el.style.zIndex = String(1000 - i);
         // Only the card actually in focus should take a click.
         el.style.pointerEvents = Math.abs(offset) < 0.5 ? "auto" : "none";
+        el.inert = Math.abs(offset) >= 0.5;
       }
 
       const next = clamp(Math.round(progress), 0, count - 1);
@@ -143,7 +164,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", remeasure);
     };
-  }, [still, count]);
+  }, [still, visible, count]);
 
   // A link into the deck (#q-<id>, from the index below) always lands, even
   // when the quote it names is filtered out of the current view.
@@ -179,7 +200,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
     setFilter(key);
     setFocused(0);
     const track = trackRef.current;
-    if (track) window.scrollTo({ top: track.getBoundingClientRect().top + window.scrollY });
+    if (track) window.scrollTo({ top: track.getBoundingClientRect().top + window.scrollY, behavior: "instant" });
   }, []);
 
   /** A freshly posted quote joins the deck and the walk turns to face it. */
@@ -200,7 +221,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
       >
         {/* Scroll anchors, one per card, at the exact offset that brings it
             into focus. This is what makes a quote linkable. */}
-        {visible.map((quote, i) => (
+        {!still && visible.map((quote, i) => (
           <span
             key={quote.id}
             id={`q-${quote.id}`}
@@ -230,18 +251,19 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
           {visible.map((quote, i) => (
             <div
               key={quote.id}
+              id={still ? `q-${quote.id}` : undefined}
               ref={(el) => {
                 cardRefs.current[i] = el;
               }}
               className="deck-card absolute inset-0 m-auto h-fit w-[min(690px,86vw)]"
-              style={{ opacity: 0 }}
+              style={{ opacity: i === 0 ? 1 : 0 }}
             >
               <QuoteCard quote={quote} onOpen={setOpen} />
             </div>
           ))}
 
           {/* ---- Chrome: top. Title, and the filters under it. ---- */}
-          <div className="deck-chrome-top absolute inset-x-0 top-0 flex flex-col gap-5 px-4 pt-[84px] sm:gap-7 sm:px-10 sm:pt-[96px]">
+          <div className="deck-chrome-top z-[1100] absolute inset-x-0 top-0 flex flex-col gap-5 px-4 pt-[84px] sm:gap-7 sm:px-10 sm:pt-[96px]">
             <div className="flex items-baseline justify-between gap-4">
               <div>
                 <p className="font-mono text-[10.5px] tracking-[0.18em] text-olive-light sm:text-[11px]">
@@ -253,7 +275,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
               </div>
               {/* On a phone the count lives up here; the rail has no room. */}
               <p className="font-mono text-[13px] tracking-[0.16em] text-bone sm:hidden">
-                {pad(focused + 1)}
+                {pad(count ? focused + 1 : 0)}
                 <span className="text-bone/35"> / {pad(count)}</span>
               </p>
             </div>
@@ -284,9 +306,9 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
           </div>
 
           {/* ---- Chrome: right rail (desktop). Where you are in the deck. ---- */}
-          <div className="deck-rail pointer-events-none absolute right-10 top-1/2 hidden -translate-y-1/2 flex-col items-end gap-5 sm:flex">
+          <div className="deck-rail z-[1100] pointer-events-none absolute right-10 top-1/2 hidden -translate-y-1/2 flex-col items-end gap-5 sm:flex">
             <p className="font-mono text-[13px] tracking-[0.16em] text-bone">
-              {pad(focused + 1)}
+              {pad(count ? focused + 1 : 0)}
               <span className="text-bone/35"> / {pad(count)}</span>
             </p>
             <div className="relative h-[240px] w-px bg-bone/15">
@@ -299,9 +321,9 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
           </div>
 
           {/* ---- Chrome: bottom. ---- */}
-          <div className="deck-chrome-bottom pointer-events-none absolute inset-x-0 bottom-0 flex flex-col gap-5 px-4 pb-[calc(92px+env(safe-area-inset-bottom))] sm:px-10 md:pb-10">
+          <div className="deck-chrome-bottom z-[1100] pointer-events-none absolute inset-x-0 bottom-0 flex flex-col gap-5 px-4 pb-[calc(92px+env(safe-area-inset-bottom))] sm:px-10 md:pb-10 md:pr-28">
             {/* Phone: a horizontal rail with the scroll knob riding it. */}
-            <div className="flex items-center gap-3 sm:hidden">
+            <div className={`items-center gap-3 sm:hidden ${still ? "hidden" : "flex"}`}>
               <div className="relative h-px flex-1 bg-bone/15">
                 <div className="h-px bg-olive-light transition-[width] duration-300" style={{ width: `${progressPct}%` }} />
               </div>
@@ -316,7 +338,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
                   <span className="hidden size-7 items-center justify-center rounded-full border border-bone/25 text-bone/70 sm:inline-flex">
                     <Mouse className="size-[13px]" />
                   </span>
-                  SCROLL TO WALK<span className="hidden sm:inline"> THE WALL</span>
+                  {still ? "SCROLL TO READ" : "SCROLL TO WALK"}<span className="hidden sm:inline"> THE WALL</span>
                   <span className="text-bone/30">·</span>
                   <span className="sm:hidden">TAP TO HOLD</span>
                   <span className="hidden sm:inline">CLICK A LINE TO HOLD IT</span>
@@ -334,7 +356,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
                   <button
                     type="button"
                     onClick={() => setSubmitOpen(true)}
-                    className="pointer-events-auto order-1 inline-flex h-[54px] items-center justify-center gap-2 rounded-full bg-bone px-6 font-semibold text-ink shadow-[0_18px_40px_-18px_rgba(0,0,0,0.9)] transition hover:-translate-y-0.5 hover:bg-olive-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-light sm:order-2 sm:h-[60px] sm:px-8"
+                    className="pointer-events-auto order-1 inline-flex h-[54px] shrink-0 whitespace-nowrap items-center justify-center gap-2 rounded-full bg-bone px-6 font-semibold text-ink shadow-[0_18px_40px_-18px_rgba(0,0,0,0.9)] transition hover:-translate-y-0.5 hover:bg-olive-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-light sm:order-2 sm:h-[60px] sm:px-8"
                   >
                     <Plus className="size-[18px]" />
                     Add yours
