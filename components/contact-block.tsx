@@ -16,7 +16,7 @@ export function ContactBlock() {
           Let&apos;s <span className="italic text-olive-light">build</span> it.
         </h2>
         <p className="relative mt-7 max-w-[480px] text-[17px] leading-[1.6] text-shade-deep">
-          Tell me what you&apos;re working on. I reply within a day - Shopify build, web app, or just figuring out what you need.
+          Tell me what you&apos;re working on. I reply within a day - website, full-stack app, AI integration, or just figuring out what you need.
         </p>
         <div className="relative mt-10 flex flex-wrap gap-3.5">
           <Button asChild variant="whatsapp" size="lg" className="w-[220px]">

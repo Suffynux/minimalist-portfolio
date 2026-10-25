@@ -10,22 +10,22 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bone: "#F2F0E9",
-        surface: "#FAF9F4",
-        ink: "#23251D",
-        // Darkened from #6E7A45 (4.06:1) to pass WCAG AA on light backgrounds.
-        olive: "#5F6B3A",
-        // Lightened counterpart for olive text/badges sitting on ink.
-        "olive-light": "#9DAB6B",
-        muted: "#5E5F52",
-        body: "#494C3E",
+        bone: "#F5F4EF",
+        surface: "#FAFAF7",
+        ink: "#20211F",
+        // Shared accent tokens retain their existing names for inner-page compatibility.
+        olive: "#2455EB",
+        // Light blue for text on dark surfaces.
+        "olive-light": "#B8CAFF",
+        muted: "#61635E",
+        body: "#494C48",
         // Replaces hardcoded #9A9A8C (2.70:1) for small meta text.
-        meta: "#5E5F52",
+        meta: "#61635E",
         // Card / image placeholder tints, previously hardcoded hexes.
-        shade: "#E7E6DD",
-        "shade-deep": "#D6D6CB",
+        shade: "#E6E8E0",
+        "shade-deep": "#D5D8D0",
         // "Available now" status dot - olive-family green, not the stock #3F9E68.
-        live: "#4F7D42",
+        live: "#50804C",
         // WhatsApp's own brand colours. Deliberately outside the palette:
         // the button has to read as WhatsApp, so these must not be re-tinted.
         whatsapp: "#25D366",

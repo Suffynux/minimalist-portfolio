@@ -79,7 +79,7 @@ const mk = (ids: number[], caps: string[]): CreativeImage[] =>
   ids.map((id, index) => ({ img: pexels(id), cap: caps[index] || "AI Generated" }));
 
 export const site = {
-  accent: "#6E7A45",
+  accent: "#2455EB",
   email: "suffynux@gmail.com",
   phone: "+923150541169",
   whatsapp: "923150541169",
@@ -132,7 +132,7 @@ export const featuredProject: Project = {
   meta: "Pakistan's National Gaming & Animation Hub",
   desc: "A full-stack platform serving as the digital gateway for a national institute - portals, dashboards and content management powering 10,000+ students.",
   stack: ["Next.js", "React", "Node.js", "Full-Stack", "CMS"],
-  img: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg"
+  img: "/case-studies/cega/training-overview.png"
 };
 
 export const projects: Project[] = [
@@ -205,7 +205,7 @@ export const projectDetails: DetailedProject[] = [
     stack: ["Next.js", "React", "Node.js", "CMS"],
     live: "https://cega.com.pk",
     pdf: "/case-studies/cega/CEGA-Case-Study.pdf",
-    img: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
+    img: "/case-studies/cega/training-overview.png",
     reverse: true
   },
   {
@@ -276,7 +276,7 @@ export const milestones: Milestone[] = [
   { year: "2022", label: "COMMERCE", title: "Entered the Shopify world", desc: "Started building custom Shopify stores and Liquid themes for brands - learning what actually drives conversions, not just what looks nice.", stack: ["Shopify", "Liquid"] },
   { year: "2024", label: "SCALE", title: "Shipping for thousands", desc: "Delivered CEGA, a national platform serving 10,000+ users, plus live stores and apps for clients in Pakistan and the UK. Learned to build for scale and reliability.", stack: ["Next.js", "Full-Stack", "CMS"] },
   { year: "2025", label: "AI & AUTOMATION", title: "Building leverage", desc: "Added AI integrations, chat agents and automations to my toolkit - helping clients cut busywork and do more without growing their team.", stack: ["LLM API", "Automations", "AI"] },
-  { year: "Now", label: "FREELANCE", title: "Open for your project", desc: "Taking on Shopify and MERN work for founders and brands who want the technical side handled properly. You grow the business; I build the engine.", stack: null }
+  { year: "Now", label: "FREELANCE", title: "Open for your project", desc: "Building full-stack applications, websites and practical AI integrations for founders and teams. From the first business rule to the final deployment.", stack: null }
 ];
 
 export const journeyStats: Stat[] = [

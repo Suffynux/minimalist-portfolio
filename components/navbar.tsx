@@ -1,74 +1,94 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { site } from "@/lib/data";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { AvatarViewer } from "@/components/avatar-viewer";
-import { MobileDock } from "@/components/mobile-dock";
+import { useEffect, useState } from "react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 
-const pageLinks = [
-  { label: "Home", href: "/" },
-  { label: "Projects", href: "/projects" },
-  { label: "Creatives", href: "/creatives" },
-  { label: "Wall", href: "/quotes" },
-  { label: "Journey", href: "/journey" }
-] as const;
-
+const links = [
+  { label: "Work", href: "/#work" },
+  { label: "Expertise", href: "/#services" },
+  { label: "About", href: "/#about" },
+  { label: "Playground", href: "/creatives" },
+];
 export function Navbar() {
   const pathname = usePathname();
-
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        document.getElementById("nav-toggle")?.focus();
+      }
+    };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, [open]);
   return (
     <>
-      <nav className="fixed inset-x-0 top-0 z-50 border-b border-ink/[0.09] bg-bone/70 backdrop-blur-[14px]">
-        <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-3 sm:px-8 md:py-[14px]">
-          <div className="flex items-center gap-[9px]">
-            <Link href="/" aria-label="Home">
-              <AvatarViewer />
-            </Link>
-            <Link href="/" className="hidden text-[13px] font-semibold tracking-[0.18em] md:inline">
-              SUFIYAN
-            </Link>
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
+      <header className="site-header">
+        <nav className="page-width nav-inner" aria-label="Main navigation">
+          <Link href="/" className="brand" aria-label="Suffynux home">
+            <span className="brand-mark" aria-hidden="true">
+              [s]
+            </span>
+            <span>
+              suffynux<span className="brand-dot">.</span>
+              <small>SUFIYAN ALI / DEVELOPER</small>
+            </span>
+          </Link>
+          <div className="desktop-links">
+            {links.map((link) => (
+              <Link
+                href={link.href}
+                key={link.href}
+                aria-current={pathname === link.href ? "page" : undefined}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
-
-          <div className="hidden items-center gap-1 rounded-full border border-ink/[0.07] bg-ink/[0.05] p-[5px] md:flex">
-            {pageLinks.map((item) => {
-              const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
-              return (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  aria-current={active ? "page" : undefined}
-                  className={cn(
-                    "inline-flex min-h-[44px] items-center rounded-full px-4 text-[13.5px] font-medium transition",
-                    active ? "bg-ink text-bone" : "text-body hover:text-ink"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </div>
-
-          <Button asChild size="sm" className="hidden md:inline-flex">
-            <Link href="/#contact">
-              Let&apos;s talk <span className="font-mono">→</span>
-            </Link>
-          </Button>
-
-          <a
-            href={`https://wa.me/${site.whatsapp}`}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-9 items-center rounded-full bg-ink px-[18px] text-[13px] font-semibold text-bone transition hover:bg-olive md:hidden"
-          >
-            Talk
+          <a className="nav-contact" href="/#contact">
+            Let’s talk <ArrowUpRight size={16} />
           </a>
-        </div>
-      </nav>
-
-      <MobileDock />
+          <button
+            id="nav-toggle"
+            className="nav-toggle"
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </nav>
+        {open && (
+          <div className="mobile-menu" id="mobile-menu">
+            {[
+              ...links,
+              { label: "All projects", href: "/projects" },
+              { label: "The wall", href: "/quotes" },
+              { label: "Journey", href: "/journey" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+              >
+                {link.label}
+                <ArrowUpRight size={18} />
+              </Link>
+            ))}
+          </div>
+        )}
+      </header>
     </>
   );
 }

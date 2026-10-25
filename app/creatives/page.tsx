@@ -1,104 +1,144 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { CompactCta } from "@/components/contact-block";
-import { Footer } from "@/components/footer";
+import { AsciiPortrait } from "@/components/ascii-portrait";
 import { Navbar } from "@/components/navbar";
-import { Reveal } from "@/components/reveal";
-import { CreativeGallery } from "@/components/creative-gallery";
-import { PageShell } from "@/components/shell";
-import { WhatsAppButton } from "@/components/whatsapp-button";
-import { creativeHeroes, creativeSections, creativeTags, creativeTools } from "@/lib/data";
-
+import { Footer } from "@/components/footer";
+import { ArrowDownToLine, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 export const metadata: Metadata = {
-  title: "Creative and AI Visual Work",
+  title: "ASCII Playground",
   description:
-    "Explore Sufiyan Ali's generative artwork, product concepts and visual experiments where technical thinking meets creative craft.",
-  alternates: {
-    canonical: "/creatives"
-  },
+    "A little personality, written in characters. Play with Sufiyan's interactive ASCII portrait and download the original SVG, PNG or text artwork.",
+  alternates: { canonical: "/creatives" },
   openGraph: {
-    url: "https://www.suffynux.com/creatives"
-  }
+    url: "https://www.suffynux.com/creatives",
+    siteName: "Suffynux",
+    type: "website",
+    images: [{ url: "/og-ascii.png", width: 1200, height: 630, alt: "Sufiyan Ali — Full-Stack Developer & AI Builder" }],
+  },
 };
-
 export default function CreativesPage() {
   return (
-    <PageShell>
+    <div className="portfolio-site" id="top">
       <Navbar />
-      <header className="relative z-10 mx-auto max-w-[1280px] px-5 pb-11 pt-[138px] sm:px-8">
-        <Reveal as="p" className="mb-[22px] font-mono text-xs tracking-[0.14em] text-olive">
-          CREATIVES - DESIGN & VISUAL DIRECTION
-        </Reveal>
-        <Reveal as="h1" className="font-display text-[clamp(54px,9vw,128px)] font-normal leading-[0.9] tracking-[-0.02em]">
-          Where code
-          <br />
-          meets <span className="italic text-olive">craft</span>.
-        </Reveal>
-        <Reveal className="mt-10 flex flex-wrap items-end justify-between gap-10">
-          <p className="max-w-[560px] text-lg leading-[1.6] text-body">
-            Beyond development, I care how things look. This is the visual side of my process - the directions, references and mockups I work from before a line of code gets written.
+      <main id="main-content">
+        <header className="index-header page-width">
+          <p className="eyebrow">THE PLAYGROUND / CODE WITH CHARACTER</p>
+          <h1>
+            A little less serious.
+            <br />
+            <span className="serif-word">Still very me.</span>
+          </h1>
+          <p>
+            My actual face, rebuilt with letters and symbols.
+            <br />
+            Because a developer’s portfolio should have a little personality.
           </p>
-          <div className="flex flex-wrap gap-2">
-            {creativeTags.map((tag) => (
-              <a key={tag.label} href={tag.href} className="rounded-full border border-ink/15 px-4 py-[9px] font-mono text-xs text-body transition hover:border-olive hover:text-olive">
-                {tag.label}
-              </a>
-            ))}
-          </div>
-        </Reveal>
-      </header>
-
-      <section className="relative z-10 mx-auto max-w-[1280px] px-5 py-[30px] sm:px-8">
-        <div className="grid grid-cols-1 gap-[18px] lg:grid-cols-[1.4fr_1fr]">
-          {creativeHeroes.map((hero) => (
-            <Reveal key={hero.title} className="relative min-h-[440px] overflow-hidden rounded-[22px] bg-shade">
-              <Image src={hero.img} alt={hero.title} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
-              <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(20,21,14,0.88),rgba(20,21,14,0.35)_45%,rgba(20,21,14,0.12))]" />
-              <div className="absolute bottom-7 left-[30px] text-bone">
-                <div className="mb-2 font-mono text-[11px] tracking-[0.08em] text-olive-light">{hero.kicker}</div>
-                <h3 className="font-display text-[34px] font-normal leading-none">{hero.title}</h3>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {creativeSections.map((section) => (
-        <section key={section.id} id={section.id} className="relative z-10 mx-auto max-w-[1280px] px-5 pb-2.5 pt-16 sm:px-8">
-          <Reveal className="mb-8 flex flex-wrap items-baseline justify-between gap-4 border-b border-ink/10 pb-[22px]">
-            <div>
-              <p className="mb-3 font-mono text-xs tracking-[0.12em] text-olive">{section.no}</p>
-              <h2 className="font-display text-[clamp(32px,4.6vw,56px)] font-normal leading-none tracking-[-0.01em]">{section.title}</h2>
+        </header>
+        <section className="page-width playground-grid">
+          <AsciiPortrait />
+          <div className="playground-notes">
+            <p className="eyebrow">EXPERIMENT 001 / THE ASCII SELF</p>
+            <h2>
+              Human.
+              <br />
+              Character by
+              <br />
+              <span className="serif-word">character.</span>
+            </h2>
+            <p>
+              Move your pointer around and I’ll follow along. Switch to focus
+              mode, introduce a little glitch, or give the whole thing a blue
+              backdrop.
+            </p>
+            <p>Same person. A different way of seeing.</p>
+            <div className="playground-instructions">
+              <span>
+                <b>01</b> Move around. The portrait follows.
+              </span>
+              <span>
+                <b>02</b> Try Hello, Focus and Glitch.
+              </span>
+              <span>
+                <b>03</b> Change the palette. Take it with you.
+              </span>
             </div>
-            <p className="max-w-[360px] text-[15px] leading-[1.6] text-muted">{section.desc}</p>
-          </Reveal>
-          <CreativeGallery items={section.items} cols={section.cols} sectionId={section.id} sectionTitle={section.title} />
-        </section>
-      ))}
-
-      <section className="relative z-10 mx-auto max-w-[1280px] px-5 pb-2.5 pt-[70px] sm:px-8">
-        <Reveal className="grid gap-[34px] rounded-3xl bg-ink p-10 text-bone md:grid-cols-2 lg:grid-cols-4 lg:p-[72px]">
-          <div className="max-w-[620px] md:col-span-2 lg:col-span-4">
-            <p className="mb-[18px] font-mono text-xs tracking-[0.12em] text-olive-light">THE TOOLKIT</p>
-            <h2 className="font-display text-[clamp(30px,4vw,46px)] font-normal leading-[1.05]">A creative who can also ship it.</h2>
-            <p className="mt-4 text-base leading-[1.65] text-shade-deep">
-              The advantage of hiring me: the same person who designs the visual can build the site it lives on. From AI concept to coded reality, nothing gets lost in translation.
+            <p className="eyebrow">
+              MADE FROM MY PORTRAIT / RENDERED IN REAL ASCII
             </p>
           </div>
-          {creativeTools.map((tool) => (
-            <div key={tool.name} className="border-t border-bone/15 pt-[18px]">
-              <div className="mb-1.5 font-display text-[22px] italic text-olive-light">{tool.name}</div>
-              <p className="text-[13px] leading-[1.5] text-bone/70">{tool.use}</p>
+        </section>
+        <section className="page-width downloads-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">KEEP A COPY</p>
+              <h2>
+                Made for
+                <br />
+                <span className="serif-word">small circles.</span>
+              </h2>
             </div>
-          ))}
-        </Reveal>
-      </section>
-
-      <section className="relative z-10 mx-auto max-w-[1280px] px-5 pb-[110px] pt-[70px] sm:px-8">
-        <CompactCta centered title={<>Need visuals <span className="italic text-olive">and</span><br />a site to match?</>} />
-        <Footer border />
-      </section>
-      <WhatsAppButton />
-    </PageShell>
+            <p>
+              Square exports for profile pictures.
+              <br />
+              PNG for WhatsApp. SVG for any size.
+              <br />
+              Plain text for the terminal at heart.
+            </p>
+          </div>
+          <div className="download-cards">
+            {[
+              {
+                name: "The original",
+                file: "sufiyan-ascii",
+                description: "Ink on paper / 1080 × 1080",
+              },
+              {
+                name: "Electric blue",
+                file: "sufiyan-ascii-blue",
+                description: "Light on blue / 1080 × 1080",
+              },
+            ].map((avatar) => (
+              <article key={avatar.file}>
+                <div className="download-preview">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`/avatar/${avatar.file}.png`}
+                    alt={`${avatar.name} ASCII portrait of Sufiyan Ali`}
+                    loading="lazy"
+                    width={1080}
+                    height={1080}
+                  />
+                </div>
+                <div className="download-description">
+                  <h3>{avatar.name}</h3>
+                  <p>{avatar.description}</p>
+                  <div>
+                    <a href={`/avatar/${avatar.file}.png`} download>
+                      PNG <ArrowDownToLine size={14} />
+                    </a>
+                    <a href={`/avatar/${avatar.file}.svg`} download>
+                      SVG <ArrowDownToLine size={14} />
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+          <a className="text-link" href="/avatar/sufiyan-ascii.txt" download>
+            Or download the raw ASCII text <ArrowDownToLine size={16} />
+          </a>
+        </section>
+        <section className="page-width index-cta">
+          <p className="eyebrow">ENOUGH PLAYING AROUND?</p>
+          <Link href="/projects">
+            See what else I build.
+            <ArrowUpRight />
+          </Link>
+        </section>
+        <div className="page-width inner-footer">
+          <Footer />
+        </div>
+      </main>
+    </div>
   );
 }

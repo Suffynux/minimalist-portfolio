@@ -1,15 +1,16 @@
 # Sufiyan Portfolio
 
-A polished personal portfolio for Sufiyan Ali, built with the Next.js App Router, TypeScript, Tailwind CSS, shadcn/ui-style primitives, and Framer Motion. The site presents Shopify, MERN, automation, AI, and creative work through a fast, responsive, content-driven interface.
+A polished personal portfolio for Sufiyan Ali, built with the Next.js App Router, TypeScript, Tailwind CSS, shadcn/ui-style primitives, and Framer Motion. The site presents full-stack applications, websites, AI integrations and business automation through an interactive ASCII identity.
 
 ## Highlights
 
 - Responsive home page with hero, services, selected work, about, process, and contact sections
-- Dedicated project, creative, and journey pages
+- Filterable project index, ASCII playground, case studies and journey pages
+- Interactive portrait with pointer movement, Focus/Glitch modes, palette switching and profile-picture exports
 - Centralized portfolio content in `lib/data.ts`
 - Animated reveal effects with Framer Motion
 - Reusable UI components for cards, navigation, tags, contact links, and WhatsApp CTA
-- Google font setup through `next/font`
+- Self-hosted Manrope, Instrument Serif and JetBrains Mono through `next/font/local`
 
 ## Tech Stack
 
@@ -75,7 +76,7 @@ Runs the configured Next.js lint command.
 app/
   page.tsx              Home page
   projects/page.tsx     Project showcase
-  creatives/page.tsx    Creative work gallery
+  creatives/page.tsx    Interactive ASCII playground
   journey/page.tsx      Timeline and experience
 components/
   *.tsx                 Reusable layout, cards, nav, contact, and UI pieces
@@ -86,7 +87,7 @@ lib/
 
 ## Editing Content
 
-Most portfolio content lives in `lib/data.ts`, including:
+The homepage story and capability copy live in `app/page.tsx`. Project and contact content live in `lib/data.ts`, including:
 
 - Contact details and social links in `site`
 - Navigation links in `navItems`
@@ -106,3 +107,13 @@ npm run build
 ```
 
 Then deploy the generated Next.js application using your preferred hosting provider.
+
+## ASCII identity
+
+`components/ascii-portrait.tsx` renders the local character map on canvas. A static SVG is available before JavaScript and if loading fails. Animation respects reduced motion, pauses painting offscreen and does not load the original photo in the browser.
+
+Run `npm run avatar:generate` after editing `scripts/generate-ascii.mjs` to rebuild the portrait data, 1080px PNGs, SVGs, text export, and social sharing image. The script samples the existing `lib/assessts/Avator.jpeg`; its silhouette mask is specific to that portrait. It uses Sharp, which is also installed with Next.js.
+
+Exports live in `public/avatar/`. The PNG files are ready for WhatsApp profile pictures; the SVG files scale without losing the character shapes. The interactive modes are browser effects; downloaded portraits are clean, static artwork.
+
+The visual system is in `app/portfolio.css`; legacy inner-page components share its palette through `tailwind.config.ts`. The quotes backend and admin flows retain their existing Supabase setup. See `.env.example` for the required environment variable names.

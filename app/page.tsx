@@ -1,236 +1,426 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { ContactBlock } from "@/components/contact-block";
-import { Footer } from "@/components/footer";
-import { Marquee } from "@/components/marquee";
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  ArrowRight,
+  Braces,
+  Workflow,
+  Sparkles,
+  Globe2,
+} from "lucide-react";
 import { Navbar } from "@/components/navbar";
-import { FeaturedProjectCard, ProjectCard } from "@/components/project-card";
-import { Reveal } from "@/components/reveal";
-import { ServiceCard } from "@/components/service-card";
-import { PageShell } from "@/components/shell";
-import { Button } from "@/components/ui/button";
-import { WhatsAppButton } from "@/components/whatsapp-button";
-import { featuredProject, homeStats, marqueeText, process, projects, services } from "@/lib/data";
-import { AvatarViewer } from "@/components/avatar-viewer";
+import { Footer } from "@/components/footer";
+import { AsciiPortrait } from "@/components/ascii-portrait";
+import { CopyEmail } from "@/components/copy-email";
+import { site } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "Shopify & Full-Stack Developer",
+  title: "Full-Stack Developer & AI Builder",
   description:
-    "Sufiyan Ali builds useful Shopify stores, full-stack products and automation systems that solve real problems and help businesses grow.",
-  alternates: {
-    canonical: "/"
-  },
+    "Sufiyan Ali builds full-stack apps, thoughtful websites, AI integrations and the business logic behind them. Meet the human behind Suffynux.",
+  alternates: { canonical: "/" },
   openGraph: {
-    url: "https://www.suffynux.com/"
-  }
+    url: "https://www.suffynux.com/",
+    siteName: "Suffynux",
+    type: "website",
+    images: [{ url: "/og-ascii.png", width: 1200, height: 630, alt: "Sufiyan Ali — Full-Stack Developer & AI Builder" }],
+  },
 };
-
-const personSchema = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Sufiyan Ali",
-  alternateName: "Suffynux",
-  url: "https://www.suffynux.com",
-  jobTitle: "Shopify and Full-Stack Developer",
-  description:
-    "Shopify and full-stack developer building e-commerce stores, MERN applications and automation systems that solve real business problems.",
-  sameAs: [
-    "https://github.com/suffynux/",
-    "https://www.linkedin.com/in/sufiyan-ali-suffynux/",
-    "https://www.upwork.com/freelancers/~0165abeee5bd5616b7"
-  ]
-};
-
-function PersonStructuredData() {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-    />
-  );
-}
+const capabilities = [
+  {
+    icon: Braces,
+    title: "Full-stack applications",
+    text: "From the first screen to the last database query. Portals, dashboards, SaaS products and APIs built around how your business actually works.",
+    tags: "NEXT.JS / REACT / NODE.JS / DATABASES",
+  },
+  {
+    icon: Sparkles,
+    title: "AI with a real job to do",
+    text: "Useful assistants, integrated LLMs and smarter workflows. AI connected to your product, your data and a problem worth solving.",
+    tags: "LLM INTEGRATIONS / CHAT AGENTS / PYTHON",
+  },
+  {
+    icon: Workflow,
+    title: "Business logic, untangled",
+    text: "Applications, approvals, bookings, notifications. I turn the spreadsheets and manual handoffs into systems that keep things moving.",
+    tags: "AUTOMATION / INTEGRATIONS / ADMIN TOOLS",
+  },
+  {
+    icon: Globe2,
+    title: "Websites that mean business",
+    text: "Fast, considered websites and custom storefronts. A thoughtful frontend, a dependable backend and a clear path from visitor to customer.",
+    tags: "WEBSITES / SHOPIFY / COMMERCE",
+  },
+];
 
 export default function Home() {
   return (
-    <PageShell>
-      <PersonStructuredData />
+    <div className="portfolio-site" id="top">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "Sufiyan Ali",
+            alternateName: "Suffynux",
+            url: "https://www.suffynux.com",
+            jobTitle: "Full-Stack Developer & AI Builder",
+            sameAs: [site.github, site.linkedin, site.upwork],
+          }),
+        }}
+      />
       <Navbar />
-      <header id="top" className="relative z-10 mx-auto max-w-[1200px] px-5 pb-24 pt-[150px] sm:px-8 md:min-h-[calc(100vh-72px)] md:pb-16 md:pt-[154px]">
-        <div className="text-center md:hidden">
-          <Reveal className="mb-16 flex justify-center font-mono text-[clamp(14px,3.1vw,18px)] font-medium tracking-[0.09em] text-muted">
-            <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface px-5 py-2.5 shadow-[0_18px_45px_-36px_rgba(35,37,29,0.55)]">
-              <span className="size-[10px] rounded-full bg-live shadow-[0_0_0_5px_rgba(79,125,66,0.18)]" />
-              Available for new projects
-            </span>
-          </Reveal>
-
-          <Reveal className="relative mx-auto mb-14 flex max-w-[360px] justify-center">
-            <span className="absolute left-2 top-7 z-10 rounded-full border border-ink/10 bg-surface px-4 py-2.5 font-mono text-[15px] font-semibold tracking-[0.06em] text-body shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
-              ★ 5.0
-            </span>
-            <span className="absolute bottom-8 right-2 z-10 rounded-full bg-olive px-4 py-2.5 font-mono text-[15px] font-semibold tracking-[0.06em] text-surface shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
-              &lt;24h reply
-            </span>
-            <AvatarViewer variant="heroMobile" />
-          </Reveal>
-
-          <Reveal as="p" className="mx-auto max-w-[620px] font-display text-[clamp(48px,10vw,72px)] font-normal leading-[0.95] tracking-[-0.02em]">
-            Shopify &amp; full-stack developer.
-            <br />
-            I build what people <span className="italic text-olive">use</span>.
-          </Reveal>
-
-          <Reveal as="p" className="mx-auto mt-8 max-w-[620px] text-[clamp(18px,3.6vw,24px)] leading-[1.5] text-body">
-            A full-stack &amp; Shopify developer who takes the whole technical side off your plate - so you can focus on growing the business.
-          </Reveal>
-
-          <Reveal className="mx-auto mt-8 grid max-w-[520px] grid-cols-3 justify-items-center gap-2">
-            <span className="w-full rounded-full border border-ink/10 bg-bone px-2 py-2 text-center font-mono text-[12px] font-semibold tracking-[0.04em] text-body">15+ projects</span>
-            <span className="w-full rounded-full border border-ink/10 bg-bone px-2 py-2 text-center font-mono text-[12px] font-semibold tracking-[0.04em] text-body">10k+ users</span>
-            <span className="w-full rounded-full border border-ink/10 bg-bone px-2 py-2 text-center font-mono text-[12px] font-semibold tracking-[0.04em] text-body">5+ yrs</span>
-          </Reveal>
-
-          <Reveal className="mx-auto mt-10 flex max-w-[520px] flex-col gap-4">
-            <Button asChild size="lg" className="h-[58px] w-full text-[17px] underline underline-offset-4">
-              <Link href="#work">
-                View selected work <span className="font-mono">↘</span>
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="h-[58px] w-full text-[17px] underline underline-offset-4">
-              <Link href="#contact">Start a project</Link>
-            </Button>
-          </Reveal>
-        </div>
-
-        <div className="hidden text-center md:block">
-          <Reveal className="mb-[clamp(28px,5vh,72px)] flex justify-center font-mono text-sm tracking-[0.09em] text-muted">
-            <span className="inline-flex items-center gap-3">
-              <span className="size-[9px] rounded-full bg-live shadow-[0_0_0_5px_rgba(79,125,66,0.18)]" />
-              Available for new projects
-            </span>
-          </Reveal>
-
-          <Reveal className="relative mx-auto mb-[clamp(32px,5.5vh,74px)] flex w-[560px] max-w-full justify-center">
-            <span className="absolute left-0 top-6 rounded-full border border-ink/10 bg-surface px-5 py-3 font-mono text-sm tracking-[0.06em] text-muted shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
-              ★ 5.0 rating
-            </span>
-            <span className="absolute right-0 top-0 rounded-full border border-ink/10 bg-surface px-5 py-3 font-mono text-sm tracking-[0.06em] text-muted shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
-              15+ projects
-            </span>
-            <span className="absolute bottom-0 left-6 rounded-full border border-ink/10 bg-surface px-5 py-3 font-mono text-sm tracking-[0.06em] text-muted shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
-              10k+ users
-            </span>
-            <span className="absolute bottom-2 right-2 rounded-full bg-olive px-5 py-3 font-mono text-sm tracking-[0.06em] text-surface shadow-[0_20px_50px_-35px_rgba(35,37,29,0.55)]">
-              Replies &lt;24h
-            </span>
-            <AvatarViewer variant="heroLarge" />
-          </Reveal>
-
-          <Reveal as="h1" className="mx-auto max-w-[1000px] font-display text-[clamp(52px,8.4vw,120px)] font-normal leading-[0.92] tracking-[-0.02em]">
-            Shopify &amp; full-stack developer.
-            <br />
-            I build what people <span className="italic text-olive">use</span>.
-          </Reveal>
-
-          <Reveal as="p" className="mx-auto mt-[clamp(18px,2.6vh,32px)] max-w-[650px] text-[clamp(18px,1.4vw,22px)] leading-[1.45] text-muted">
-            A full-stack &amp; Shopify developer who takes the entire technical side off your plate - custom stores, MERN web apps and automations - so you can focus on growing the business.
-          </Reveal>
-
-          <Reveal className="mt-[clamp(24px,3.4vh,48px)] flex justify-center gap-4">
-            <Button asChild size="lg" className="w-[250px]">
-              <Link href="#work">
-                View selected work <span className="font-mono">↘</span>
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="w-[205px]">
-              <Link href="#contact">Start a project</Link>
-            </Button>
-          </Reveal>
-        </div>
-      </header>
-
-      <Marquee text={marqueeText} />
-
-      <section id="services" className="relative z-10 mx-auto max-w-[1200px] px-5 py-10 pt-[120px] sm:px-8">
-        <Reveal className="mb-16 flex flex-wrap items-baseline justify-between gap-5">
-          <div>
-            <p className="mb-[18px] font-mono text-xs tracking-[0.14em] text-olive">01 - SERVICES</p>
-            <h2 className="font-display text-[clamp(38px,5.5vw,68px)] font-normal leading-[1.02] tracking-[-0.01em]">
-              You run the business.
-              <br />
-              I run the code.
-            </h2>
-          </div>
-          <p className="max-w-[340px] text-[15.5px] leading-[1.65] text-muted">
-            From storefront to shipping, from idea to deployed product - one developer, end to end. No agency overhead, no hand-offs.
-          </p>
-        </Reveal>
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-          {services.map((service) => (
-            <ServiceCard key={service.no} service={service} />
-          ))}
-        </div>
-      </section>
-
-      <section id="work" className="relative z-10 mx-auto max-w-[1200px] px-5 py-10 pt-[120px] sm:px-8">
-        <Reveal className="mb-[54px]">
-          <p className="mb-[18px] font-mono text-xs tracking-[0.14em] text-olive">02 - SELECTED WORK</p>
-          <h2 className="font-display text-[clamp(38px,5.5vw,68px)] font-normal leading-none tracking-[-0.01em]">
-            Recent things
-            <br />
-            I&apos;ve shipped.
-          </h2>
-        </Reveal>
-        <FeaturedProjectCard project={featuredProject} />
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {projects.map((project) => (
-            <ProjectCard key={project.name} project={project} />
-          ))}
-        </div>
-      </section>
-
-      <section id="about" className="relative z-10 mx-auto max-w-[1200px] px-5 py-10 pt-[120px] sm:px-8">
-        <div className="grid gap-16 lg:grid-cols-[1.2fr_1fr]">
-          <Reveal>
-            <p className="mb-[22px] font-mono text-xs tracking-[0.14em] text-olive">03 - ABOUT</p>
-            <h2 className="mb-7 font-display text-[clamp(34px,4.6vw,56px)] font-normal leading-[1.08] tracking-[-0.01em]">
-              A developer who thinks like a partner, not a vendor.
-            </h2>
-            <p className="mb-[18px] max-w-[560px] text-[17px] leading-[1.7] text-body">
-              I&apos;m Sufiyan - a full-stack developer specialising in Shopify and the MERN stack. Over the last few years I&apos;ve built conversion-focused storefronts, automated the boring operational work, and shipped web platforms used by thousands.
-            </p>
-            <p className="max-w-[560px] text-[17px] leading-[1.7] text-body">
-              My promise is simple: clear communication, clean code, and work that actually moves your numbers. You stay in your zone of genius - I handle everything technical.
-            </p>
-          </Reveal>
-          <Reveal className="grid grid-cols-2 gap-4">
-            {homeStats.map((stat) => (
-              <div key={stat.label} className="rounded-2xl border border-ink/[0.09] bg-surface px-6 py-7">
-                <div className="font-display text-[46px] leading-none tracking-[-0.01em] text-olive">{stat.num}</div>
-                <div className="mt-3 text-[13px] leading-[1.45] text-muted">{stat.label}</div>
-              </div>
-            ))}
-          </Reveal>
-        </div>
-
-        <Reveal className="mt-20 grid gap-8 border-t border-ink/10 pt-[42px] sm:grid-cols-2 lg:grid-cols-4">
-          {process.map((step) => (
-            <div key={step.no}>
-              <div className="mb-3.5 font-mono text-xs text-olive">{step.no}</div>
-              <h4 className="mb-2 font-display text-2xl font-normal">{step.title}</h4>
-              <p className="text-[13.5px] leading-[1.55] text-muted">{step.desc}</p>
+      <main id="main-content">
+        <section
+          className="hero-section page-width"
+          aria-labelledby="hero-title"
+        >
+          <div className="hero-copy">
+            <div className="eyebrow">
+              <span className="blue-square" /> INDEPENDENT DEVELOPER · PAKISTAN
+              ↗ WORLDWIDE
             </div>
-          ))}
-        </Reveal>
-      </section>
-
-      <section id="contact" className="relative z-10 mx-auto max-w-[1200px] px-5 pb-[110px] pt-[120px] sm:px-8">
-        <ContactBlock />
-        <div className="mt-[42px]">
-          <Footer />
+            <h1 id="hero-title">
+              I make
+              <br />
+              ideas <em>work.</em>
+              <span className="title-period" aria-hidden="true">
+                *
+              </span>
+            </h1>
+            <p className="hero-intro">
+              Hey, I’m <strong>Sufiyan Ali.</strong>
+              <br />
+              Full-stack developer. AI builder.
+              <br />
+              The person who figures it out.
+            </p>
+            <p className="hero-description">
+              I turn “what if” into websites, apps and systems that people
+              actually use. From the interface to the business logic — I build
+              the whole thing.
+            </p>
+            <div className="hero-actions">
+              <a className="primary-link" href="#work">
+                Explore my work <ArrowDownRight size={20} />
+              </a>
+              <a className="text-link" href="#contact">
+                Let’s talk <ArrowUpRight size={17} />
+              </a>
+            </div>
+            <div className="hero-footnote">
+              <span className="live-dot" /> OPEN FOR GOOD PROJECTS{" "}
+              <span className="footnote-divider">/</span> FULL STACK. FULL
+              OWNERSHIP.
+            </div>
+          </div>
+          <AsciiPortrait />
+        </section>
+        <div className="stack-strip">
+          <div className="page-width">
+            <span>IDEA → INTERFACE → LOGIC → LAUNCH</span>
+            <span>
+              React <i>✳</i> Next.js <i>✳</i> Node.js <i>✳</i> AI integrations{" "}
+              <i>✳</i> Shopify
+            </span>
+            <a href="#work" aria-label="Scroll to selected work">
+              <ArrowDownRight size={23} />
+            </a>
+          </div>
         </div>
-      </section>
-      <WhatsAppButton />
-    </PageShell>
+        <section id="work" className="work-section page-width section-space">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">01 / SELECTED WORK</p>
+              <h2>
+                Less talk.
+                <br />
+                <span className="serif-word">More shipped.</span>
+              </h2>
+            </div>
+            <p>
+              A few things I’ve taken from
+              <br />
+              “we need this” to “it’s live.”
+              <br />
+              <Link href="/projects" className="text-link">
+                All projects <ArrowUpRight size={16} />
+              </Link>
+            </p>
+          </div>
+          <Link href="/projects/cega" className="featured-work work-link">
+            <div className="featured-visual">
+              <div className="work-visual-top">
+                <span>CEGA®</span>
+                <span>
+                  ONE PLATFORM.
+                  <br />A WHOLE ECOSYSTEM.
+                </span>
+              </div>
+              <div className="cega-window">
+                <div className="window-bar">
+                  <span>● ● ●</span>
+                  <span>cega.com.pk / training</span>
+                  <ArrowUpRight size={12} />
+                </div>
+                <Image
+                  src="/case-studies/cega/training-overview.png"
+                  alt="CEGA training dashboard showing course and applicant statistics"
+                  width={1440}
+                  height={1000}
+                  sizes="(max-width: 760px) 90vw, 65vw"
+                  className="cega-screenshot"
+                />
+              </div>
+              <span className="visual-index">
+                [ FULL-STACK DEVELOPMENT / SOLO BUILD ]
+              </span>
+            </div>
+            <div className="featured-info">
+              <div className="project-overline">
+                <span>01 / NATIONAL PLATFORM</span>
+                <ArrowUpRight />
+              </div>
+              <h3>CEGA</h3>
+              <p>
+                A national gaming &amp; animation hub. Connected portals,
+                enrollment, judging, bookings and an AI assistant — one system
+                that brings it all together.
+              </p>
+              <div className="project-stat">
+                <strong>14+</strong>
+                <span>connected application portals</span>
+              </div>
+              <div className="work-tags">
+                <span>Next.js</span>
+                <span>MongoDB</span>
+                <span>AI integration</span>
+              </div>
+              <span className="case-study-link">
+                Explore the case study <ArrowRight size={19} />
+              </span>
+            </div>
+          </Link>
+          <div className="work-pair">
+            <a
+              href="https://github.com/suffynux/ai-chat-agent"
+              target="_blank"
+              rel="noreferrer"
+              className="work-link small-work"
+            >
+              <div className="agent-visual">
+                <div className="visual-label">
+                  AI CHAT AGENT <span>INTERFACE CONCEPT / 02</span>
+                </div>
+                <div className="ascii-orb" aria-hidden="true">
+                  <pre>{`       . : : : : .
+    . : + * # * + : .
+   : + # @ @ @ # + :
+  : * @ @ : : @ @ * :
+  : # @ : + + : @ # :
+  : * @ @ : : @ @ * :
+   : + # @ @ @ # + :
+    ' : + * # * + : '
+       ' : : : : '`}</pre>
+                </div>
+                <div className="agent-prompt">
+                  <span>How can I help your business?</span>
+                  <span>↵</span>
+                </div>
+                <div className="agent-bottom">
+                  <span>AUTHENTICATE → ASK → RESPOND</span>
+                  <span className="live-dot" />
+                </div>
+              </div>
+              <div className="project-summary">
+                <div>
+                  <h3>AI Chat Agent</h3>
+                  <p>Full-stack AI app · LLM integration · OAuth</p>
+                </div>
+                <ArrowUpRight />
+              </div>
+            </a>
+            <a
+              href="https://deeniverse.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="work-link small-work"
+            >
+              <div className="deen-visual">
+                <div className="visual-label">
+                  DEENIVERSE <span>LEARNING, CONNECTED / 03</span>
+                </div>
+                <div className="deen-art" aria-hidden="true">
+                  <span className="orbit orbit-one" />
+                  <span className="orbit orbit-two" />
+                  <span className="orbit orbit-three" />
+                  <span className="deen-symbol">d.</span>
+                  <span className="orbit-point" />
+                </div>
+                <div className="deen-bottom">
+                  <span>
+                    A little progress.
+                    <br />
+                    Every single day.
+                  </span>
+                  <span>
+                    LEARN
+                    <br />
+                    CONNECT
+                    <br />
+                    GROW ↗
+                  </span>
+                </div>
+              </div>
+              <div className="project-summary">
+                <div>
+                  <h3>Deeniverse</h3>
+                  <p>Learning platform · React · Node.js · MongoDB</p>
+                </div>
+                <ArrowUpRight />
+              </div>
+            </a>
+          </div>
+          <div className="more-work">
+            <span className="eyebrow">ALSO SHIPPED</span>
+            <a
+              href="https://gomilaintersole.pk/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <strong>Gomila Intersole</strong>
+              <span>Custom Shopify storefront</span>
+              <ArrowUpRight size={20} />
+            </a>
+            <a
+              href="https://www.nextgridit.co.uk/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <strong>NextGrid IT</strong>
+              <span>Corporate website · Next.js</span>
+              <ArrowUpRight size={20} />
+            </a>
+          </div>
+        </section>
+        <section id="services" className="capabilities-section section-space">
+          <div className="page-width">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">02 / WHAT I BRING TO THE BUILD</p>
+                <h2>
+                  The whole picture.
+                  <br />
+                  <span className="serif-word">Every layer.</span>
+                </h2>
+              </div>
+              <p>
+                A good product needs more than a nice frontend.
+                <br />I connect the experience, the intelligence
+                <br />
+                and the engine underneath.
+              </p>
+            </div>
+            <div className="capability-list">
+              {capabilities.map(({ icon: Icon, title, text, tags }, index) => (
+                <article className="capability-row" key={title}>
+                  <span className="capability-number">0{index + 1}</span>
+                  <div className="capability-title">
+                    <Icon size={29} strokeWidth={1.4} />
+                    <h3>{title}</h3>
+                  </div>
+                  <div>
+                    <p>{text}</p>
+                    <span className="capability-tags">{tags}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section id="about" className="about-section section-space page-width">
+          <div className="about-aside">
+            <p className="eyebrow">03 / THE HUMAN BEHIND THE CODE</p>
+            <div className="about-stamp" aria-hidden="true">
+              <span>&lt;/&gt;</span>
+              <p>
+                CURIOUS MIND.
+                <br />
+                BUILDER AT HEART.
+              </p>
+            </div>
+            <Link href="/journey" className="text-link">
+              The longer story <ArrowUpRight size={17} />
+            </Link>
+          </div>
+          <div className="about-copy">
+            <h2>
+              I care about
+              <br />
+              how it <span className="serif-word">works.</span>
+              <br />
+              And why it exists.
+            </h2>
+            <p>
+              I’m Sufiyan, a developer based in Pakistan, working with people
+              wherever good ideas happen. I like the space where a messy
+              business problem becomes a clear, useful product.
+            </p>
+            <p>
+              That means asking questions before writing code. Understanding who
+              uses it, what needs to happen behind the scenes, and what success
+              looks like for you. Then owning the build, end to end.
+            </p>
+            <div className="about-principles">
+              <span>
+                01 <strong>Understand first.</strong>
+              </span>
+              <span>
+                02 <strong>Build with purpose.</strong>
+              </span>
+              <span>
+                03 <strong>Ship. Learn. Improve.</strong>
+              </span>
+            </div>
+          </div>
+        </section>
+        <section id="contact" className="contact-section">
+          <div className="page-width">
+            <div className="contact-top">
+              <p className="eyebrow">04 / NEXT UP: YOUR IDEA</p>
+              <span>
+                <span className="live-dot" /> LET’S MAKE SOMETHING USEFUL
+              </span>
+            </div>
+            <h2>
+              Got a good
+              <br />
+              <span className="serif-word">“what if”?</span>
+              <ArrowUpRight aria-hidden="true" />
+            </h2>
+            <div className="contact-bottom">
+              <p>
+                A website, an app, a workflow that could be smarter.
+                <br />
+                Tell me what’s on your mind.
+              </p>
+              <a
+                className="contact-whatsapp"
+                href={`https://wa.me/${site.whatsapp}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Let’s talk on WhatsApp <ArrowUpRight size={20} />
+              </a>
+            </div>
+            <CopyEmail />
+            <Footer border />
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
