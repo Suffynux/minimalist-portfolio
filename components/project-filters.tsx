@@ -2,27 +2,44 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Search } from "lucide-react";
 import { projectSlug } from "@/lib/portfolio-content";
+import { sourceProjects } from "@/lib/project-showcase";
 import { type DetailedProject } from "@/lib/data";
 const categories = [
   { label: "All work", value: "All" },
   { label: "Full-stack", value: "MERN" },
-  { label: "AI & SaaS", value: "SaaS / AI" },
+  { label: "AI & tools", value: "SaaS / AI" },
   { label: "Commerce", value: "Shopify" },
   { label: "Websites", value: "Corporate" },
 ];
 export function ProjectFilters({ projects }: { projects: DetailedProject[] }) {
   const [active, setActive] = useState("All");
+  const [query, setQuery] = useState("");
   const visible = useMemo(
     () =>
-      active === "All"
-        ? projects
-        : projects.filter((project) => project.category === active),
-    [projects, active],
+      projects.filter(
+        (project) =>
+          (active === "All" || project.category === active) &&
+          [project.name, project.desc, ...project.stack]
+            .join(" ")
+            .toLowerCase()
+            .includes(query.trim().toLowerCase()),
+      ),
+    [projects, active, query],
   );
   return (
-    <div className="page-width project-index">
+    <div className="page-width project-index expanded-project-index">
+      <div className="project-search">
+        <Search size={18} />
+        <input
+          type="search"
+          aria-label="Search projects"
+          placeholder="Find a website, dashboard, or technology…"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </div>
       <div className="project-filter-bar">
         <div role="group" aria-label="Filter projects by type">
           {categories.map((category) => (
@@ -46,77 +63,75 @@ export function ProjectFilters({ projects }: { projects: DetailedProject[] }) {
           {visible.length} PROJECT{visible.length !== 1 ? "S" : ""}
         </span>
       </div>
-      <div className="project-index-list">
+      <div className="catalog-grid">
         {visible.map((project) => (
-          <article className="index-project" key={project.no}>
-            <div
-              className={`index-visual index-visual-${project.category.replace(/[^a-z]/gi, "").toLowerCase()}`}
+          <article className="catalog-card" key={project.name}>
+            <Link
+              href={`/projects/${projectSlug(project.name)}`}
+              className="catalog-cover"
+              aria-label={`Explore ${project.name}`}
             >
-              <span className="index-visual-no">
-                [ {project.no} / {project.kind} ]
-              </span>
-              {project.name === "CEGA" ? (
+              {project.img ? (
                 <Image
-                  src="/case-studies/cega/training-overview.png"
-                  alt="CEGA training platform"
-                  width={1000}
-                  height={700}
-                  sizes="(max-width: 760px) 90vw, 45vw"
+                  src={project.img}
+                  alt={`${project.name} project screenshot`}
+                  width={1440}
+                  height={1000}
+                  sizes="(max-width:760px) 90vw, 45vw"
                 />
               ) : (
-                <div className="index-wordmark" aria-hidden="true">
-                  {project.name === "AI Chat Agent" ? (
-                    <>
-                      <pre>{`  . : + * + : .
-: + # @ @ @ # + :
-+ @ @ : : : @ @ +
-: + # @ @ @ # + :
-  ' : + * + : '`}</pre>
-                      <small>AI CHAT AGENT</small>
-                    </>
-                  ) : project.name === "Deeniverse" ? (
-                    <>
-                      d.<small>DEENIVERSE</small>
-                    </>
-                  ) : project.name === "Gomila Intersole" ? (
-                    <>
-                      Gomila<small>INTERSOLE / COMMERCE</small>
-                    </>
-                  ) : (
-                    <>
-                      nextgrid<span className="brand-dot">_</span>
-                      <small>IT / UNITED KINGDOM</small>
-                    </>
-                  )}
+                <div className="catalog-code" aria-hidden="true">
+                  <pre>
+                    {
+                      "  . : + * + : .\n: + # @ @ @ # + :\n+ @ @ : : : @ @ +\n: + # @ @ @ # + :\n  . : + * + : ."
+                    }
+                  </pre>
+                  <span>{project.name}</span>
                 </div>
               )}
-            </div>
-            <div className="index-project-copy">
+              <span className="catalog-status">{project.status}</span>
+              <span className="catalog-arrow">
+                <ArrowUpRight size={20} />
+              </span>
+            </Link>
+            <div className="catalog-copy">
               <p className="eyebrow">
                 {project.kind} / {project.no}
               </p>
-              <h2>{project.name}</h2>
+              <h2>
+                <Link href={`/projects/${projectSlug(project.name)}`}>
+                  {project.name}
+                </Link>
+              </h2>
               <p>{project.desc}</p>
               <div className="work-tags">
                 {project.stack.map((tag) => (
                   <span key={tag}>{tag}</span>
                 ))}
               </div>
-              <div className="index-project-links">
-                {(
-                  <Link href={`/projects/${projectSlug(project.name)}`} className="text-link">
-                    Explore project <ArrowRight size={16} />
-                  </Link>
-                )}
+              <div className="catalog-links">
+                <Link
+                  href={`/projects/${projectSlug(project.name)}`}
+                  className="text-link"
+                >
+                  {["Gomila OMS", "CEGA"].includes(project.name)
+                    ? "Explore screens & modules"
+                    : "Explore project"}{" "}
+                  <ArrowRight size={16} />
+                </Link>
                 <a
                   href={project.live}
                   target="_blank"
                   rel="noreferrer"
                   className="text-link"
                 >
-                  {project.live.includes("github.com")
-                    ? "View source"
-                    : "Visit website"}
+                  {project.status === "SOURCE"
+                    ? "Source"
+                    : project.status === "PREVIEW"
+                      ? "Preview"
+                      : project.status.includes("SIGN-IN")
+                        ? "Workspace · sign-in"
+                        : "Live website"}{" "}
                   <ArrowUpRight size={16} />
                 </a>
               </div>
@@ -124,6 +139,54 @@ export function ProjectFilters({ projects }: { projects: DetailedProject[] }) {
           </article>
         ))}
       </div>
+      {!visible.length && (
+        <div className="catalog-empty">
+          <p>No projects match this search.</p>
+          <button
+            type="button"
+            className="text-link"
+            onClick={() => {
+              setQuery("");
+              setActive("All");
+            }}
+          >
+            Show all projects <ArrowRight size={16} />
+          </button>
+        </div>
+      )}
+      <section className="source-archive" aria-labelledby="source-title">
+        <div className="showcase-heading">
+          <div>
+            <p className="eyebrow">SMALLER BUILDS & EXPERIMENTS</p>
+            <h2 id="source-title">More in the source.</h2>
+          </div>
+          <a
+            href="https://github.com/Suffynux?tab=repositories"
+            className="text-link"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub profile <ArrowUpRight size={16} />
+          </a>
+        </div>
+        <div className="source-grid">
+          {sourceProjects.map((project) => (
+            <a
+              key={project.repo}
+              href={`https://github.com/Suffynux/${project.repo}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <h3>
+                {project.name}
+                <ArrowUpRight size={16} />
+              </h3>
+              <p>{project.description}</p>
+              <span>View repository ↗</span>
+            </a>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

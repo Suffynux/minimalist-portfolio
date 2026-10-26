@@ -8,28 +8,36 @@ import { scrollToY } from "@/lib/smooth-scroll";
 
 export const chapterMedia = [
   {
-    desktop: "/case-studies/cega/training-overview.png",
-    detail: "/case-studies/cega/judging-phase-1.png",
-    mobile: "/case-studies/cega/ai-assistant.png",
-    phoneLabel: "A useful AI assistant",
+    desktop: "/work/gomila-oms-reports.png",
+    detail: "/work/gomila-oms-dashboard.png",
+    mobile: "/work/gomila-oms-mobile.png",
+    phoneLabel: "Secure workspace access",
     tone: "dark",
     tint: "#293b32",
+  },
+  {
+    desktop: "/work/cega-home.png",
+    detail: "/case-studies/cega/training-overview.png",
+    mobile: "/case-studies/cega/ai-assistant.png",
+    phoneLabel: "A useful AI assistant",
+    tone: "light",
+    tint: "#dce2cb",
   },
   {
     desktop: "/work/gomila-desktop.png",
     detail: "/work/gomila-detail.png",
     mobile: "/work/gomila-mobile.png",
     phoneLabel: "A storefront in your pocket",
-    tone: "light",
-    tint: "#d4c8b4",
-  },
-  {
-    desktop: "/work/nextgrid-desktop.png",
-    detail: "/work/nextgrid-detail.png",
-    mobile: "/work/nextgrid-mobile.png",
-    phoneLabel: "The same clarity, on every screen",
     tone: "dark",
     tint: "#434b35",
+  },
+  {
+    desktop: "/work/gomila-international.webp",
+    detail: "/work/gomila-country.webp",
+    mobile: null,
+    phoneLabel: "Shopping across markets",
+    tone: "light",
+    tint: "#d4c8b4",
   },
 ];
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
@@ -251,18 +259,24 @@ export function ProjectTour({
                       </div>
                     </div>
                   </div>
-                  <div className="chapter-phone">
-                    <span className="phone-speaker" />
-                    <Image
-                      src={media.mobile}
-                      alt={`${project.name} mobile experience`}
-                      width={390}
-                      height={844}
-                      sizes="(max-width:760px) 30vw, 17vw"
-                    />
-                    <span className="phone-home" />
-                  </div>
-                  <span className="phone-annotation">{media.phoneLabel} ↗</span>
+                  {media.mobile && (
+                    <>
+                      <div className="chapter-phone">
+                        <span className="phone-speaker" />
+                        <Image
+                          src={media.mobile}
+                          alt={`${project.name} mobile experience`}
+                          width={390}
+                          height={844}
+                          sizes="(max-width:760px) 30vw, 17vw"
+                        />
+                        <span className="phone-home" />
+                      </div>
+                      <span className="phone-annotation">
+                        {media.phoneLabel} ↗
+                      </span>
+                    </>
+                  )}
                 </div>
                 <div className="chapter-caption">
                   <span>{String(i + 1).padStart(2, "0")} / SELECTED WORK</span>

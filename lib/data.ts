@@ -1,3 +1,4 @@
+import { publicProjects } from "@/lib/project-catalog";
 export type Service = {
   no: string;
   tag: string;
@@ -19,6 +20,7 @@ export type Project = {
 };
 
 export type DetailedProject = {
+  source?: string;
   category: string;
   no: string;
   kind: string;
@@ -135,47 +137,10 @@ export const featuredProject: Project = {
   img: "/case-studies/cega/training-overview.png"
 };
 
-export const projects: Project[] = [
-  {
-    name: "Gomila Intersole",
-    status: "LIVE",
-    href: "https://gomilaintersole.pk/",
-    embed: true,
-    meta: "gomilaintersole.pk · Shopify Store",
-    desc: "Custom Shopify store for a footwear brand - bespoke Liquid theme, conversion-focused product pages and order automations.",
-    stack: ["Shopify", "Liquid", "Automations"],
-    img: "https://images.pexels.com/photos/19090/pexels-photo.jpg"
-  },
-  {
-    name: "Deeniverse",
-    status: "LIVE",
-    href: "https://deeniverse.com/",
-    embed: true,
-    meta: "deeniverse.com · Learning Platform",
-    desc: "Full-stack Quran learning platform with auth, course management, progress tracking and a polished landing experience.",
-    stack: ["React", "Node.js", "MongoDB"],
-    img: "https://images.pexels.com/photos/5553047/pexels-photo-5553047.jpeg"
-  },
-  {
-    name: "NextGrid IT",
-    status: "LIVE",
-    href: "https://www.nextgridit.co.uk/",
-    embed: true,
-    meta: "nextgridit.co.uk · United Kingdom",
-    desc: "Corporate web presence for a UK IT firm - service showcases, client portals and a modern design system on Next.js.",
-    stack: ["Next.js", "Tailwind", "TypeScript"],
-    img: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg"
-  },
-  {
-    name: "AI Chat Agent",
-    status: "SAAS",
-    href: "https://github.com/suffynux/ai-chat-agent",
-    meta: "Full-Stack AI SaaS Application",
-    desc: "Production-ready AI chat platform with Google OAuth, LLM integration, usage limits and e-commerce integration settings.",
-    stack: ["Python", "Flask", "LLM API"],
-    img: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg"
-  }
-];
+export const projects: Project[] = publicProjects.filter(project => project.name !== "CEGA").map(project => ({
+  name: project.name, status: project.status, href: project.live, meta: project.meta,
+  desc: project.desc, stack: project.stack, img: project.img,
+}));
 
 export const homeStats: Stat[] = [
   { num: "5+", label: "Years building for the web" },
@@ -193,76 +158,7 @@ export const process: ProcessStep[] = [
 
 export const filters = ["All", "Shopify", "MERN", "SaaS / AI", "Corporate"];
 
-export const projectDetails: DetailedProject[] = [
-  {
-    no: "01",
-    kind: "FULL-STACK PLATFORM",
-    category: "MERN",
-    name: "CEGA",
-    status: "FEATURED",
-    meta: "National Gaming & Animation Hub · 10k+ users",
-    desc: "The digital gateway for a national institute - student portals, admin dashboards and a content management system powering thousands of learners across Pakistan.",
-    stack: ["Next.js", "React", "Node.js", "CMS"],
-    live: "https://cega.com.pk",
-    pdf: "/case-studies/cega/CEGA-Case-Study.pdf",
-    img: "/case-studies/cega/training-overview.png",
-    reverse: true
-  },
-  {
-    no: "02",
-    kind: "SHOPIFY STORE",
-    category: "Shopify",
-    name: "Gomila Intersole",
-    status: "LIVE",
-    meta: "gomilaintersole.pk · Footwear brand",
-    desc: "A bespoke Shopify storefront with a custom Liquid theme, conversion-focused product pages, and order & inventory automations that keep the store running hands-free.",
-    stack: ["Shopify", "Liquid", "Automations"],
-    live: "https://gomilaintersole.pk/",
-    pdf: "#",
-    img: "https://images.pexels.com/photos/19090/pexels-photo.jpg"
-  },
-  {
-    no: "03",
-    kind: "LEARNING PLATFORM",
-    category: "MERN",
-    name: "Deeniverse",
-    status: "LIVE",
-    meta: "deeniverse.com · EdTech",
-    desc: "A full-stack Quran learning platform: authentication, course management, progress tracking and a polished landing experience that converts visitors to students.",
-    stack: ["React", "Node.js", "MongoDB", "Express"],
-    live: "https://deeniverse.com/",
-    pdf: "#",
-    img: "https://images.pexels.com/photos/5553047/pexels-photo-5553047.jpeg",
-    reverse: true
-  },
-  {
-    no: "04",
-    kind: "CORPORATE SITE",
-    category: "Corporate",
-    name: "NextGrid IT",
-    status: "UK",
-    meta: "nextgridit.co.uk · United Kingdom",
-    desc: "A modern corporate web presence for a UK IT firm - service showcases, client portals and a clean design system built on Next.js and TypeScript.",
-    stack: ["Next.js", "Tailwind", "TypeScript"],
-    live: "https://www.nextgridit.co.uk/",
-    pdf: "#",
-    img: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg"
-  },
-  {
-    no: "05",
-    kind: "AI SAAS APP",
-    category: "SaaS / AI",
-    name: "AI Chat Agent",
-    status: "SAAS",
-    meta: "Full-stack AI application",
-    desc: "A production-ready AI chat platform with Google OAuth, LLM integration, usage limits and e-commerce integration settings - built for resale to store owners.",
-    stack: ["Python", "Flask", "LLM API", "OAuth"],
-    live: "https://github.com/suffynux/ai-chat-agent",
-    pdf: "#",
-    img: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg",
-    reverse: true
-  }
-];
+export const projectDetails: DetailedProject[] = publicProjects;
 
 export const principles: Principle[] = [
   { tag: "how I work", title: "Clarity over jargon", desc: "You should always understand what I’m building and why. No black boxes, no surprise invoices." },

@@ -16,11 +16,6 @@ const intro =
   "I’m a full-stack developer based in Pakistan. I build websites, applications and AI-powered tools — and the business logic that makes them useful. From the first idea to the final deployment, I build the whole thing.".split(
     " ",
   );
-const archiveImages: Record<string, string> = {
-  CEGA: "/case-studies/cega/training-overview.png",
-  "Gomila Intersole": "/work/gomila-desktop.png",
-  "NextGrid IT": "/work/nextgrid-desktop.png",
-};
 const clamp = (v: number) => Math.min(1, Math.max(0, v));
 const ease = (v: number) => v * v * (3 - 2 * v);
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -293,6 +288,15 @@ export function StoryPortfolio() {
             <h2 id="all-work-title">All work</h2>
             <span>{projectDetails.length} projects</span>
           </div>
+          <div className="archive-module-links">
+            <Link href="/projects/gomila-oms">
+              Gomila OMS · modules, jobs &amp; records{" "}
+              <ArrowUpRight size={16} />
+            </Link>
+            <Link href="/projects/cega">
+              CEGA · landing pages &amp; dashboards <ArrowUpRight size={16} />
+            </Link>
+          </div>
           <div className="archive-grid">
             {projectDetails.map((project) => (
               <Link
@@ -301,9 +305,9 @@ export function StoryPortfolio() {
                 className={`archive-card archive-${projectSlug(project.name)}`}
               >
                 <div className="archive-visual">
-                  {archiveImages[project.name] ? (
+                  {project.img ? (
                     <Image
-                      src={archiveImages[project.name]}
+                      src={project.img}
                       alt={`${project.name} website preview`}
                       width={1440}
                       height={1000}
@@ -336,9 +340,13 @@ export function StoryPortfolio() {
                   <h3>{project.name}</h3>
                   <span>{project.kind}</span>
                 </div>
+                <span className="archive-status">{project.status}</span>
               </Link>
             ))}
           </div>
+          <Link className="archive-browse" href="/projects">
+            Explore all projects &amp; source builds <ArrowUpRight size={20} />
+          </Link>
         </section>
         <section
           className="story-contact"

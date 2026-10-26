@@ -1,3 +1,4 @@
+import { ProjectShowcase } from "@/components/project-showcase";
 import { ProjectDetail } from "@/components/project-detail";
 import { projectDetails } from "@/lib/data";
 import { projectSlug } from "@/lib/portfolio-content";
@@ -29,7 +30,7 @@ import {
   SectionTitle,
   ShotStack,
   StatRow,
-  TechTable
+  TechTable,
 } from "@/components/case-study/sections";
 import { getCaseStudy } from "@/lib/case-studies";
 
@@ -39,13 +40,25 @@ export function generateStaticParams(): Params[] {
   return projectDetails.map((project) => ({ slug: projectSlug(project.name) }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const study = getCaseStudy(slug);
 
   if (!study) {
-    const project = projectDetails.find(item => projectSlug(item.name) === slug);
-    return project ? { title: `${project.name} — Project`, description: project.desc, alternates: { canonical: `/projects/${slug}` } } : { title: "Project not found" };
+    const project = projectDetails.find(
+      (item) => projectSlug(item.name) === slug,
+    );
+    return project
+      ? {
+          title: `${project.name} — Project`,
+          description: project.desc,
+          alternates: { canonical: `/projects/${slug}` },
+        }
+      : { title: "Project not found" };
   }
 
   return {
@@ -56,18 +69,24 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       title: `${study.project} - ${study.title}`,
       description: study.lede,
       url: `https://www.suffynux.com/projects/${study.slug}`,
-      type: "article"
-    }
+      type: "article",
+    },
   };
 }
 
-export default async function CaseStudyPage({ params }: { params: Promise<Params> }) {
+export default async function CaseStudyPage({
+  params,
+}: {
+  params: Promise<Params>;
+}) {
   const { slug } = await params;
   const study = getCaseStudy(slug);
 
   if (!study) {
-    const project = projectDetails.find(item => projectSlug(item.name) === slug);
-    if (project) return <ProjectDetail project={project}/>;
+    const project = projectDetails.find(
+      (item) => projectSlug(item.name) === slug,
+    );
+    if (project) return <ProjectDetail project={project} />;
     notFound();
   }
 
@@ -96,12 +115,17 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
             </p>
           </Reveal>
 
-          <Reveal as="h1" className="mt-7 font-display text-[clamp(38px,6.4vw,66px)] font-normal leading-[1.04] tracking-[-0.02em]">
+          <Reveal
+            as="h1"
+            className="mt-7 font-display text-[clamp(38px,6.4vw,66px)] font-normal leading-[1.04] tracking-[-0.02em]"
+          >
             {study.title}
           </Reveal>
 
           <Reveal>
-            <p className="mt-7 text-[18px] leading-[1.68] text-ink/85 sm:text-[19.5px]">{study.lede}</p>
+            <p className="mt-7 text-[18px] leading-[1.68] text-ink/85 sm:text-[19.5px]">
+              {study.lede}
+            </p>
           </Reveal>
 
           <Reveal className="mt-9 flex flex-wrap gap-3">
@@ -125,10 +149,20 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
         <Section className="mt-10">
           <FactCard facts={study.facts} />
           <Reveal>
-            <p className="mt-6 text-[14.5px] leading-[1.65] text-muted">{study.readingNote}</p>
+            <p className="mt-6 text-[14.5px] leading-[1.65] text-muted">
+              {study.readingNote}
+            </p>
           </Reveal>
         </Section>
       </header>
+
+      <Section wide className="pt-14">
+        <ProjectShowcase
+          project={projectDetails.find(
+            (project) => projectSlug(project.name) === slug,
+          )!}
+        />
+      </Section>
 
       <div className="mt-16">
         <Divider />
@@ -251,7 +285,10 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           description="A website, an AI feature, an automation, or a full web app. One developer, start to finish."
         />
         <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-8">
-          <Link href="/projects" className="inline-flex min-h-[44px] items-center gap-2 font-mono text-[12.5px] text-meta transition hover:text-olive">
+          <Link
+            href="/projects"
+            className="inline-flex min-h-[44px] items-center gap-2 font-mono text-[12.5px] text-meta transition hover:text-olive"
+          >
             <ArrowLeft className="size-[14px]" /> Back to all projects
           </Link>
           <a
@@ -260,7 +297,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
             rel="noreferrer"
             className="inline-flex min-h-[44px] items-center gap-2 font-mono text-[12.5px] text-meta transition hover:text-olive"
           >
-            <Download className="size-[14px]" /> {study.project} case study (PDF)
+            <Download className="size-[14px]" /> {study.project} case study
+            (PDF)
           </a>
         </div>
         <div className="mt-[38px]">

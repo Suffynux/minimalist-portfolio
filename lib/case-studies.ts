@@ -123,7 +123,7 @@ export const caseStudies: CaseStudy[] = [
     title: "The system running Pakistan's national gaming and animation program.",
     lede: "CEGA is a government-backed hub for training, startup incubation, co-working, and community events, used by more than 10,000 students. I designed and built the whole platform on my own, replacing an old WordPress site that could not keep up with the program it was meant to run.",
     readingNote:
-      "Read this in three layers: the story of the problem and the fix, the automation that now runs without staff, and a plain-English breakdown of the technology for both technical and non-technical readers.",
+      "Explore the public landing pages, connected modules and analytics links, then read the engineering story below. Dashboard figures are historical case-study snapshots, not a live data feed.",
     stats: [
       { num: "10,000+", label: "STUDENTS SERVED" },
       { num: "3,392", label: "APPLICANTS IN ONE BATCH" },
@@ -226,13 +226,13 @@ export const caseStudies: CaseStudy[] = [
     },
     shots: {
       eyebrow: "INSIDE THE PLATFORM",
-      title: "Real dashboards, real numbers",
+      title: "Published dashboard snapshots",
       items: [
         {
           src: "/case-studies/cega/training-overview.png",
           alt: "CEGA training overview dashboard showing 3,392 total applicants and 717 enrolled students, with breakdowns by age and education",
           title: "Training overview",
-          desc: "3,392 applicants and 717 enrolled students in a single batch, broken down live by age, education, gender, and city across 126 cities."
+          desc: "3,392 applicants and 717 enrolled students in a single batch, broken down by age, education, gender, and city across 126 cities."
         },
         {
           src: "/case-studies/cega/coworking-lab.png",

@@ -5,6 +5,7 @@ import "./portfolio.css";
 import "./story.css";
 import "./studio.css";
 import "./cinematic.css";
+import "./showcase.css";
 
 const instrument = localFont({
   src: [

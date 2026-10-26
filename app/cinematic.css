@@ -245,7 +245,7 @@
 }
 /* A single pinned stage; the screen, detail view and phone each follow a separate scroll curve. */
 .cinematic-story .continuous-tour {
-  height: 880svh;
+  height: 1140svh;
   min-height: 0;
   position: relative;
   background: #293b32;
@@ -971,7 +971,7 @@
     line-height: 1.2;
   }
   .cinematic-story .continuous-tour {
-    height: 930svh;
+    height: 1210svh;
   }
   .cinematic-story .project-tour-stage {
     height: 100svh;

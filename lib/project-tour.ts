@@ -9,6 +9,40 @@ export type TourStep = {
   image?: string;
 };
 const stories: Record<string, TourStep[]> = {
+  "gomila-oms": [
+    {
+      label: "Meet the system",
+      title: "A whole operation. One workspace.",
+      text: "This is Gomila OMS. Orders, inventory, production and finance — *connected in one workspace*.",
+    },
+    {
+      label: "Behind the interface",
+      title: "The business logic behind every order.",
+      text: "Branches, logistics, refunds and reports. *Every stage has an owner*.",
+    },
+    {
+      label: "The unseen work",
+      title: "It keeps working in the background.",
+      text: "Stock sync, webhook retries and overdue alerts. Open the project to explore *the modules and jobs*.",
+    },
+  ],
+  "gomila-international": [
+    {
+      label: "Across markets",
+      title: "The same brand. A wider world.",
+      text: "Gomila’s international storefront. *A separate shopping experience* for its global audience.",
+    },
+    {
+      label: "A considered journey",
+      title: "From choosing a market to finding a pair.",
+      text: "Country selection, collections and product details. *The small decisions make shopping easier*.",
+    },
+    {
+      label: "The connected business",
+      title: "Storefronts outside. Operations inside.",
+      text: "Two storefronts and the OMS behind the business. *That’s the full-stack work I enjoy*.",
+    },
+  ],
   cega: [
     {
       label: "Meet the project",
@@ -109,8 +143,13 @@ const tints: Record<string, string> = {
 };
 const fallbackTints = ["#293b32", "#554b3c", "#34473e", "#424b35", "#272c25"];
 
-/** Three featured stories, with the complete project collection in the archive. */
-export const tourProjects = ["CEGA", "Gomila Intersole", "NextGrid IT"]
+/** Four featured stories, with the complete project collection in the archive. */
+export const tourProjects = [
+  "Gomila OMS",
+  "CEGA",
+  "Gomila Intersole",
+  "Gomila International",
+]
   .map((name) => projectDetails.find((project) => project.name === name)!)
   .map((project, i) => ({
     ...project,
