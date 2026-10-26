@@ -6,6 +6,7 @@ import { ArrowDown, LayoutGrid, Mouse, Plus, X } from "lucide-react";
 import { DECK_WINDOW, depthAt, readingProgress, placeQuotes, tierOf, type Placed, type Tier } from "@/lib/quotes/layout";
 import type { Quote } from "@/lib/quotes/types";
 import { QuoteCard, attribution } from "@/components/quotes/quote-card";
+import { useModalFocus } from "@/components/use-modal-focus";
 import { SubmitDialog } from "@/components/quotes/submit-dialog";
 
 const FILTERS: { key: Tier | "all"; label: string }[] = [
@@ -35,7 +36,10 @@ const ROUND =
  * transform/opacity/filter change, so the deck stays on the compositor.
  */
 export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; accepting: boolean }) {
-  const reduceMotion = useReducedMotion();
+  const preference = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  const reduceMotion = mounted && Boolean(preference);
+  useEffect(() => setMounted(true), []);
   const [quotes, setQuotes] = useState(initial);
   const [listViewport, setListViewport] = useState(false);
 
@@ -244,7 +248,7 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
 
           {count === 0 ? (
             <p className="absolute inset-0 flex items-center justify-center px-6 text-center font-display text-[26px] italic text-olive-light">
-              nothing on the wall under that filter
+              {quotes.length ? "Nothing in this collection yet. Try another filter." : "A little space for words worth keeping."}
             </p>
           ) : null}
 
@@ -389,15 +393,17 @@ export function Wall({ quotes: initial, accepting }: { quotes: Quote[]; acceptin
       </div>
 
       {open ? <OpenQuote quote={open} onClose={closeOpen} /> : null}
-      <SubmitDialog open={submitOpen} onClose={() => setSubmitOpen(false)} onPosted={handlePosted} />
+      {submitOpen && <SubmitDialog open onClose={() => setSubmitOpen(false)} onPosted={handlePosted} />}
     </>
   );
 }
 
 function OpenQuote({ quote, onClose }: { quote: Placed; onClose: () => void }) {
+  const modal = useModalFocus(true, onClose);
   return (
     <div
-      className="fixed inset-0 z-[80] overflow-y-auto bg-wall/95 px-6 py-24 backdrop-blur-md"
+      ref={modal}
+      className="fixed inset-0 z-[120] overflow-y-auto bg-wall/95 px-6 py-24 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
       aria-label="Quote"

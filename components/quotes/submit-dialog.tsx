@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
+import { useModalFocus } from "@/components/use-modal-focus";
 import { X } from "lucide-react";
 import { submitQuote, type SubmitState } from "@/lib/quotes/actions";
 import { MAX_AUTHOR, MAX_BODY, type Quote } from "@/lib/quotes/types";
@@ -35,25 +36,7 @@ export function SubmitDialog({
   const [anonymous, setAnonymous] = useState(true);
   const formRef = useRef<HTMLFormElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const restoreTo = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (!open) return;
-
-    restoreTo.current = document.activeElement as HTMLElement;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    document.addEventListener("keydown", onKey);
-
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeRef.current?.focus();
-
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
-      restoreTo.current?.focus();
-    };
-  }, [open, onClose]);
+  const modal = useModalFocus(open, onClose);
 
   useEffect(() => {
     if (state.status === "success") {
@@ -71,7 +54,8 @@ export function SubmitDialog({
 
   return (
     <div
-      className="fixed inset-0 z-[90] flex items-center justify-center bg-[#14150E]/90 px-5 backdrop-blur-md"
+      ref={modal}
+      className="fixed inset-0 z-[120] flex items-start overflow-y-auto py-10 sm:items-center justify-center bg-[#14150E]/90 px-5 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
       aria-labelledby="submit-title"

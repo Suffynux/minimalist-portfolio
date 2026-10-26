@@ -10,13 +10,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bone: "#F5F4EF",
+        bone: "#F2F0E9",
         surface: "#FAFAF7",
-        ink: "#20211F",
+        ink: "#23251D",
         // Shared accent tokens retain their existing names for inner-page compatibility.
-        olive: "#2455EB",
-        // Light blue for text on dark surfaces.
-        "olive-light": "#B8CAFF",
+        olive: "#5F6B3A",
+        // Light olive for text on dark surfaces.
+        "olive-light": "#BBC99A",
         muted: "#61635E",
         body: "#494C48",
         // Replaces hardcoded #9A9A8C (2.70:1) for small meta text.

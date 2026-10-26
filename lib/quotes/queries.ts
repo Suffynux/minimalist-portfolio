@@ -1,39 +1,24 @@
 import { createClient } from "@/lib/supabase/server";
 import { PUBLIC_COLUMNS, type Quote, type WallSettings } from "@/lib/quotes/types";
 
-/**
- * Every quote on the public wall.
- *
- * No `visible`/`flagged` filter here: RLS already restricts anon to visible,
- * unflagged rows, and anon isn't even granted those columns. Filtering in the
- * client would only duplicate - and risk contradicting - the database.
- */
-export async function getQuotes(limit = 120): Promise<Quote[]> {
-  const supabase = await createClient();
+const configured=()=>Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL&&process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
 
-  const { data, error } = await supabase
-    .from("quotes")
-    .select(PUBLIC_COLUMNS)
-    .order("featured", { ascending: false })
-    .order("created_at", { ascending: false })
-    .limit(limit);
-
-  if (error) {
-    console.error("getQuotes failed:", error.message);
-    return [];
-  }
-
-  return (data ?? []) as Quote[];
+/** Public reads always use the anonymous/RLS-scoped client. */
+export async function getQuotes(limit=120):Promise<Quote[]> {
+  if(!configured())return [];
+  try {
+    const supabase=await createClient();
+    const {data,error}=await supabase.from("quotes").select(PUBLIC_COLUMNS).order("featured",{ascending:false}).order("created_at",{ascending:false}).limit(limit).abortSignal(AbortSignal.timeout(6000));
+    if(error){console.error("Quote collection is unavailable");return [];}
+    return (data??[]) as Quote[];
+  } catch {return [];}
 }
-
-export async function getWallSettings(): Promise<WallSettings> {
-  const supabase = await createClient();
-
-  const { data } = await supabase
-    .from("wall_settings")
-    .select("instant_publish,accepting")
-    .eq("id", true)
-    .single();
-
-  return data ?? { instant_publish: true, accepting: true };
+export async function getWallSettings():Promise<WallSettings> {
+  const closed={instant_publish:false,accepting:false};
+  if(!configured())return closed;
+  try {
+    const supabase=await createClient();
+    const {data,error}=await supabase.from("wall_settings").select("instant_publish,accepting").eq("id",true).abortSignal(AbortSignal.timeout(6000)).single();
+    return error?closed:data??closed;
+  } catch {return closed;}
 }

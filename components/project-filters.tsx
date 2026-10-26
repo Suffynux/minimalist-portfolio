@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { projectSlug } from "@/lib/portfolio-content";
 import { type DetailedProject } from "@/lib/data";
 const categories = [
   { label: "All work", value: "All" },
@@ -102,9 +103,9 @@ export function ProjectFilters({ projects }: { projects: DetailedProject[] }) {
                 ))}
               </div>
               <div className="index-project-links">
-                {project.name === "CEGA" && (
-                  <Link href="/projects/cega" className="text-link">
-                    Read case study <ArrowRight size={16} />
+                {(
+                  <Link href={`/projects/${projectSlug(project.name)}`} className="text-link">
+                    Explore project <ArrowRight size={16} />
                   </Link>
                 )}
                 <a

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import "./portfolio.css";
+import "./story.css";
+import "./studio.css";
 
 const instrument = localFont({
   src: [
@@ -63,7 +65,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-ascii.png",
+        url: "/og-portfolio.png",
         width: 1200,
         height: 630,
         alt: "Sufiyan Ali — Full-Stack Developer and AI Builder",
@@ -75,7 +77,7 @@ export const metadata: Metadata = {
     title: "Sufiyan Ali — I Build Products People Use",
     description:
       "Full-stack apps, thoughtful websites and practical AI integrations. From the interface to the business logic.",
-    images: ["/og-ascii.png"],
+    images: ["/og-portfolio.png"],
   },
   robots: {
     index: true,

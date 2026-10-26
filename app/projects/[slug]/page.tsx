@@ -1,3 +1,6 @@
+import { ProjectDetail } from "@/components/project-detail";
+import { projectDetails } from "@/lib/data";
+import { projectSlug } from "@/lib/portfolio-content";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -28,12 +31,12 @@ import {
   StatRow,
   TechTable
 } from "@/components/case-study/sections";
-import { caseStudies, getCaseStudy } from "@/lib/case-studies";
+import { getCaseStudy } from "@/lib/case-studies";
 
 type Params = { slug: string };
 
 export function generateStaticParams(): Params[] {
-  return caseStudies.map((study) => ({ slug: study.slug }));
+  return projectDetails.map((project) => ({ slug: projectSlug(project.name) }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
@@ -41,7 +44,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const study = getCaseStudy(slug);
 
   if (!study) {
-    return { title: "Case study not found" };
+    const project = projectDetails.find(item => projectSlug(item.name) === slug);
+    return project ? { title: `${project.name} — Project`, description: project.desc, alternates: { canonical: `/projects/${slug}` } } : { title: "Project not found" };
   }
 
   return {
@@ -62,6 +66,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
   const study = getCaseStudy(slug);
 
   if (!study) {
+    const project = projectDetails.find(item => projectSlug(item.name) === slug);
+    if (project) return <ProjectDetail project={project}/>;
     notFound();
   }
 

@@ -7,3 +7,8 @@ node_modules/
 .env
 .env.local
 .env*.local
+.vercel
+.env*
+
+# Keep development output separate from production builds
+.next-dev/

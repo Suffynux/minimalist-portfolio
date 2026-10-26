@@ -1,52 +1,17 @@
 import type { Metadata } from "next";
-import { Footer } from "@/components/footer";
-import { Navbar } from "@/components/navbar";
+import { PortfolioPage, PageIntro, NextChapter } from "@/components/portfolio-page";
 import { ProjectFilters } from "@/components/project-filters";
 import { projectDetails } from "@/lib/data";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+
 export const metadata: Metadata = {
-  title: "Selected Work — Full-Stack, AI & Web",
-  description:
-    "Full-stack platforms, AI tools, learning products and storefronts built by Sufiyan Ali. Explore the thinking and the working software.",
-  alternates: { canonical: "/projects" },
-  openGraph: {
-    url: "https://www.suffynux.com/projects",
-    siteName: "Suffynux",
-    type: "website",
-    images: [{ url: "/og-ascii.png", width: 1200, height: 630, alt: "Sufiyan Ali — Full-Stack Developer & AI Builder" }],
-  },
+  title:"Selected Work — Full-Stack, AI & Web",
+  description:"Explore Sufiyan Ali’s full-stack platforms, AI tools, learning products and storefronts. The thinking and the working software.",
+  alternates:{canonical:"/projects"},
 };
 export default function ProjectsPage() {
-  return (
-    <div className="portfolio-site" id="top">
-      <Navbar />
-      <main id="main-content">
-        <header className="index-header page-width">
-          <p className="eyebrow">THE WORK / FROM IDEA TO PRODUCTION</p>
-          <h1>
-            Built to be
-            <br />
-            <span className="serif-word">used.</span>
-          </h1>
-          <p>
-            Different businesses. Different problems.
-            <br />
-            The same commitment to building the whole thing properly.
-          </p>
-        </header>
-        <ProjectFilters projects={projectDetails} />
-        <section className="page-width index-cta">
-          <p className="eyebrow">YOUR PROJECT COULD BE NEXT</p>
-          <Link href="/#contact">
-            Let’s build something useful.
-            <ArrowUpRight />
-          </Link>
-        </section>
-        <div className="page-width inner-footer">
-          <Footer />
-        </div>
-      </main>
-    </div>
-  );
+  return <PortfolioPage>
+    <PageIntro eyebrow="02 / SELECTED WORK" title={<>From “what if”<br/><em>to out in the world.</em></>}>Platforms, storefronts and useful AI. Different businesses, different problems, and ownership of the whole build.</PageIntro>
+    <section className="studio-section" aria-label="Project collection"><ProjectFilters projects={projectDetails}/></section>
+    <NextChapter/>
+  </PortfolioPage>;
 }
