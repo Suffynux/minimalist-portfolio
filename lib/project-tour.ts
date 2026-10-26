@@ -1,42 +1,48 @@
 import { projectDetails } from "@/lib/data";
 import { projectSlug } from "@/lib/portfolio-content";
 
+/** `text` is what the guide says; wrap the phrase to emphasise in *asterisks*. */
 export type TourStep = {label:string;title:string;text:string;image?:string};
 const stories:Record<string,TourStep[]>={
   cega:[
-    {label:"Meet the project",title:"A whole program. One platform.",text:"This is CEGA, a national gaming and animation hub. I connected its training, applications and everyday operations in one full-stack platform.",image:"/case-studies/cega/training-overview.png"},
-    {label:"What I built",title:"From applications to decisions.",text:"Here’s the judging workflow. Applicants, reviewers and administrators have different jobs, so the platform gives each role the tools and permissions it needs.",image:"/case-studies/cega/judging-phase-1.png"},
-    {label:"Behind the scenes",title:"The everyday work, connected.",text:"And here are the shared spaces and bookings. CEGA brings more than fourteen application portals together, with Next.js, MongoDB and an integrated AI assistant.",image:"/case-studies/cega/coworking-lab.png"},
+    {label:"Meet the project",title:"A whole program. One platform.",text:"This is CEGA, a national gaming and animation hub. I built *the platform that runs it*.",image:"/case-studies/cega/training-overview.png"},
+    {label:"What I built",title:"From applications to decisions.",text:"Here’s judging. Applicants, reviewers and admins each *see only what they need*.",image:"/case-studies/cega/judging-phase-1.png"},
+    {label:"Behind the scenes",title:"The everyday work, connected.",text:"Bookings, shared spaces, *14+ portals* and an AI assistant. All in one place.",image:"/case-studies/cega/coworking-lab.png"},
   ],
   "gomila-intersole":[
-    {label:"Meet the project",title:"A storefront with its own identity.",text:"Next up, Gomila Intersole. This is a footwear storefront built on Shopify, with a custom Liquid theme rather than a generic storefront experience."},
-    {label:"What I built",title:"From product discovery to checkout.",text:"My work here covers the custom theme and product pages, along with order and inventory automations that support the store behind the scenes."},
-    {label:"The toolkit",title:"Commerce, inside and out.",text:"Shopify provides the commerce foundation. Liquid shapes the storefront, and automations connect the operational work. You can open the live store to explore it."},
+    {label:"Meet the project",title:"A storefront with its own identity.",text:"Next up, Gomila. A footwear store on Shopify with *its own custom theme*."},
+    {label:"What I built",title:"From product discovery to checkout.",text:"Behind the storefront, *automations* keep orders and stock in check."},
+    {label:"The toolkit",title:"Commerce, inside and out.",text:"Shopify underneath, Liquid on top. It’s live, so *go have a look*."},
   ],
   deeniverse:[
-    {label:"Meet the project",title:"A place to learn. A reason to return.",text:"Meet Deeniverse, a Quran learning platform. The build connects the public website with the tools students need once they’ve signed in."},
-    {label:"What I built",title:"More than a landing page.",text:"Authentication, course management and progress tracking are all part of this build. The aim is to give learning a clear path, from discovery to continued study."},
-    {label:"The toolkit",title:"The full learning experience.",text:"React handles the interface. Node.js and Express handle the application logic, with MongoDB for the data. A connected frontend and backend for one learning experience."},
+    {label:"Meet the project",title:"A place to learn. A reason to return.",text:"Deeniverse is a Quran learning platform, *built front to back*."},
+    {label:"What I built",title:"More than a landing page.",text:"Sign-in, courses and *progress tracking*, so students pick up where they left off."},
+    {label:"The toolkit",title:"The full learning experience.",text:"React up front, Node and MongoDB behind. *One connected build.*"},
   ],
   "nextgrid-it":[
-    {label:"Meet the project",title:"Making technical services clear.",text:"This is NextGrid IT, a corporate website for a UK IT firm. A different kind of project: help visitors understand the services and find their next step."},
-    {label:"What I built",title:"A consistent business presence.",text:"The work includes service showcases, client portals and a shared design system, so the website feels consistent as visitors move between sections."},
-    {label:"The toolkit",title:"A considered web foundation.",text:"Next.js, TypeScript and Tailwind form the toolkit for this build. Open the website to see the service pages and the design in context."},
+    {label:"Meet the project",title:"Making technical services clear.",text:"NextGrid IT, a UK IT firm. The job: make their services *easy to understand*."},
+    {label:"What I built",title:"A consistent business presence.",text:"Service pages, client portals and *one design system* holding it together."},
+    {label:"The toolkit",title:"A considered web foundation.",text:"Next.js, TypeScript and Tailwind. *Open it and click around.*"},
   ],
   "ai-chat-agent":[
-    {label:"Meet the project",title:"AI with a job to do.",text:"Here’s AI Chat Agent, a full-stack AI application built for store owners. It connects an LLM to an application with authentication and usage controls."},
-    {label:"What I built",title:"The product around the conversation.",text:"The build includes Google sign-in, usage limits and e-commerce integration settings. Those surrounding systems matter just as much as the chat interface."},
-    {label:"The toolkit",title:"A look under the hood.",text:"Python and Flask handle the backend, with OAuth for sign-in and an LLM API for responses. The source code is available if you’d like a closer look."},
+    {label:"Meet the project",title:"AI with a job to do.",text:"AI Chat Agent. An *assistant for store owners*, not just a chat box."},
+    {label:"What I built",title:"The product around the conversation.",text:"Google sign-in and *usage limits*. The unglamorous bits that make AI shippable."},
+    {label:"The toolkit",title:"A look under the hood.",text:"Python, Flask, OAuth and an LLM API. *The code is on GitHub.*"},
   ],
 };
 
+/** Background for each project's chapter; the tour blends between them as you scroll. */
+const tints:Record<string,string>={cega:"#293b32","gomila-intersole":"#554b3c",deeniverse:"#34473e","nextgrid-it":"#424b35","ai-chat-agent":"#272c25"};
+const fallbackTints=["#293b32","#554b3c","#34473e","#424b35","#272c25"];
+
 /** Newly added projects automatically join the tour, with factual data fallbacks. */
-export const tourProjects=projectDetails.map(project=>({
+export const tourProjects=projectDetails.map((project,i)=>({
   ...project,slug:projectSlug(project.name),
+  tint:tints[projectSlug(project.name)]??fallbackTints[i%fallbackTints.length],
   steps:stories[projectSlug(project.name)]??[
-    {label:"Meet the project",title:project.name,text:`This is ${project.name}. ${project.desc}`},
+    {label:"Meet the project",title:project.name,text:`This is *${project.name}*. ${project.desc}`},
     {label:"The project",title:project.kind,text:project.meta},
-    {label:"The toolkit",title:"Behind the build",text:`The toolkit for ${project.name}: ${project.stack.join(", ")}. Open the project for a closer look.`},
+    {label:"The toolkit",title:"Behind the build",text:`Built with ${project.stack.join(", ")}. *Open it for a closer look.*`},
   ],
 }));
 export const tourStops=tourProjects.flatMap((project,projectIndex)=>project.steps.map((step,stepIndex)=>({project,projectIndex,step,stepIndex})));
