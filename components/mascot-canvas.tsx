@@ -71,13 +71,21 @@ export function MascotCanvas(props: Props) {
         pointer.y=T.MathUtils.clamp((e.clientY-r.top-r.height/2)/Math.max(200,r.height),-1,1);
       };
       const reset=()=>{pointer.x=0;pointer.y=0;};
+      let bufferWidth=0, bufferHeight=0;
       const resize=()=>{
         const {width,height}=element.getBoundingClientRect();
         if(!width||!height)return;
-        renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();
+        // Quantize buffers while the scroll path resizes the guide; CSS supplies the smooth visual size.
+        const renderWidth=Math.max(64,Math.round(width/32)*32);
+        const renderHeight=Math.max(64,Math.round(height/32)*32);
+        if(renderWidth!==bufferWidth||renderHeight!==bufferHeight){
+          renderer.setSize(renderWidth,renderHeight,false);
+          bufferWidth=renderWidth;bufferHeight=renderHeight;
+        }
+        camera.aspect=width/height;camera.updateProjectionMatrix();
         const size=new T.Vector2();renderer.getDrawingBufferSize(size);target.setSize(size.x,size.y);
         material.uniforms.resolution.value.copy(size);
-        material.uniforms.pixelSize.value=Math.min(devicePixelRatio,1.5)*Math.max(1.25,Math.min(2.8,width/210));
+        material.uniforms.pixelSize.value=Math.min(devicePixelRatio,1.5)*Math.max(1,Math.min(1.8,width/350));
       };
       const observer=new ResizeObserver(resize);observer.observe(element);resize();
       let visible=true, lastFrame=0;
