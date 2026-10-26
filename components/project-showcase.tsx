@@ -1,6 +1,6 @@
 "use client";
 import { useId, useRef, useState } from "react";
-import Image from "next/image";
+import { ScreenshotPreview } from "@/components/screenshot-preview";
 import { ArrowUpRight, Database, Layers, Workflow } from "lucide-react";
 import type { DetailedProject } from "@/lib/data";
 import { projectShowcases, type ProjectModule } from "@/lib/project-showcase";
@@ -157,21 +157,10 @@ export function ProjectShowcase({ project }: { project: DetailedProject }) {
               ))}
             </div>
             <figure>
-              <a
-                className="screen-image"
-                href={current.image}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`Open full-size screenshot: ${current.title}`}
-              >
-                <Image
-                  src={current.image}
-                  alt={`${project.name} — ${current.title}`}
-                  width={1440}
-                  height={1000}
-                  sizes="(max-width:760px) 90vw, 75vw"
-                />
-              </a>
+              <ScreenshotPreview
+                src={current.image}
+                alt={`${project.name} — ${current.title}`}
+              />
               <figcaption>
                 <div>
                   <span className="screen-caption-type">
