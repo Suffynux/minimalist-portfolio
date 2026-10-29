@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { StoryPortfolio } from "@/components/story-portfolio";
+import { EditorialPrototype } from "@/components/editorial-prototype";
 import { site } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "Full-Stack Developer & AI Builder",
+  title: "Suffynux — Websites, Business Apps & AI",
   description:
-    "Sufiyan Ali builds full-stack apps, thoughtful websites, AI integrations and the business logic behind them. Meet the human behind Suffynux.",
+    "Websites, commerce operations, custom applications and practical AI. Explore Gomila OMS, CEGA and Zone Pro Matériaux, then discuss your project with Sufiyan Ali.",
   alternates: { canonical: "/" },
   openGraph: {
     url: "https://www.suffynux.com/",
@@ -23,6 +23,6 @@ export default function Home() {
       url: "https://www.suffynux.com", jobTitle: "Full-Stack Developer & AI Builder",
       sameAs: [site.github, site.linkedin, site.upwork],
     }) }} />
-    <StoryPortfolio />
+    <EditorialPrototype />
   </>;
 }

@@ -1,3 +1,4 @@
+import { PortfolioGuide } from "@/components/portfolio-guide";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -6,6 +7,11 @@ import "./story.css";
 import "./studio.css";
 import "./cinematic.css";
 import "./showcase.css";
+import "./client-home.css";
+import "./editorial.css";
+import "./editorial-complete.css";
+
+const archivo = localFont({src:"../public/fonts/Archivo-Variable.ttf",variable:"--font-archivo",display:"swap",weight:"100 900"});
 
 const instrument = localFont({
   src: [
@@ -39,8 +45,8 @@ const jetbrains = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.suffynux.com"),
   title: {
-    default: "Sufiyan Ali — Full-Stack Developer & AI Builder",
-    template: "%s | Sufiyan Ali",
+    default: "Suffynux — Full-Stack Developer & AI Builder",
+    template: "%s | Suffynux",
   },
   description:
     "I build full-stack applications, websites, AI integrations and automation systems around real business problems.",
@@ -58,7 +64,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Sufiyan Ali" }],
   creator: "Sufiyan Ali",
   openGraph: {
-    title: "Sufiyan Ali — I Build Products People Use",
+    title: "Suffynux — I Build Products People Use",
     description:
       "Full-stack apps, websites and AI integrations. I turn real business problems into useful digital products.",
     url: "https://www.suffynux.com/",
@@ -70,13 +76,13 @@ export const metadata: Metadata = {
         url: "/og-portfolio.png",
         width: 1200,
         height: 630,
-        alt: "Sufiyan Ali — Full-Stack Developer and AI Builder",
+        alt: "Suffynux — Full-Stack Developer and AI Builder",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sufiyan Ali — I Build Products People Use",
+    title: "Suffynux — I Build Products People Use",
     description:
       "Full-stack apps, thoughtful websites and practical AI integrations. From the interface to the business logic.",
     images: ["/og-portfolio.png"],
@@ -95,9 +101,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrument.variable} ${manrope.variable} ${jetbrains.variable}`}
+      className={`${instrument.variable} ${manrope.variable} ${jetbrains.variable} ${archivo.variable}`}
     >
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">{children}<PortfolioGuide /></body>
     </html>
   );
 }

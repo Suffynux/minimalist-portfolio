@@ -1,10 +1,11 @@
+import {EditorialShell} from "@/components/editorial-shell";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
 export function PortfolioPage({children,className=""}:{children:React.ReactNode;className?:string}) {
-  return <div className={`studio-page ${className}`} id="top"><Navbar/><main id="main-content">{children}</main><div className="page-width"><Footer/></div></div>;
+  return <EditorialShell className={`editorial-secondary ${className}`}>{children}</EditorialShell>;
 }
 export function PageIntro({eyebrow,title,children}:{eyebrow:string;title:React.ReactNode;children:React.ReactNode}) {
   return <header className="studio-hero page-width"><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p>{children}</p></header>;

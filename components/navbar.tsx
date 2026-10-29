@@ -7,12 +7,12 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import { site } from "@/lib/data";
 
 const links = [
-  {label:"The tour",href:"/"},
+  {label:"Home",href:"/"},
   {label:"Selected work",href:"/projects"},
-  {label:"The human",href:"/journey"},
-  {label:"The quote wall",href:"/quotes"},
-  {label:"The playground",href:"/creatives"},
-  {label:"Let’s talk",href:"/#contact"},
+  {label:"About me",href:"/journey"},
+  {label:"Services",href:"/#services"},
+  {label:"Playground",href:"/creatives"},
+  {label:"Discuss your project",href:"/#contact"},
 ];
 
 export function Navbar({hero=false}:{hero?:boolean}) {

@@ -12,3 +12,6 @@ node_modules/
 
 # Keep development output separate from production builds
 .next-dev/
+
+# Local Finder metadata
+.DS_Store

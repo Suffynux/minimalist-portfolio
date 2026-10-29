@@ -26,8 +26,10 @@ export function startSmoothScroll() {
     lenis = null;
     if (!preference.matches)
       lenis = new Lenis({
-        lerp: 0.12,
+        lerp: 0.085,
         smoothWheel: true,
+        syncTouch: false,
+        stopInertiaOnNavigate: true,
         anchors: { duration: 1.1 },
         autoRaf: true,
       });

@@ -41,7 +41,7 @@ const cega = (
   description: string,
 ): ProjectModule => ({
   title,
-  href: `https://www.cega.com.pk${path}`,
+  href: `https://cega-pi.vercel.app${path}`,
   description,
 });
 const screen = (
@@ -52,17 +52,29 @@ const screen = (
   snapshot = false,
 ): ProjectScreen => ({ title, image, description, href, snapshot });
 
-/** Public screenshots plus module descriptions verified against the owner's source. No production records are fetched. */
+/** Public historical screenshots and current customer-free captures. No live records are fetched by the portfolio. */
 export const projectShowcases: Record<string, ProjectShowcase> = {
   "gomila-oms": {
     source: "https://github.com/Suffynux/Unified-Inbox-Readme",
     protected: true,
     screens: [
+      screen("Customer conversations", "/work/gomila-chat-current.jpg", "A shared inbox brings website, Facebook and Instagram conversations into a team workflow, with ownership, waiting-time indicators, follow-ups, attachments and AI assistance. WhatsApp has a separate workspace. Search filtered for privacy; customer messages and details are not displayed.", undefined, true),
+      screen("Support analytics", "/work/gomila-chat-analytics-current.jpg", "Managers can filter by agent and period to review new conversations, replies, waiting customers and closed chats. The interface distinguishes first-response tracking from typical reply time. Aggregate live snapshot, not a claim of performance improvement. First-response tracking was marked pending migration.", undefined, true),
+      screen("Finance & reconciliation", "/work/gomila-finance-current.jpg", "A dedicated accounting workspace includes vouchers, journals, customer ledgers, invoices, vendor bills, chart of accounts, general ledger and reporting. Different voucher types support everyday accounting tasks. Blank voucher interface; no transaction was saved or posted.", undefined, true),
+      screen("Returns", "/work/gomila-returns-current.jpg", "A return is operational work with an owner and a next stage. Teams can switch between a list and board, then filter by branch, status or reason. Search filtered for privacy. Empty columns show the real workflow, not an absence of business activity.", undefined, true),
+      screen("Exchanges", "/work/gomila-exchanges-current.jpg", "Exchanges have their own tracker and creation flow while sharing the wider ticket workspace. Branch and status filters keep after-sales work organised. Search filtered for privacy; no exchange was submitted.", undefined, true),
       screen(
-        "Operations dashboard",
+        "Current made-to-order workflow",
+        "/work/gomila-oms-mto-current.jpg",
+        "Current order-entry interface captured on 29 October 2026, with customer fields empty. No order was created.",
+        "https://www.gomilaoms.com/orders/mto/new",
+        true,
+      ),
+      screen(
+        "Historical refund dashboard",
         "/work/gomila-oms-dashboard.png",
         "Open work, overdue tickets, refund amounts and the stage-by-stage pipeline. Published refund-workspace snapshot; the current OMS contains the wider modules below.",
-        "https://www.gomilaoms.com/dashboard",
+        undefined,
         true,
       ),
       screen(
@@ -308,6 +320,11 @@ export const projectShowcases: Record<string, ProjectShowcase> = {
     source: "https://github.com/Suffynux/Cega-Readme",
     protected: true,
     screens: [
+      screen("One staff workspace", "/work/cega-admin-hub.jpg", "A role-aware hub connects programme dashboards, application management, certificates, bookings, judging and governance. Public forms feed the protected backend. Live interface, reviewed 29 October 2026. No records were changed.", undefined, true),
+      screen("Training & certificates", "/work/cega-training-analytics-current.jpg", "Training reporting combines cohort and legacy application records. Staff can compare batches, courses and centres, manage intake, and issue certificates with token-based retrieval. Current aggregate reporting. Manager-reported totals and portal records are distinct; student-level scores are excluded.", undefined, true),
+      screen("Incubation & judging", "/work/cega-incubation-analytics-current.jpg", "Founder applications progress through cohort review and two judging phases. The source implements six criteria per phase, reviewer permissions and normalised scoring across multiple judges. Dashboard captured live; judging workflow verified in the repository. No private applicant scores are shown.", undefined, true),
+      screen("Shared spaces", "/work/cega-coworking-analytics-current.jpg", "Co-working applications, meeting-room bookings and rendering-lab requests give staff a structured way to handle access to facilities. Live interface, reviewed 29 October 2026. No records were changed.", undefined, true),
+      screen("Events & governance", "/work/cega-events-analytics-current.jpg", "Event dashboards separate the event catalogue from registrations. Governance modules organise KPI groups, partner entries and rollups; calendar reminders are scheduled every ten minutes. Live event aggregates. Registrations are not attendance; missing attendance remains distinct from zero.", undefined, true),
       screen(
         "CEGA · Main website",
         "/work/cega-home.png",
@@ -342,21 +359,21 @@ export const projectShowcases: Record<string, ProjectShowcase> = {
         "Training analytics",
         "/case-studies/cega/training-overview.png",
         "Applicant and enrolment breakdowns by course, batch and geography. Published case-study figures.",
-        "https://www.cega.com.pk/admin/training-analytics",
+        "https://cega-pi.vercel.app/admin/training-analytics",
         true,
       ),
       screen(
         "Co-working analytics",
         "/case-studies/cega/coworking-lab.png",
         "Applications, occupancy and rendering-lab bookings in a published dashboard snapshot.",
-        "https://www.cega.com.pk/admin/coworking-dashboard",
+        "https://cega-pi.vercel.app/admin/coworking-dashboard",
         true,
       ),
       screen(
         "Community reporting",
         "/case-studies/cega/community-events.png",
         "Event bookings, hosted events and participation in a published snapshot.",
-        "https://www.cega.com.pk/admin/dashboard/events",
+        "https://cega-pi.vercel.app/admin/dashboard/events",
         true,
       ),
     ],

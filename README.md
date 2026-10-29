@@ -1,162 +1,50 @@
-# Sufiyan Portfolio
+# Suffynux portfolio
 
-A polished personal portfolio for Sufiyan Ali, built with the Next.js App Router, TypeScript, Tailwind CSS, shadcn/ui-style primitives, and Framer Motion. The site presents full-stack applications, websites, AI integrations and business automation through a scrolling story guided by an articulated monochrome 3D character.
+A responsive portfolio for Sufiyan Ali / Suffynux, built with Next.js, React and TypeScript. It presents the business problems, workflows and implementation behind client projects.
 
-## Highlights
+## Current experience
 
-- Responsive chapter-based homepage with synchronized project walkthroughs and narration
-- Filterable project index, 3D playground, project detail pages, quote wall and development journey
-- Real head, eye and arm movement, presentation poses, reactions, a dithered finish and a static fallback
-- Centralized portfolio content in `lib/data.ts`
-- Animated reveal effects with Framer Motion
-- Reusable UI components for cards, navigation, tags, contact links, and WhatsApp CTA
-- Self-hosted Manrope, Instrument Serif and JetBrains Mono through `next/font/local`
+- Handwritten Suffynux entrance, charcoal and neutral paper with a cobalt accent.
+- Scroll-driven project illustrations and continuous drawing that reverses with scrolling.
+- Featured stories for Gomila OMS, CEGA, UK Medical Aid, Bangrila Motors and Zone Pro Matériaux.
+- Twenty project detail routes, screenshot galleries, technology badges and a next-project journey.
+- A continuous reading line across case-study sections and their footers.
+- Smaller tools, an ASCII portrait, a searchable project collection, quotes and a creative playground.
 
-## Tech Stack
+## Run locally
 
-- Next.js 15
-- React 19
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Three.js (lazy-loaded character renderer)
-- Radix Slot
-- Lucide React
-
-## Getting Started
-
-Install dependencies:
-
-```bash
+```sh
 npm install
-```
-
-Start the development server:
-
-```bash
 npm run dev
 ```
 
-Open `http://localhost:3000` in your browser.
+Configure environment variables using `.env.example`. Existing Supabase configuration is required by the authentication middleware and quotes backend. Never commit local environment files.
 
-## Available Scripts
-
-```bash
-npm run dev
-```
-
-Runs the local development server.
-
-```bash
+```sh
 npm run build
-```
-
-Creates a production build.
-
-```bash
 npm run start
 ```
 
-Starts the production server after building.
+## Edit the site
 
-```bash
-npm run typecheck
-```
+- `components/editorial-prototype.tsx`: homepage hero, OMS and CEGA scenes.
+- `components/editorial-sections.tsx`: remaining project scenes, tools and portrait.
+- `components/editorial-capabilities.tsx`: responsive capability diagram.
+- `components/editorial-motion.tsx`: signature, scroll progress, masked SVG ink and page reading line.
+- `components/editorial-case-study.tsx`: shared project study and screenshot navigation.
+- `components/editorial-shell.tsx`: navigation, project index and footer.
+- `app/editorial.css` and `app/editorial-complete.css`: layout, motion and palette.
+- `lib/data.ts`, `lib/project-journey.ts` and `lib/project-showcase.ts`: project information and documented workflows.
+- `public/work/`: approved project screenshots; `public/portraits/`: supplied ASCII portrait.
 
-Runs TypeScript checks with `tsc --noEmit`.
+The visible SVG stroke stays solid; a separate mask reveals its prefix. This avoids scaling artifacts caused by combining normalized dash lengths with non-scaling strokes. The case-study reading line uses one HTML element so it crosses section backgrounds without SVG clipping.
 
-```bash
-npm run lint
-```
+## Verification
 
-Runs the configured Next.js lint command.
+`npm run build` checks TypeScript and creates all project routes. The browser fixture in `tests/visual/line-regression.tsx` can temporarily be re-exported from a local test route. It compares the current SVG renderer against the earlier implementation at six viewport sizes, with partial, full, reverse and reduced-motion states. Keep the test route out of production.
 
-## Project Structure
-
-```text
-app/
-  page.tsx              Home page
-  projects/page.tsx     Project showcase
-  creatives/page.tsx    Interactive 3D playground
-  journey/page.tsx      Timeline and experience
-components/
-  *.tsx                 Reusable layout, cards, nav, contact, and UI pieces
-lib/
-  data.ts               Site copy, links, services, projects, stats, and galleries
-  utils.ts              Shared utility helpers
-```
-
-## Editing Content
-
-The homepage story and capability copy live in `components/story-portfolio.tsx`, with chapter narration in `lib/story.ts`. Project and contact content live in `lib/data.ts`, including:
-
-- Contact details and social links in `site`
-- Navigation links in `navItems`
-- Services, process steps, stats, and principles
-- Featured and detailed projects
-- Journey milestones
-- Creative gallery sections and tools
-
-Update project images by replacing the `img` values in `lib/data.ts` with real screenshots or production assets.
+Touch scrolling remains native. Reduced-motion preferences suppress the entrance and animated reveals. The legacy character and ASCII export tools remain available for the creative playground.
 
 ## Deployment
 
-This project is ready for deployment on Vercel or any platform that supports Next.js. Build locally with:
-
-```bash
-npm run build
-```
-
-Then deploy the generated Next.js application using your preferred hosting provider.
-
-## Archived ASCII exports
-
-`components/ascii-portrait.tsx` renders the local character map on canvas. A static SVG is available before JavaScript and if loading fails. Animation respects reduced motion, pauses painting offscreen and does not load the original photo in the browser.
-
-Run `npm run avatar:generate` after editing `scripts/generate-ascii.mjs` to rebuild the portrait data, 1080px PNGs, SVGs, text export, and social sharing image. The script samples the existing `lib/assessts/Avator.jpeg`; its silhouette mask is specific to that portrait. It uses Sharp, which is also installed with Next.js.
-
-Exports live in `public/avatar/`. The PNG files are ready for WhatsApp profile pictures; the SVG files scale without losing the character shapes. The interactive modes are browser effects; downloaded portraits are clean, static artwork.
-
-The shared visual system is in `app/studio.css`, `app/story.css` and `app/portfolio.css`; inner-page components share the palette through `tailwind.config.ts`. The quotes backend and admin flows retain their existing Supabase setup. See `.env.example` for the required environment variable names.
-
-
-## Guided portfolio and 3D character
-
-The homepage is `components/story-portfolio.tsx`, with chapter narration in `lib/story.ts`.
-`lib/avatar-rig.ts` constructs the original articulated 3D character; `components/mascot-canvas.tsx`
-lazy-loads Three.js and renders the monochrome dither pass. It turns toward the presentation,
-points, follows the pointer, and supports reactions. Rendering pauses offscreen, when hidden,
-and in background tabs. Devices without WebGL receive the saved illustrated portrait.
-
-`app/studio.css` contains the shared site layout and presentation overrides. `app/story.css`
-contains the chapter and character foundations. Palette tokens are shared with the quote wall
-and case studies through `tailwind.config.ts`.
-
-### Adding approved content
-
-- Edit `projectDetails` in `lib/data.ts` to add project names, descriptions, stacks and links.
-  Project overview routes and the sitemap are derived from those names.
-- Add long-form case studies to `lib/case-studies.ts`; CEGA is the existing full case study.
-- Add approved testimonials to the typed `testimonials` array in `lib/portfolio-content.ts`.
-  The testimonial section is deliberately absent until real feedback is supplied.
-- Quotes continue to use the existing Supabase collection and moderation workflow. No sample
-  quotes or client feedback are written to the database by the rebuild.
-
-`/creatives` is the interactive 3D playground. `/quotes` retains the scrollable quote deck,
-filters, reading overlay and submissions. `/projects`, `/journey`, recovery pages and all
-project routes share the same navigation and editorial frame.
-
-Development output lives in `.next-dev`; production output stays in `.next`. This allows
-`npm run build` to validate the site without breaking an already-running `npm run dev` preview.
-
-
-### Interactive project tour
-
-`lib/project-tour.ts` derives the tour from `projectDetails`. Each existing project has three
-factual narration steps, and new entries automatically receive an introduction, overview and
-stack step. Add custom narration and screenshot paths in that file to tailor new projects.
-`components/project-tour.tsx` synchronizes native scrolling, project selectors and next/back
-buttons using the sticky stage’s measured height. The character offers the same navigation
-inside its speech bubble, with optional browser speech synthesis activated only by a click.
-The live model has simple oval eyes, swept hair, a shaped animated mouth and coarse monochrome
-dithering. `public/avatar/sufiyan-guide.png` is its matching fallback and downloadable portrait.
+The GitHub repository is connected to Vercel. The `main` branch is used for production; other branches receive previews. Build locally before pushing changes to production.
