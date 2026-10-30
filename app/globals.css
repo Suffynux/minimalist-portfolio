@@ -11,15 +11,15 @@ html {
 }
 
 body {
-  background: #F2F0E9;
-  color: #23251D;
+  background: #F4F3EC;
+  color: #11120F;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: #6E7A45;
-  color: #FAF9F4;
+  background: #D5F46A;
+  color: #11120F;
 }
 
 a {

@@ -1,12 +1,13 @@
 "use client";
 
-import {useEffect,useRef,useState,type RefObject} from "react";
+import {useRef,useState,type RefObject} from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {motion,useReducedMotion,useScroll,useTransform,useMotionValueEvent} from "framer-motion";
+import {motion,useReducedMotion,useScroll,useMotionValueEvent} from "framer-motion";
 import {ArrowDown,ArrowUpRight,ArrowRight,Check,MessageSquare,Pause,Play,Plus,Minus,Package,FileText,Users,GraduationCap} from "lucide-react";
 import {TechnologyBadges} from "@/components/technology-badges";
 import {EditorialShell} from "@/components/editorial-shell";
+import {HeroThread} from "@/components/hero-thread";
 import {ScrollThread} from "@/components/editorial-motion";
 import {Capabilities,MoreProjectScenes,EditorialTools,EditorialAbout} from "@/components/editorial-sections";
 
@@ -35,9 +36,16 @@ function Thread({dark=false,kind="oms",active=0}:{dark?:boolean;kind?:"hero"|"om
 
 export function EditorialPrototype(){
  const hero=useRef<HTMLElement>(null);const oms=useRef<HTMLElement>(null);const cega=useRef<HTMLElement>(null);const reduced=useReducedMotion();
- const sequence=useSequence(oms,reduced,omsSteps.length);const cohort=useSequence(cega,reduced,3);const {scrollYProgress}=useScroll({target:hero,offset:["start start","end start"]});const drift=useTransform(scrollYProgress,[0,1],[0,-55]);
+ const sequence=useSequence(oms,reduced,omsSteps.length);const cohort=useSequence(cega,reduced,3);
  return <EditorialShell>
- <section ref={hero} className="editorial-hero" aria-labelledby="editorial-title"><Thread dark kind="hero"/><motion.div className="editorial-hero-title" style={{y:reduced?0:drift}}><h1 id="editorial-title"><span>I BUILD</span><span>PRODUCTS</span><span>THAT WORK.</span></h1></motion.div><div className="editorial-hero-bottom"><p>Full-stack developer connecting<br/>websites, business operations<br/>and practical AI.</p><a href="#work">FOLLOW THE WORK <ArrowDown size={14}/></a></div><span className="editorial-hero-side">SUFFYNUX / INDEPENDENT DEVELOPER</span></section>
+ <section ref={hero} className="editorial-hero hero-what-next" aria-labelledby="editorial-title">
+  <HeroThread hero={hero}/>
+  <span className="editorial-hero-side">SUFIYAN ALI / INDEPENDENT DEVELOPER</span>
+  <div className="editorial-hero-title">
+   <h1 id="editorial-title"><span>YOU HAVE</span><span data-hero-question-row>THE <em data-hero-question>WHAT IF.</em></span><span data-hero-build-row>I BUILD</span><span data-hero-next-row><em data-hero-next>WHAT’S NEXT.</em></span></h1>
+  </div>
+  <div className="editorial-hero-bottom"><p>My name is Suffynux. I turn business ideas into websites, custom applications, and practical AI tools.</p><div className="hero-actions"><a className="hero-primary" href="#contact">LET’S BUILD YOURS <ArrowUpRight size={18}/></a><a className="hero-secondary" href="#work">EXPLORE MY WORK <ArrowDown size={15}/></a></div></div>
+ </section>
 
  <Capabilities/>
  <article ref={oms} className="editorial-project oms-scene" id="work" aria-labelledby="oms-title" data-playing={sequence.playing} data-step={sequence.step}>

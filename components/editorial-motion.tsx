@@ -1,6 +1,7 @@
 "use client";
 import {useEffect,useRef,useState,useId,type ReactNode,type RefObject} from "react";
 import {motion,useReducedMotion,useScroll,useTransform,useMotionValue,type MotionValue} from "framer-motion";
+import {threadProgressAt} from "@/lib/thread-progress";
 import {startSmoothScroll} from "@/lib/smooth-scroll";
 
 /** One scroll driver, shared by the homepage and each case study. Touch remains native. */
@@ -55,9 +56,8 @@ export function useThreadProgress(ref:RefObject<HTMLElement|null>){
   return()=>{observer.disconnect();window.removeEventListener("resize",measure)};
  },[ref,layout]);
  return useTransform(()=>{
-  const y=Math.max(0,scrollY.get()),{top,height,viewport}=layout.get();
-  const horizon=y+Math.min(y*.5,viewport*.5);
-  return Math.max(0,Math.min(1,(horizon-top)/height));
+  const {top,height,viewport}=layout.get();
+  return threadProgressAt(scrollY.get(),top,height,viewport);
  });
 }
 /** No pre-drawn track: each connected segment is revealed by document scroll, in either direction. */

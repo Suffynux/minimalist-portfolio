@@ -13,7 +13,7 @@ export function pageMetadata({ title, description, path, home = false }: {
 }): Metadata {
   const fullTitle = home ? title : `${title} | Suffynux`;
   const url = new URL(path, SITE_URL).href;
-  const images = [{ url: "/og-portfolio.png", width: 1200, height: 630, alt: "Sufiyan Ali / Suffynux: Websites, Business Apps & AI" }];
+  const images = [{ url: "/share-image?v=citron-hero-2", width: 1200, height: 630, alt: "Suffynux: You have the what if. I build what’s next. Websites, business apps and practical AI." }];
   return {
     title: { absolute: fullTitle },
     description,

@@ -10,13 +10,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bone: "#F2F0E9",
+        bone: "#F4F3EC",
         surface: "#FAFAF7",
-        ink: "#23251D",
+        ink: "#11120F",
         // Shared accent tokens retain their existing names for inner-page compatibility.
-        olive: "#5F6B3A",
-        // Light olive for text on dark surfaces.
-        "olive-light": "#BBC99A",
+        olive: "#52651F",
+        // Citron for text and focus states on dark surfaces.
+        "olive-light": "#D5F46A",
         muted: "#61635E",
         body: "#494C48",
         // Replaces hardcoded #9A9A8C (2.70:1) for small meta text.
@@ -31,14 +31,14 @@ const config: Config = {
         whatsapp: "#25D366",
         "whatsapp-ink": "#0B2E17",
         // The quote wall: a dark stage with lit paper cards on it.
-        wall: "#0C0D07",
-        "wall-lift": "#1D2013",
-        paper: "#FAF8F1",
+        wall: "#11120F",
+        "wall-lift": "#1D2116",
+        paper: "#F4F3EC",
         "paper-deep": "#EBE8DB",
         "paper-edge": "#C4C1AE",
-        // Visitor-tier accent. Only ever used on the dark stage or as a spine,
+        // Signature accent. Only used on the dark stage or as a spine,
         // never as small text on bone.
-        sand: "#C8A46B",
+        sand: "#D5F46A",
         line: "rgba(35,37,29,0.09)"
       },
       fontFamily: {

@@ -1,5 +1,5 @@
 /* The portfolio's shared editorial frame. */
-:root { --paper:#f2f0e9; --ink:#23251d; --blue:#5f6b3a; --rule:#d4d4c6; }
+:root { --paper:#f4f3ec; --ink:#11120f; --blue:#52651f; --rule:#d4d4c6; }
 .studio-page { background:var(--paper); min-height:100svh; overflow:clip; }
 .studio-page .page-width { width:min(1280px,calc(100% - 100px)); }
 .studio-page::selection { background:#b6c58e; color:var(--ink); }

@@ -47,6 +47,14 @@ export const metadata: Metadata = {
   ...pageMetadata({ title: HOME_TITLE, description: HOME_DESCRIPTION, path: "/", home: true }),
   metadataBase: new URL(SITE_URL),
   applicationName: "Suffynux",
+  icons: {
+    icon: [
+      { url: "/portrait-icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/portrait-icon-64.png", sizes: "64x64", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   authors: [{ name: "Sufiyan Ali", url: SITE_URL }],
   creator: "Sufiyan Ali",
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },

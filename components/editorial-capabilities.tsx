@@ -38,12 +38,11 @@ function CapabilityPoint({item,side,progress,reduced}:{item:typeof capabilities[
  const [title,description]=side===-1?item.left:item.right;
  const desktopThreshold=.06+arcFraction(item.angle,false)*.78;
  const mobileThreshold=.06+arcFraction(item.angle,true)*.78;
- const activation=(threshold:number)=>[Math.max(0,threshold-.008),threshold];
- const desktopFill=useTransform(progress,activation(desktopThreshold),["#090909","#819cff"]);
- const mobileFill=useTransform(progress,activation(mobileThreshold),["#090909","#819cff"]);
+ const desktopFill=useTransform(progress,value=>value>=desktopThreshold?"var(--ed-accent)":"var(--brand-bg)");
+ const mobileFill=useTransform(progress,value=>value>=mobileThreshold?"var(--ed-accent)":"var(--brand-bg)");
  const style={"--node-x":`${desktop.x/10}%`,"--node-y":`${desktop.y/840*100}%`,"--mobile-x":`${mobile.x/10}%`,"--mobile-y":`${mobile.y/1400*100}%`} as CSSProperties;
  return <div className={`capability-point ${side===-1?"point-left":"point-right"} point-row-${item.angle}`} style={style}>
-  <motion.i aria-hidden="true" style={{"--node-fill":reduced?"#819cff":desktopFill,"--mobile-node-fill":reduced?"#819cff":mobileFill} as unknown as CSSProperties}/>
+  <motion.i aria-hidden="true" style={{"--node-fill":reduced?"var(--ed-accent)":desktopFill,"--mobile-node-fill":reduced?"var(--ed-accent)":mobileFill} as unknown as CSSProperties}/>
   <div><h3>{title}</h3><p>{description}</p></div>
  </div>;
 }
