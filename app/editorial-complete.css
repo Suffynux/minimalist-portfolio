@@ -191,3 +191,24 @@ html:has(.editorial-site){position:relative}
 .hero-what-next .editorial-hero-bottom{z-index:6}
 .hero-what-next h1>span{white-space:nowrap}
 @media(max-width:700px){.hero-text-thread svg{stroke-width:1.25}}
+
+.editorial-nav.editorial-nav-home:not(.menu-is-open){mix-blend-mode:normal;color:var(--brand-paper);background:linear-gradient(var(--brand-bg) 60%,transparent)}
+
+/* Compact phone hero: keep the introduction and actions close to the headline. */
+@media(max-width:700px){
+ .hero-what-next{min-height:min(100svh,760px);padding:104px 20px 40px;gap:28px}
+ .hero-what-next .editorial-hero-side{align-self:flex-end;text-align:right;max-width:calc(100% - 80px);padding-right:0}
+ .hero-what-next .editorial-hero-bottom{margin-top:8px;padding-top:0;gap:20px}
+ .hero-what-next .editorial-hero-bottom>p{max-width:310px;line-height:1.75}
+ .hero-what-next .hero-actions{flex-direction:row;align-items:center;gap:12px 20px;width:100%}
+ .hero-what-next .hero-actions>a{min-height:48px}
+}
+
+/* A short, native scroll stage draws the hero line before releasing the hero. */
+.hero-scroll-stage{position:relative;background:var(--brand-bg)}
+.hero-scroll-stage::after{content:"";display:block;height:var(--hero-pin,0px);pointer-events:none}
+.hero-scroll-stage>.hero-what-next{position:sticky;top:0}
+@media(min-width:701px) and (max-height:1000px){
+ .hero-what-next{padding-top:110px;padding-bottom:32px;gap:24px}
+ .hero-what-next h1{font-size:min(10.3vw,15vh)}
+}

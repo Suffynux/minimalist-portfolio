@@ -35,17 +35,17 @@ function Thread({dark=false,kind="oms",active=0}:{dark?:boolean;kind?:"hero"|"om
 }
 
 export function EditorialPrototype(){
- const hero=useRef<HTMLElement>(null);const oms=useRef<HTMLElement>(null);const cega=useRef<HTMLElement>(null);const reduced=useReducedMotion();
+ const heroStage=useRef<HTMLDivElement>(null);const hero=useRef<HTMLElement>(null);const oms=useRef<HTMLElement>(null);const cega=useRef<HTMLElement>(null);const reduced=useReducedMotion();
  const sequence=useSequence(oms,reduced,omsSteps.length);const cohort=useSequence(cega,reduced,3);
  return <EditorialShell>
- <section ref={hero} className="editorial-hero hero-what-next" aria-labelledby="editorial-title">
-  <HeroThread hero={hero}/>
+ <div ref={heroStage} className="hero-scroll-stage"><section ref={hero} className="editorial-hero hero-what-next" aria-labelledby="editorial-title">
+  <HeroThread hero={hero} stage={heroStage}/>
   <span className="editorial-hero-side">SUFIYAN ALI / INDEPENDENT DEVELOPER</span>
   <div className="editorial-hero-title">
    <h1 id="editorial-title"><span>YOU HAVE</span><span data-hero-question-row>THE <em data-hero-question>WHAT IF.</em></span><span data-hero-build-row>I BUILD</span><span data-hero-next-row><em data-hero-next>WHAT’S NEXT.</em></span></h1>
   </div>
   <div className="editorial-hero-bottom"><p>My name is Suffynux. I turn business ideas into websites, custom applications, and practical AI tools.</p><div className="hero-actions"><a className="hero-primary" href="#contact">LET’S BUILD YOURS <ArrowUpRight size={18}/></a><a className="hero-secondary" href="#work">EXPLORE MY WORK <ArrowDown size={15}/></a></div></div>
- </section>
+ </section></div>
 
  <Capabilities/>
  <article ref={oms} className="editorial-project oms-scene" id="work" aria-labelledby="oms-title" data-playing={sequence.playing} data-step={sequence.step}>

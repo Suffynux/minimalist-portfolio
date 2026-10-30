@@ -35,5 +35,5 @@ export function heroThreadGeometry({ width, height, titleLeft, question, questio
       ? `C${width*.3} ${under+3} ${rail-radius} ${under-3} ${rail} ${under}Q${rail+radius} ${under} ${rail+radius} ${under+radius}V${finish-radius*2}Q${rail+radius} ${finish-radius} ${rail} ${finish-radius}H${center+radius}Q${center} ${finish-radius} ${center} ${finish}`
       : `C${width*.22} ${under+4} ${center-radius} ${under-4} ${center} ${under+radius*.4}C${center+radius} ${under+radius} ${center} ${under+radius*2} ${center} ${under+radius*3}V${finish}`,
   ].join('');
-  return { d, start, height: finish };
+  return { d, start, entry, height: finish };
 }
