@@ -12,6 +12,16 @@ const capabilities=[
 // The SVG and the HTML labels use exactly the same ellipse, including on mobile.
 const geometry=(mobile:boolean)=>({rx:mobile?120:245,ry:mobile?570:340,cy:mobile?630:400,height:mobile?1400:840});
 function point(angle:number,side:number,mobile=false){const g=geometry(mobile),r=angle*Math.PI/180;return {x:500+side*g.rx*Math.sin(r),y:g.cy-g.ry*Math.cos(r)}}
+// SVG reveals by arc length, so node activation must use distance, not angle.
+function arcFraction(angle:number,mobile:boolean){
+ const g=geometry(mobile);let total=0,reached=0;
+ for(let n=0;n<580;n++){
+  const a=(n+.5)*145/580*Math.PI/180;
+  const distance=Math.hypot(g.rx*Math.cos(a),g.ry*Math.sin(a));
+  total+=distance;if((n+.5)*145/580<=angle)reached+=distance;
+ }
+ return reached/total;
+}
 function Branch({side,progress,mobile,reduced}:{side:number;progress:MotionValue<number>;mobile:boolean;reduced:boolean|null}){
  const g=geometry(mobile),end=point(145,side,mobile);
  const stem=useTransform(progress,[0,.06],[0,1]);
@@ -26,11 +36,14 @@ function Branch({side,progress,mobile,reduced}:{side:number;progress:MotionValue
 function CapabilityPoint({item,side,progress,reduced}:{item:typeof capabilities[number];side:-1|1;progress:MotionValue<number>;reduced:boolean|null}){
  const desktop=point(item.angle,side),mobile=point(item.angle,side,true);
  const [title,description]=side===-1?item.left:item.right;
- const threshold=.06+(item.angle/145)*.78;
- const opacity=useTransform(progress,[Math.max(0,threshold-.13),threshold],[.15,1]);
+ const desktopThreshold=.06+arcFraction(item.angle,false)*.78;
+ const mobileThreshold=.06+arcFraction(item.angle,true)*.78;
+ const activation=(threshold:number)=>[Math.max(0,threshold-.008),threshold];
+ const desktopFill=useTransform(progress,activation(desktopThreshold),["#090909","#819cff"]);
+ const mobileFill=useTransform(progress,activation(mobileThreshold),["#090909","#819cff"]);
  const style={"--node-x":`${desktop.x/10}%`,"--node-y":`${desktop.y/840*100}%`,"--mobile-x":`${mobile.x/10}%`,"--mobile-y":`${mobile.y/1400*100}%`} as CSSProperties;
  return <div className={`capability-point ${side===-1?"point-left":"point-right"} point-row-${item.angle}`} style={style}>
-  <motion.i aria-hidden="true" style={{opacity:reduced?1:opacity}}/>
+  <motion.i aria-hidden="true" style={{"--node-fill":reduced?"#819cff":desktopFill,"--mobile-node-fill":reduced?"#819cff":mobileFill} as unknown as CSSProperties}/>
   <div><h3>{title}</h3><p>{description}</p></div>
  </div>;
 }

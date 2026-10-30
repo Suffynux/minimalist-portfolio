@@ -11,7 +11,8 @@ export function EditorialMotion(){
 /** One uninterrupted HTML stroke across every section, independent of SVG sizing. */
 export function PageReadingLine(){
  const {scrollYProgress}=useScroll();
- return <div className="page-reading-line" aria-hidden="true"><motion.div className="page-reading-ink" style={{scaleY:scrollYProgress}}/></div>;
+ const tip=useTransform(scrollYProgress,value=>`clamp(3px, ${value*100}%, calc(100% - 3px))`);
+ return <div className="page-reading-line" aria-hidden="true"><motion.div className="page-reading-ink" style={{scaleY:scrollYProgress}}/><motion.span className="page-reading-dot" style={{top:tip}}/></div>;
 }
 function DrawnPath({d,progress,index,count,reduced}:{d:string;progress:MotionValue<number>;index:number;count:number;reduced:boolean|null}){
  const amount=useTransform(progress,[index/count,(index+1)/count],[0,1]);
@@ -21,6 +22,12 @@ function DrawnPath({d,progress,index,count,reduced}:{d:string;progress:MotionVal
  * non-scaling-stroke; combining it with normalized dashes produces gaps/repeats
  * when the viewBox is stretched. The mask reveals one continuous prefix. */
 export function InkPath({d,progress,reduced=false}:{d:string;progress:MotionValue<number>;reduced?:boolean|null}){
+ const pathRef=useRef<SVGPathElement>(null);
+ const length=useMotionValue(0);
+ useEffect(()=>{length.set(pathRef.current?.getTotalLength()??0)},[d,length]);
+ const tip=useTransform(()=>{const distance=length.get()*Math.max(0,Math.min(1,progress.get()));return pathRef.current?.getPointAtLength(distance)??{x:0,y:0}});
+ const cx=useTransform(tip,p=>p.x),cy=useTransform(tip,p=>p.y);
+ const tipOpacity=useTransform(progress,p=>p>0&&p<1?1:0);
  const id=`ink-${useId().replace(/:/g,"")}`;
  const offset=useTransform(progress,value=>1-Math.max(0,Math.min(1,value)));
  const visible=useTransform(progress,value=>value>0?1:0);
@@ -28,7 +35,8 @@ export function InkPath({d,progress,reduced=false}:{d:string;progress:MotionValu
   <defs><mask id={id} maskUnits="userSpaceOnUse" x="-10%" y="-10%" width="120%" height="120%" style={{maskType:"alpha"}}>
    <motion.path data-thread-mask d={d} pathLength={1} style={{fill:"none",stroke:"white",strokeWidth:24,strokeLinecap:"butt",strokeLinejoin:"round",strokeDasharray:"1 1",strokeDashoffset:reduced?0:offset,opacity:reduced?1:visible}}/>
   </mask></defs>
-  <path data-thread-ink d={d} mask={`url(#${id})`} vectorEffect="non-scaling-stroke"/>
+  <path ref={pathRef} data-thread-ink d={d} mask={`url(#${id})`} vectorEffect="non-scaling-stroke"/>
+  {!reduced&&<motion.circle cx={cx} cy={cy} r={.01} style={{opacity:tipOpacity}} fill="none" stroke="var(--ed-accent)" strokeWidth={5} strokeLinecap="round" vectorEffect="non-scaling-stroke"/>}
  </>;
 }
 /** A shared drawing horizon starts at the page top, then settles halfway down the viewport.

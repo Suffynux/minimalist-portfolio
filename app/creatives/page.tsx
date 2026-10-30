@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PortfolioPage, PageIntro, NextChapter } from "@/components/portfolio-page";
 import { AvatarPlayground } from "@/components/avatar-playground";
 
-export const metadata: Metadata = {
-  title:"The Playground — A Little Personality",
-  description:"Meet Sufiyan’s interactive 3D character. Try presentation poses, monochrome finishes, gestures and a little personality.",
-  alternates:{canonical:"/creatives"},
-};
+export const metadata = pageMetadata({ title: "Creative Playground: Interactive 3D Character", description: "Explore Sufiyan Ali’s interactive 3D character playground. Try presentation poses, monochrome finishes and gestures in this creative web experiment.", path: "/creatives" });
 export default function CreativesPage() {
   return <PortfolioPage>
     <PageIntro eyebrow="03 / THE PLAYGROUND" title={<>Serious about the work.<br/><em>Less serious here.</em></>}>A small corner for curiosity, interaction, and the little things that make the web feel more human.</PageIntro>

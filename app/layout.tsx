@@ -1,3 +1,4 @@
+import { pageMetadata, SITE_URL, HOME_TITLE, HOME_DESCRIPTION } from "@/lib/seo";
 import { PortfolioGuide } from "@/components/portfolio-guide";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -43,54 +44,12 @@ const jetbrains = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.suffynux.com"),
-  title: {
-    default: "Suffynux — Full-Stack Developer & AI Builder",
-    template: "%s | Suffynux",
-  },
-  description:
-    "I build full-stack applications, websites, AI integrations and automation systems around real business problems.",
-  keywords: [
-    "Sufiyan Ali",
-    "Suffynux",
-    "AI developer",
-    "Shopify developer",
-    "Full-stack developer",
-    "MERN developer",
-    "Next.js developer",
-    "Web developer Pakistan",
-    "E-commerce developer",
-  ],
-  authors: [{ name: "Sufiyan Ali" }],
+  ...pageMetadata({ title: HOME_TITLE, description: HOME_DESCRIPTION, path: "/", home: true }),
+  metadataBase: new URL(SITE_URL),
+  applicationName: "Suffynux",
+  authors: [{ name: "Sufiyan Ali", url: SITE_URL }],
   creator: "Sufiyan Ali",
-  openGraph: {
-    title: "Suffynux — I Build Products People Use",
-    description:
-      "Full-stack apps, websites and AI integrations. I turn real business problems into useful digital products.",
-    url: "https://www.suffynux.com/",
-    siteName: "Suffynux",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: "/og-portfolio.png",
-        width: 1200,
-        height: 630,
-        alt: "Suffynux — Full-Stack Developer and AI Builder",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Suffynux — I Build Products People Use",
-    description:
-      "Full-stack apps, thoughtful websites and practical AI integrations. From the interface to the business logic.",
-    images: ["/og-portfolio.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
 };
 
 export default function RootLayout({

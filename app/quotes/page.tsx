@@ -1,14 +1,10 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PortfolioPage, NextChapter } from "@/components/portfolio-page";
 import { Wall } from "@/components/quotes/wall";
 import { IndexGrid } from "@/components/quotes/index-grid";
 import { getQuotes, getWallSettings } from "@/lib/quotes/queries";
 
-export const metadata: Metadata = {
-  title:"The Quote Wall — Words Worth Keeping",
-  description:"A quiet corner for words that stay with you. Read Sufiyan’s collection, explore the wall, or leave a line of your own.",
-  alternates:{canonical:"/quotes"},
-};
+export const metadata = pageMetadata({ title: "Quote Wall: Words Worth Keeping", description: "Explore Sufiyan Ali’s collection of memorable quotes, browse every line on the interactive quote wall, and contribute words that have stayed with you.", path: "/quotes" });
 export const revalidate=60;
 export default async function QuotesPage() {
   const [quotes,settings]=await Promise.all([getQuotes(),getWallSettings()]);

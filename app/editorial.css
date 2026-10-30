@@ -29,3 +29,6 @@
  .editorial-hero-side{font-size:8px}.editorial-hero-bottom>p{font-size:12px}
  .editorial-hero-bottom>a{font-size:10px;min-height:44px}.scene-heading>p:last-child{font-size:11px}
 }
+
+.editorial-contact>div>.editorial-social-link{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;transition:color .2s}.editorial-contact>div>.editorial-social-link:hover{color:var(--ed-accent)}.editorial-contact>div>.editorial-social-link:focus-visible{outline:2px solid var(--ed-accent);outline-offset:3px}
+@media(max-width:700px){.editorial-contact>div{gap:8px;flex-wrap:wrap}.editorial-contact>div>span{flex-basis:100%}}

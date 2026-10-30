@@ -1,13 +1,9 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PortfolioPage, PageIntro, NextChapter } from "@/components/portfolio-page";
 import { TagList } from "@/components/tag-list";
 import { journeyStats, milestones, principles } from "@/lib/data";
 
-export const metadata: Metadata = {
-  title:"The Human — About Sufiyan Ali",
-  description:"The person, principles and development journey behind Suffynux. Full-stack development, practical AI and the business logic behind the build.",
-  alternates:{canonical:"/journey"},
-};
+export const metadata = pageMetadata({ title: "About Sufiyan Ali: Full-Stack Developer", description: "Meet Sufiyan Ali, the Pakistan-based full-stack developer behind Suffynux. Explore his development journey, working principles and approach to practical AI.", path: "/journey" });
 export default function JourneyPage() {
   return <PortfolioPage>
     <PageIntro eyebrow="01 / THE HUMAN BEHIND THE BUILD" title={<>Curious mind.<br/><em>Builder at heart.</em></>}>I’m Sufiyan, a developer based in Pakistan. I like the point where a messy problem starts becoming a clear, useful product.</PageIntro>
