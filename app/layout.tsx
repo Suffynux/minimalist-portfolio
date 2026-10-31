@@ -49,10 +49,11 @@ export const metadata: Metadata = {
   applicationName: "Suffynux",
   icons: {
     icon: [
-      { url: "/portrait-icon-32.png", sizes: "32x32", type: "image/png" },
-      { url: "/portrait-icon-64.png", sizes: "64x64", type: "image/png" },
+      { url: "/icon.svg", sizes: "any", type: "image/svg+xml" },
+      { url: "/s-icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/s-icon-64.png", sizes: "64x64", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
+    shortcut: "/favicon.ico?v=s-monogram",
     apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
   authors: [{ name: "Sufiyan Ali", url: SITE_URL }],
