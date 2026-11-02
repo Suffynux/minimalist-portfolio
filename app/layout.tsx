@@ -1,5 +1,4 @@
 import { pageMetadata, SITE_URL, HOME_TITLE, HOME_DESCRIPTION } from "@/lib/seo";
-import { PortfolioGuide } from "@/components/portfolio-guide";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -71,7 +70,7 @@ export default function RootLayout({
       lang="en"
       className={`${instrument.variable} ${manrope.variable} ${jetbrains.variable} ${archivo.variable}`}
     >
-      <body className="font-sans">{children}<PortfolioGuide /></body>
+      <body className="font-sans">{children}</body>
     </html>
   );
 }

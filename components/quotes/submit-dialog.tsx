@@ -77,18 +77,18 @@ export function SubmitDialog({
 
         {done ? (
           <div className="py-6 text-center">
-            <p className="mb-3 font-display text-[34px] italic leading-none text-olive-light">
+            <p id="submit-title" className="mb-3 font-display text-[34px] italic leading-none text-olive-light">
               {state.held ? "Thank you." : "It's on the wall."}
             </p>
             <p className="mx-auto mb-8 max-w-[380px] text-[15px] leading-[1.6] text-bone/70">
-              {state.held ? state.message : "The wall has turned to your line. Close this to see it."}
+              {state.held ? state.message : "Your words have been added to the collection."}
             </p>
             <button
               type="button"
               onClick={onClose}
               className="inline-flex min-h-[46px] items-center rounded-full bg-bone px-6 text-[14px] font-semibold text-ink transition hover:bg-olive-light"
             >
-              {state.held ? "Back to the wall" : "Show me"}
+              {state.held ? "Back to the collection" : "Show me"}
             </button>
           </div>
         ) : (

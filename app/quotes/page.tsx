@@ -1,16 +1,25 @@
 import { pageMetadata } from "@/lib/seo";
-import { PortfolioPage, NextChapter } from "@/components/portfolio-page";
-import { Wall } from "@/components/quotes/wall";
-import { IndexGrid } from "@/components/quotes/index-grid";
+import { EditorialShell } from "@/components/editorial-shell";
+import { EditorialQuotes } from "@/components/quotes/editorial-quotes";
 import { getQuotes, getWallSettings } from "@/lib/quotes/queries";
+import "./quotes.css";
 
-export const metadata = pageMetadata({ title: "Quote Wall: Words Worth Keeping", description: "Explore Sufiyan Ali’s collection of memorable quotes, browse every line on the interactive quote wall, and contribute words that have stayed with you.", path: "/quotes" });
-export const revalidate=60;
+export const metadata = pageMetadata({
+  title: "Words That Stay — Quotes & Reflections",
+  description:
+    "Sufiyan Ali’s personal notebook. Original thoughts, collected quotes, and words worth coming back to.",
+  path: "/quotes",
+});
+export const revalidate = 60;
+
 export default async function QuotesPage() {
-  const [quotes,settings]=await Promise.all([getQuotes(),getWallSettings()]);
-  return <PortfolioPage className="quote-page">
-    <Wall quotes={quotes} accepting={settings.accepting}/>
-    <section id="index" className="quote-index page-width"><p className="eyebrow">A QUIETER WAY TO READ</p><h2>Every line, in order.</h2><p className="eyebrow">{quotes.length} LINES / PICK ONE TO REVISIT IT ON THE WALL</p>{quotes.length?<IndexGrid quotes={quotes}/>:<p className="text-sm leading-7 text-body">A little space for words worth keeping. {settings.accepting?"You can leave the first line using “Add yours” above.":"Check back for the collection."}</p>}</section>
-    <NextChapter eyebrow="BACK TO THE BUILD" title={<>Words matter.<br/><em>So does the work.</em></>} href="/projects" label="Explore the projects"/>
-  </PortfolioPage>;
+  const [quotes, settings] = await Promise.all([
+    getQuotes(),
+    getWallSettings(),
+  ]);
+  return (
+    <EditorialShell className="editorial-secondary quotes-editorial">
+      <EditorialQuotes quotes={quotes} accepting={settings.accepting} />
+    </EditorialShell>
+  );
 }
