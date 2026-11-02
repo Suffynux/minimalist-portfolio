@@ -11,10 +11,14 @@ import {
   Copy,
   Plus,
   Search,
+  Layers3,
+  LayoutGrid,
   X,
 } from "lucide-react";
 import { tierOf, type Tier } from "@/lib/quotes/layout";
 import type { Quote } from "@/lib/quotes/types";
+import { QuoteScrollDeck } from "@/components/quotes/quote-scroll-deck";
+import { scrollToElement } from "@/lib/smooth-scroll";
 import { SubmitDialog } from "@/components/quotes/submit-dialog";
 
 const filters: { key: "all" | Tier; label: string }[] = [
@@ -47,6 +51,7 @@ export function EditorialQuotes({
   const [filter, setFilter] = useState<"all" | Tier>("all");
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(12);
+  const [view, setView] = useState<"deck" | "grid">("deck");
   const [featuredIndex, setFeaturedIndex] = useState(0);
   const [selected, setSelected] = useState<Quote | null>(null);
   const [feedback, setFeedback] = useState("");
@@ -283,44 +288,86 @@ export function EditorialQuotes({
             />
           </label>
         </div>
-        <p className="q-results q-mono" role="status">
-          {visible.length === quotes.length
-            ? "ALL ENTRIES"
-            : `${visible.length} ${visible.length === 1 ? "ENTRY" : "ENTRIES"}`}
-          <span>OPEN A LINE TO READ IT</span>
-        </p>
-        <div className="q-grid">
-          {visible.slice(0, limit).map((quote) => (
-            <article
-              key={quote.id}
-              className={`q-card${quote.featured ? " q-card-featured" : ""}`}
+        <div className="q-results-row">
+          <p className="q-results q-mono" role="status">
+            {visible.length === quotes.length
+              ? "ALL ENTRIES"
+              : `${visible.length} ${visible.length === 1 ? "ENTRY" : "ENTRIES"}`}
+          </p>
+          <div
+            className="q-view-toggle"
+            role="group"
+            aria-label="Reading layout"
+          >
+            <button
+              type="button"
+              aria-pressed={view === "deck"}
+              onClick={() => setView("deck")}
             >
-              <div className="q-card-top">
-                <span>
-                  /{pad(quotes.findIndex((q) => q.id === quote.id) + 1)}
-                </span>
-                <span>{labels[tierOf(quote)]}</span>
-                {quote.featured && (
-                  <span className="q-card-star" aria-label="Featured">
-                    ✳
-                  </span>
-                )}
-              </div>
-              <blockquote>
-                <p>{quote.body}</p>
-                <cite>— {credit(quote)}</cite>
-              </blockquote>
-              <button
-                type="button"
-                className="q-card-open"
-                onClick={() => openQuote(quote)}
-                aria-label={`Read quote: ${quote.body}`}
-              >
-                <ArrowUpRight size={20} />
-              </button>
-            </article>
-          ))}
+              <Layers3 size={15} />
+              3D reading
+            </button>
+            <button
+              type="button"
+              id="quote-grid-view"
+              aria-pressed={view === "grid"}
+              onClick={() => setView("grid")}
+            >
+              <LayoutGrid size={15} />
+              Grid
+            </button>
+          </div>
         </div>
+        {visible.length > 0 && view === "deck" && (
+          <QuoteScrollDeck
+            key={`${filter}:${search}`}
+            quotes={visible}
+            onOpen={openQuote}
+            onBrowse={() => {
+              setView("grid");
+              requestAnimationFrame(() => {
+                document
+                  .getElementById("quote-grid-view")
+                  ?.focus({ preventScroll: true });
+                scrollToElement("collection");
+              });
+            }}
+          />
+        )}
+        {view === "grid" && (
+          <div className="q-grid">
+            {visible.slice(0, limit).map((quote) => (
+              <article
+                key={quote.id}
+                className={`q-card${quote.featured ? " q-card-featured" : ""}`}
+              >
+                <div className="q-card-top">
+                  <span>
+                    /{pad(quotes.findIndex((q) => q.id === quote.id) + 1)}
+                  </span>
+                  <span>{labels[tierOf(quote)]}</span>
+                  {quote.featured && (
+                    <span className="q-card-star" aria-label="Featured">
+                      ✳
+                    </span>
+                  )}
+                </div>
+                <blockquote>
+                  <p>{quote.body}</p>
+                  <cite>— {credit(quote)}</cite>
+                </blockquote>
+                <button
+                  type="button"
+                  className="q-card-open"
+                  onClick={() => openQuote(quote)}
+                  aria-label={`Read quote: ${quote.body}`}
+                >
+                  <ArrowUpRight size={20} />
+                </button>
+              </article>
+            ))}
+          </div>
+        )}
         {!visible.length && (
           <div className="q-empty">
             <span aria-hidden="true">“ ”</span>
@@ -349,7 +396,7 @@ export function EditorialQuotes({
             </button>
           </div>
         )}
-        {visible.length > limit && (
+        {view === "grid" && visible.length > limit && (
           <div className="q-load">
             <button type="button" onClick={() => setLimit((n) => n + 12)}>
               A FEW MORE WORDS <Plus size={17} />
@@ -361,7 +408,7 @@ export function EditorialQuotes({
         )}
       </section>
 
-      <section className="q-leave">
+      <section id="after-quotes" className="q-leave">
         <span className="q-spark" aria-hidden="true">
           ✳
         </span>
