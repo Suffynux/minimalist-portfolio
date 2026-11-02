@@ -11,6 +11,7 @@ export function useSwipeSound() {
   const stopVoice = useRef<(() => void) | null>(null);
   const enabledRef = useRef(true);
   const mounted = useRef(false);
+  const resuming = useRef<Promise<void> | null>(null);
   const lastPlayed = useRef(-Infinity);
   const [enabled, setEnabled] = useState(true);
   const [ready, setReady] = useState(false);
@@ -31,7 +32,23 @@ export function useSwipeSound() {
         };
       }
       const audio = context.current;
-      if (audio.state !== "running") await audio.resume();
+      if (audio.state !== "running") {
+        // Autoplay may remain pending until a gesture. Retry inside that gesture,
+        // without accumulating resume requests from wheel/scroll events.
+        if (!resuming.current || navigator.userActivation?.isActive) {
+          const attempt = audio.resume();
+          resuming.current = attempt;
+          void attempt.then(
+            () => {
+              if (resuming.current === attempt) resuming.current = null;
+            },
+            () => {
+              if (resuming.current === attempt) resuming.current = null;
+            },
+          );
+        }
+        await resuming.current;
+      }
       if (
         !mounted.current ||
         context.current !== audio ||
@@ -117,8 +134,7 @@ export function useSwipeSound() {
   }, []);
 
   const toggle = useCallback(async () => {
-    // A suspended context needs an explicit enable gesture, not a mute action.
-    const next = !enabledRef.current || context.current?.state !== "running";
+    const next = !enabledRef.current;
     enabledRef.current = next;
     setEnabled(next);
     try {
@@ -146,27 +162,40 @@ export function useSwipeSound() {
       // Let the explicit control own its click to avoid enable/mute races.
       if ((event.target as Element)?.closest?.("[data-quote-sound-toggle]"))
         return;
+      if (resuming.current && !navigator.userActivation?.isActive) return;
       if (enabledRef.current) void unlock();
     };
     const visibility = () => {
       if (document.hidden) {
         stopVoice.current?.();
         void context.current?.suspend().catch(() => {});
+      } else if (enabledRef.current) {
+        void unlock();
       }
     };
     document.addEventListener("pointerdown", activate, { passive: true });
+    document.addEventListener("pointerup", activate, { passive: true });
+    document.addEventListener("touchend", activate, { passive: true });
+    document.addEventListener("click", activate);
+    document.addEventListener("wheel", activate, { passive: true });
     document.addEventListener("keydown", activate);
     document.addEventListener("visibilitychange", visibility);
-    // Filtering/remounting after a tap may retain the browser's activation.
-    if (navigator.userActivation?.hasBeenActive) void unlock();
+    // Start automatically wherever browser policy allows it. Otherwise the first
+    // normal page interaction unlocks audio, with no separate enable step.
+    if (enabledRef.current) void unlock();
     return () => {
       mounted.current = false;
       document.removeEventListener("pointerdown", activate);
+      document.removeEventListener("pointerup", activate);
+      document.removeEventListener("touchend", activate);
+      document.removeEventListener("click", activate);
+      document.removeEventListener("wheel", activate);
       document.removeEventListener("keydown", activate);
       document.removeEventListener("visibilitychange", visibility);
       stopVoice.current?.();
       const audio = context.current;
       context.current = null;
+      resuming.current = null;
       noise.current = null;
       if (audio) {
         audio.onstatechange = null;

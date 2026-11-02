@@ -185,27 +185,19 @@ export function QuoteScrollDeck({
                 type="button"
                 data-quote-sound-toggle
                 className="q-depth-sound"
-                aria-pressed={enabled && ready}
-                aria-label={
-                  enabled && ready ? "Mute swipe sound" : "Enable swipe sound"
-                }
+                aria-pressed={enabled}
+                aria-label={enabled ? "Mute swipe sound" : "Enable swipe sound"}
                 onClick={toggle}
                 title={
-                  enabled && ready ? "Mute swipe sound" : "Enable swipe sound"
+                  enabled
+                    ? ready
+                      ? "Mute swipe sound"
+                      : "Sound is automatic; your browser may require a tap first"
+                    : "Enable swipe sound"
                 }
               >
-                {enabled && ready ? (
-                  <Volume2 size={16} />
-                ) : (
-                  <VolumeX size={16} />
-                )}
-                <span>
-                  {enabled && ready
-                    ? "SOUND ON"
-                    : enabled
-                      ? "ENABLE SOUND"
-                      : "SOUND OFF"}
-                </span>
+                {enabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
+                <span>{enabled ? "SOUND ON" : "SOUND OFF"}</span>
               </button>
             )}
             <button type="button" onClick={onBrowse}>
