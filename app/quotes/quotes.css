@@ -1,16 +1,28 @@
 /* The notebook uses the same paper, ink, lime and typography as the portfolio. */
-.quotes-editorial {
-  --q-line: #11120f28;
+.editorial-site.quotes-editorial {
+  --q-line: #f4f3ec26;
+  --q-muted: #a7ae9c;
+  --q-surface: #191c15;
+  --ed-accent: var(--brand-accent);
+  --ed-arrow: var(--brand-accent);
+  color: var(--brand-paper);
+  background: var(--brand-bg);
+}
+.editorial-site.quotes-editorial .editorial-nav {
+  color: var(--brand-paper);
+  background: color-mix(in srgb, var(--brand-bg) 94%, transparent);
+}
+.quotes-editorial .editorial-index {
   color: var(--brand-bg);
 }
 .quotes-editorial .page-reading-line {
-  color: var(--brand-deep);
+  color: var(--brand-accent);
 }
 .quotes-editorial .editorial-contact {
   color: var(--brand-paper);
 }
 .quotes-editorial :is(button, a, input):focus-visible {
-  outline: 2px solid var(--brand-deep);
+  outline: 2px solid var(--ed-accent);
   outline-offset: 5px;
 }
 .q-mono,
@@ -44,10 +56,10 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--brand-deep);
+  background: var(--brand-accent);
 }
 .q-kicker > span:last-child {
-  color: #65675d;
+  color: var(--q-muted);
 }
 .q-hero-layout {
   display: grid;
@@ -62,7 +74,7 @@
 }
 .q-hero h1 > span:not(.q-period) {
   position: relative;
-  color: var(--brand-deep);
+  color: var(--brand-accent);
 }
 .q-hero h1 svg {
   position: absolute;
@@ -76,7 +88,7 @@
   stroke-linecap: round;
 }
 .q-period {
-  color: var(--brand-deep);
+  color: var(--brand-accent);
 }
 .q-intro {
   padding-bottom: 4px;
@@ -84,13 +96,13 @@
 .q-quote-mark {
   display: block;
   font: 120px/0.45 var(--font-instrument);
-  color: var(--brand-deep);
+  color: var(--brand-accent);
 }
 .q-intro > p {
   font: 15px/1.65 var(--font-manrope);
 }
 .q-intro > p + p {
-  color: #65675d;
+  color: var(--q-muted);
   font-size: 12px;
   margin-top: 16px;
 }
@@ -120,7 +132,7 @@
   grid-template-columns: 28% 1fr;
   gap: 7%;
   padding: 64px 5vw 45px;
-  background: var(--brand-bg);
+  background: var(--q-surface);
   color: var(--brand-paper);
 }
 .q-spotlight-aside {
@@ -207,23 +219,15 @@
   color: #a3a69a;
 }
 .q-spotlight-controls > div > button {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid #ffffff50;
-  border-radius: 50%;
-  transition:
-    background 0.2s,
-    color 0.2s;
+  min-height: 44px;
+  padding: 8px 10px;
+  font: 10px var(--font-jetbrains);
+  color: var(--brand-paper);
+  text-underline-offset: 5px;
 }
 .q-spotlight-controls > div > button:hover {
-  background: var(--brand-accent);
-  color: var(--brand-bg);
-  border-color: var(--brand-accent);
-}
-.q-spotlight-controls > div > button:hover > svg {
-  color: var(--brand-bg);
+  color: var(--brand-accent);
+  text-decoration: underline;
 }
 .quotes-editorial .q-spotlight :is(button, a):focus-visible {
   outline-color: var(--brand-accent);
@@ -242,7 +246,7 @@
   margin-bottom: 40px;
 }
 .q-collection-title .q-mono {
-  color: #65675d;
+  color: var(--q-muted);
 }
 .quotes-editorial .q-collection h2 {
   font: 800 clamp(34px, 4.4vw, 68px)/1.1 var(--font-archivo);
@@ -250,11 +254,11 @@
   margin-top: 22px;
 }
 .q-collection-title h2 span {
-  color: #73776a;
+  color: var(--q-muted);
 }
 .q-collection-title > p {
   font: 12px/1.7 var(--font-manrope);
-  color: #65675d;
+  color: var(--q-muted);
 }
 .q-toolbar {
   display: flex;
@@ -282,17 +286,17 @@
   opacity: 0.65;
 }
 .q-filters > button[aria-pressed="true"] {
-  background: var(--brand-bg);
-  color: var(--brand-paper);
+  background: var(--brand-accent);
+  color: var(--brand-bg);
 }
 .q-filters > button[aria-pressed="false"]:hover {
-  background: #11120f0b;
+  background: #ffffff0b;
 }
 .q-search {
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid #11120f55;
+  border-bottom: 1px solid var(--q-line);
   max-width: 280px;
   min-width: 200px;
 }
@@ -304,13 +308,13 @@
   border-radius: 0;
   font: 11px var(--font-manrope);
   padding: 12px 0;
-  color: var(--brand-bg);
+  color: var(--brand-paper);
 }
 .q-results {
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  color: #65675d;
+  color: var(--q-muted);
   padding: 26px 0 18px;
   font-size: 9px;
 }
@@ -334,15 +338,15 @@
   transition: background 0.25s;
 }
 .q-card-featured:nth-child(3n + 1) {
-  background: #e8ebdc;
+  background: #202719;
 }
 .q-card:hover {
-  background: #e0e7cc;
+  background: #2b3421;
 }
 .q-card-top {
   display: flex;
   gap: 16px;
-  color: #626657;
+  color: var(--q-muted);
   text-transform: uppercase;
   font-size: 8px;
 }
@@ -350,7 +354,7 @@
   margin-left: auto;
 }
 .q-card-star {
-  color: var(--brand-deep);
+  color: var(--brand-accent);
   font-size: 14px;
   line-height: 0.8;
 }
@@ -370,7 +374,7 @@
   font-size: 9px;
   font-style: normal;
   text-transform: uppercase;
-  color: #575e49;
+  color: var(--q-muted);
   margin-top: auto;
   padding: 34px 38px 0 0;
   line-height: 1.7;
@@ -384,7 +388,7 @@
   padding: 23px;
 }
 .q-card-open > svg {
-  color: var(--brand-deep);
+  color: var(--brand-accent);
   transition: transform 0.2s;
 }
 .q-card-open:hover > svg {
@@ -409,9 +413,10 @@
 }
 .q-load > button:hover {
   background: var(--brand-accent);
+  color: var(--brand-bg);
 }
 .q-load > span {
-  color: #65675d;
+  color: var(--q-muted);
   font-size: 9px;
 }
 .q-empty {
@@ -420,7 +425,7 @@
 }
 .q-empty > span {
   font: 75px/1 var(--font-instrument);
-  color: var(--brand-deep);
+  color: var(--brand-accent);
 }
 .quotes-editorial .q-empty h3 {
   font-size: 30px;
@@ -430,17 +435,18 @@
   max-width: 400px;
   margin: 15px auto 25px;
   font: 14px/1.7 var(--font-manrope);
-  color: #65675d;
+  color: var(--q-muted);
 }
 .q-leave {
   display: flex;
   align-items: center;
   gap: 5vw;
   padding: 65px 5vw;
-  background: var(--brand-accent);
+  background: var(--q-surface);
+  border-top: 1px solid var(--q-line);
 }
 .q-leave > .q-spark {
-  color: var(--brand-deep);
+  color: var(--brand-accent);
   font-size: clamp(60px, 10vw, 150px);
 }
 .quotes-editorial .q-leave h2 {
@@ -459,13 +465,16 @@
   justify-content: center;
   gap: 35px;
   font: 10px var(--font-jetbrains);
-  background: var(--brand-bg);
-  color: var(--brand-paper);
+  background: var(--brand-accent);
+  color: var(--brand-bg);
   padding: 20px 24px;
   margin-left: auto;
   white-space: nowrap;
 }
 .q-reader {
+  --q-line: #11120f28;
+  --ed-accent: var(--brand-deep);
+  --ed-arrow: var(--brand-deep);
   position: fixed;
   margin: auto;
   padding: 0;
@@ -692,8 +701,11 @@
     font-size: 9px;
   }
   .q-spotlight-controls > div > button {
-    width: 40px;
-    height: 44px;
+    min-height: 44px;
+    padding: 8px 10px;
+    font: 10px var(--font-jetbrains);
+    color: var(--brand-paper);
+    text-underline-offset: 5px;
   }
   .q-collection {
     padding: 55px 22px;
@@ -771,6 +783,9 @@
     justify-content: space-between;
   }
   .q-reader {
+    --q-line: #11120f28;
+    --ed-accent: var(--brand-deep);
+    --ed-arrow: var(--brand-deep);
     width: calc(100vw - 24px);
     max-height: 92dvh;
   }
@@ -782,6 +797,7 @@
     font-size: 8px;
   }
   .q-reader-bottom {
+    flex-wrap: wrap;
     gap: 8px;
   }
   .q-reader-bottom > div {

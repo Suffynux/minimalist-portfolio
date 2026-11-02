@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   ArrowDown,
-  ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   Check,
@@ -219,7 +218,7 @@ export function EditorialQuotes({
                     )
                   }
                 >
-                  <ArrowLeft size={18} />
+                  Previous
                 </button>
                 <button
                   type="button"
@@ -229,7 +228,7 @@ export function EditorialQuotes({
                     setFeaturedIndex((i) => (i + 1) % featured.length)
                   }
                 >
-                  <ArrowRight size={18} />
+                  Next
                 </button>
               </div>
             </div>
@@ -495,7 +494,7 @@ export function EditorialQuotes({
                   disabled={quotes.length < 2}
                   onClick={() => nextReading(-1)}
                 >
-                  <ArrowLeft size={19} />
+                  Previous
                 </button>
                 <span className="q-mono">
                   {pad(quotes.findIndex((q) => q.id === selected.id) + 1)} /{" "}
@@ -507,7 +506,7 @@ export function EditorialQuotes({
                   disabled={quotes.length < 2}
                   onClick={() => nextReading(1)}
                 >
-                  <ArrowRight size={19} />
+                  Next
                 </button>
               </div>
             </div>

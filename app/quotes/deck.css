@@ -27,7 +27,7 @@
 }
 .q-view-toggle button[aria-pressed="true"] {
   border-color: var(--q-line);
-  background: #e8eadf;
+  background: #2b3320;
 }
 .q-depth-track {
   --deck-step: 65svh;
@@ -35,8 +35,8 @@
 }
 .q-depth-stage {
   position: relative;
-  background: #e6e9de;
-  border: 1px solid #11120f1f;
+  background: var(--q-surface);
+  border: 1px solid var(--q-line);
 }
 .q-depth-heading {
   display: flex;
@@ -44,7 +44,7 @@
   justify-content: space-between;
   gap: 20px;
   padding: 18px 28px;
-  border-bottom: 1px solid #11120f15;
+  border-bottom: 1px solid var(--q-line);
   font: 9px var(--font-jetbrains);
   letter-spacing: 0.04em;
 }
@@ -57,7 +57,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--brand-deep);
+  background: var(--brand-accent);
 }
 .q-depth-heading button {
   display: flex;
@@ -73,6 +73,9 @@
   padding: 35px;
 }
 .q-depth-card {
+  --ed-accent: var(--brand-deep);
+  --ed-arrow: var(--brand-deep);
+  color: var(--brand-bg);
   --card-shade: 0;
   position: relative;
   display: flex;
@@ -87,7 +90,7 @@
     0 2px 0 #fff inset,
     0 6px 0 -1px #c6c9ba,
     0 12px 0 -4px #9ca48b,
-    0 30px 65px -20px #27311f45;
+    0 30px 65px -20px #000000aa;
 }
 .q-depth-card::before {
   content: "";
@@ -225,7 +228,7 @@
   position: absolute;
   width: 85%;
   height: 65%;
-  border: 1px solid #52651f20;
+  border: 1px solid #d5f46a20;
   border-radius: 50%;
   left: 7.5%;
   top: 20%;
@@ -237,7 +240,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 1px solid #52651f12;
+  border: 1px solid #d5f46a12;
   border-radius: 50%;
   transform: rotate(36deg);
 }
@@ -246,7 +249,7 @@
   position: absolute;
   bottom: 0;
   left: 4%;
-  color: #52651f0c;
+  color: #d5f46a08;
   font: 900 clamp(70px, 13vw, 200px)/0.85 var(--font-archivo);
   letter-spacing: -0.065em;
   pointer-events: none;
@@ -267,36 +270,26 @@
   gap: 12px;
   align-items: center;
   font: 9px/1.7 var(--font-jetbrains);
-  color: var(--brand-deep);
+  color: var(--brand-accent);
 }
 .q-depth-direction small {
   font: 11px var(--font-manrope);
-  color: #68715b;
+  color: var(--q-muted);
 }
 .q-depth-pager {
+  min-height: 44px;
   display: flex;
   align-items: center;
   gap: 22px;
 }
-.q-depth-pager > button {
-  height: 46px;
-  width: 46px;
-  border: 1px solid #52651f50;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--brand-paper);
-}
-.q-depth-pager > button:hover:not(:disabled) {
-  background: var(--brand-accent);
-}
+
 .q-depth-pager > span {
   min-width: 72px;
   text-align: center;
   font: 12px var(--font-jetbrains);
 }
 .q-depth-pager > span > span {
-  color: #68715b;
+  color: var(--q-muted);
 }
 .q-depth-skip {
   display: flex;
@@ -312,13 +305,13 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: #52651f16;
+  background: #d5f46a16;
 }
 .q-depth-progress > span {
   display: block;
   width: 100%;
   height: 100%;
-  background: var(--brand-deep);
+  background: var(--brand-accent);
   transform-origin: left;
   transform: scaleX(0);
 }
@@ -429,10 +422,7 @@
   .q-depth-pager {
     gap: 6px;
   }
-  .q-depth-pager > button {
-    width: 42px;
-    height: 44px;
-  }
+
   .q-depth-pager > span {
     font-size: 10px;
     min-width: 55px;

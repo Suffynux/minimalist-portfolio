@@ -1,16 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  LayoutGrid,
-} from "lucide-react";
+import { ArrowDown, ArrowUpRight, LayoutGrid } from "lucide-react";
 import { tierOf, readingProgress } from "@/lib/quotes/layout";
 import type { Quote } from "@/lib/quotes/types";
-import { scrollToY } from "@/lib/smooth-scroll";
 
 const pad = (value: number) => String(value).padStart(2, "0");
 const clamp = (value: number, min: number, max: number) =>
@@ -147,11 +140,6 @@ export function QuoteScrollDeck({
     };
   }, [enhanced, count]);
 
-  function moveTo(index: number) {
-    const { top, step } = geometry.current;
-    scrollToY(top + clamp(index, 0, count - 1) * step);
-  }
-
   return (
     <div
       ref={track}
@@ -226,25 +214,9 @@ export function QuoteScrollDeck({
             </span>
           </div>
           <div className="q-depth-pager">
-            <button
-              type="button"
-              aria-label="Previous card"
-              disabled={active === 0}
-              onClick={() => moveTo(active - 1)}
-            >
-              <ArrowLeft size={19} />
-            </button>
             <span role="status" aria-live="polite" aria-atomic="true">
               {pad(active + 1)} <span>/ {pad(count)}</span>
             </span>
-            <button
-              type="button"
-              aria-label="Next card"
-              disabled={active === count - 1}
-              onClick={() => moveTo(active + 1)}
-            >
-              <ArrowRight size={19} />
-            </button>
           </div>
           <a href="#after-quotes" className="q-depth-skip">
             CONTINUE <ArrowDown size={14} />
