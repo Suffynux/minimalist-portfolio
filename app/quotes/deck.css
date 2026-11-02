@@ -451,3 +451,28 @@
     justify-content: center;
   }
 }
+
+/* A quiet, optional sound layer alongside the existing reading controls. */
+.q-depth-tools {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.q-depth-sound {
+  color: var(--q-muted);
+}
+.q-depth-sound[aria-pressed="true"] {
+  color: var(--brand-accent);
+}
+@media (max-width: 700px) {
+  .q-depth-tools {
+    gap: 5px;
+  }
+  .q-depth-heading .q-depth-sound {
+    min-width: 44px;
+    justify-content: center;
+  }
+  .q-depth-sound > span {
+    display: none;
+  }
+}

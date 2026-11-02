@@ -1,9 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { ArrowDown, ArrowUpRight, LayoutGrid } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUpRight,
+  LayoutGrid,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { tierOf, readingProgress } from "@/lib/quotes/layout";
 import type { Quote } from "@/lib/quotes/types";
+import { useSwipeSound } from "@/components/quotes/use-swipe-sound";
 
 const pad = (value: number) => String(value).padStart(2, "0");
 const clamp = (value: number, min: number, max: number) =>
@@ -35,6 +42,7 @@ export function QuoteScrollDeck({
   const [enhanced, setEnhanced] = useState(false);
   const [active, setActive] = useState(0);
   const count = quotes.length;
+  const { enabled, ready, available, toggle, play } = useSwipeSound();
 
   useEffect(() => {
     // Short landscape windows need room to read. Reduced-motion users get the
@@ -64,6 +72,7 @@ export function QuoteScrollDeck({
     }
     let frame = 0;
     let focused = -1;
+    let scrolled = false;
     const measure = () => {
       const step = Math.max(
         1,
@@ -112,14 +121,27 @@ export function QuoteScrollDeck({
       if (progressLine.current)
         progressLine.current.style.transform = `scaleX(${(position + 1) / count})`;
       if (current !== focused) {
+        const insideStage = raw > 0 && raw < count - 1;
+        if (
+          scrolled &&
+          focused >= 0 &&
+          (insideStage || Math.abs(current - focused) === 1)
+        )
+          play(current - focused);
         focused = current;
         setActive(current);
       }
+      scrolled = false;
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(draw);
     };
+    const onScroll = () => {
+      scrolled = true;
+      schedule();
+    };
     const resize = () => {
+      scrolled = false;
       measure();
       schedule();
     };
@@ -130,15 +152,15 @@ export function QuoteScrollDeck({
     observer.observe(document.body);
     measure();
     draw();
-    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", resize);
     return () => {
       if (frame) cancelAnimationFrame(frame);
       observer.disconnect();
-      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", resize);
     };
-  }, [enhanced, count]);
+  }, [enhanced, count, play]);
 
   return (
     <div
@@ -157,9 +179,39 @@ export function QuoteScrollDeck({
           <span>
             <i /> ONE THOUGHT AT A TIME
           </span>
-          <button type="button" onClick={onBrowse}>
-            <LayoutGrid size={14} /> BROWSE ALL
-          </button>
+          <div className="q-depth-tools">
+            {enhanced && available && (
+              <button
+                type="button"
+                data-quote-sound-toggle
+                className="q-depth-sound"
+                aria-pressed={enabled && ready}
+                aria-label={
+                  enabled && ready ? "Mute swipe sound" : "Enable swipe sound"
+                }
+                onClick={toggle}
+                title={
+                  enabled && ready ? "Mute swipe sound" : "Enable swipe sound"
+                }
+              >
+                {enabled && ready ? (
+                  <Volume2 size={16} />
+                ) : (
+                  <VolumeX size={16} />
+                )}
+                <span>
+                  {enabled && ready
+                    ? "SOUND ON"
+                    : enabled
+                      ? "ENABLE SOUND"
+                      : "SOUND OFF"}
+                </span>
+              </button>
+            )}
+            <button type="button" onClick={onBrowse}>
+              <LayoutGrid size={14} /> BROWSE ALL
+            </button>
+          </div>
         </div>
         <div className="q-depth-scene">
           <div className="q-depth-orbit" aria-hidden="true" />
